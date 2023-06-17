@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb';
 import cluster from 'cluster';
 import { ConfigFactory } from '../../../configs/factories/config.factory';
-import { MongoDbStrategy } from './strategies/mongoDb.strategy';
 import { MongoDbStrategyFactory } from './strategies/mongoDb.strategy.factory';
 
 
