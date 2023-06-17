@@ -17,7 +17,7 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
-Runs the app in the development mode.\
+Runs the app in the development mode. \
 Open [http://localhost:8000/health-check](http://localhost:8000/health-check) to view it in the browser if server is running well.
 
 ### `npm run build`
