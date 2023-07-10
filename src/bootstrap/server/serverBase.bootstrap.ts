@@ -8,6 +8,8 @@ import express from 'express';
 import {DefaultController} from "../../app/default/default.controller";
 import { ConfigFactory } from '../../configs/factories/config.factory';
 import { DefaultService } from '../../app/default/default.service';
+import { AuthService } from "../../app/auth/auth.service";
+import { AuthController } from "../../app/auth/auth.controller";
 
 export class ServerBaseBootstrap {
 
@@ -18,6 +20,7 @@ export class ServerBaseBootstrap {
      * Define services
      */
     private defaultService = new DefaultService();
+    private authService = new AuthService();
 
 
 
@@ -26,6 +29,7 @@ export class ServerBaseBootstrap {
      */
     private controllers = [
         new DefaultController(this.defaultService),
+        new AuthController(this.authService),
     ]
 
     constructor() {

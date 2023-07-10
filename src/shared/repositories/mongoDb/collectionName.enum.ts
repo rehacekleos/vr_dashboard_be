@@ -1,3 +1,4 @@
 export enum CollectionName {
-    DEFAULT = "default"
+    DEFAULT = "default",
+    USERS = "users"
 }

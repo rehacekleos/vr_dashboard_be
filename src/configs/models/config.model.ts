@@ -7,6 +7,8 @@ export class BaseConfigModel{
     version: string;
     defaultPort: number;
     defaultWorkers: number;
+    jwtSecret: string;
+    jwtIssuer: string;
     serverType: ServerType;
     frontendURL: string;
     dbUrl: string;

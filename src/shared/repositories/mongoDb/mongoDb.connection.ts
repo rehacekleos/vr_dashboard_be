@@ -17,6 +17,7 @@ export class MongoDbConnection {
         const dbURL = ConfigFactory.getConfig().dbUrl;
 
         try {
+            console.log(dbURL)
             const hostName = new URL(dbURL)?.hostname;
             console.info('Mongo hostname', hostName)
         } catch (e) {
