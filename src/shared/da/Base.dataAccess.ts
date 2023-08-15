@@ -1,5 +1,4 @@
 import { Db } from 'mongodb';
-import { MongoDbRepository } from '../repositories/mongoDb/mongoDb.repository';
 import { CollectionName } from '../repositories/mongoDb/collectionName.enum';
 import { MongoDbConnection } from "../repositories/mongoDb/mongoDb.connection";
 import { ConfigFactory } from "../../configs/factories/config.factory";

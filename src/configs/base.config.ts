@@ -4,7 +4,7 @@ import { MongoDbType } from '../shared/repositories/mongoDb/strategies/mongoDb.s
 import { CollectionName } from "../shared/repositories/mongoDb/collectionName.enum";
 
 export const baseConfig: BaseConfigModel =  {
-    serverName: "Server",
+    serverName: "vr_dashboard_be",
     version: '1.0.0',
     defaultPort: Number(process.env.PORT) || 8080,
     defaultWorkers: Number(process.env.WORKERS) || 1,
@@ -15,5 +15,5 @@ export const baseConfig: BaseConfigModel =  {
     dbUrl: process.env.DB_URL,
     mongoDbType: process.env.MONGO_DB_TYPE ? MongoDbType[process.env.MONGO_DB_TYPE]: MongoDbType.MONGODB,
     mongoDbDatabase: process.env.MONGO_DB_DATABASE,
-    mongoDbCollections: [CollectionName.USERS],
+    mongoDbCollections: [CollectionName.USERS, CollectionName.ORGANISATIONS, CollectionName.EMPLOYEES, CollectionName.PARTICIPANTS],
 }

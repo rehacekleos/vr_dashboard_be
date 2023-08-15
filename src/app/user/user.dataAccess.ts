@@ -1,10 +1,10 @@
 import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { AuthController } from "../auth/auth.controller";
-import { User } from "../../models/user.model";
-import { RegisterUser } from "../../models/auth.model";
+import { User } from "./user.model";
+import { RegisterUser } from "../auth/auth.model";
 import { PasswordUtil } from "../../shared/utils/password.util";
-import { HttpException } from "../../shared/exceptions/HttpException";
+import { v4 as uuid } from 'uuid';
 
 export class UserDataAccess extends BaseDataAccess {
 
@@ -27,7 +27,8 @@ export class UserDataAccess extends BaseDataAccess {
     }
 
     async createUser(register: RegisterUser): Promise<User> {
-        const newUser = {
+        const newUser: User = {
+            id: uuid(),
             email: register.email.trim().toLowerCase(),
             name: register.name.trim(),
             surname: register.surname.trim(),

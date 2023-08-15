@@ -2,7 +2,7 @@ import { BaseController } from "../../shared/controllers/base.controller";
 import { BaseControllerInterface } from "../../shared/controllers/base.controller.interface";
 import { AuthService } from "./auth.service";
 import { HttpException } from "../../shared/exceptions/HttpException";
-import { AuthResponse, LoginUser, RegisterUser } from "../../models/auth.model";
+import { AuthResponse, LoginUser, RegisterUser } from "./auth.model";
 import express from "express";
 
 export class AuthController extends BaseController{

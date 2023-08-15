@@ -1,6 +1,6 @@
 import { BaseService } from "../../shared/services/Base.service";
 import { UserDataAccess } from "../user/user.dataAccess";
-import { AuthResponse, LoginUser, RegisterUser } from "../../models/auth.model";
+import { AuthResponse, LoginUser, RegisterUser } from "./auth.model";
 import { isEmpty } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { JwtUtil } from "../../shared/utils/jwt.util";

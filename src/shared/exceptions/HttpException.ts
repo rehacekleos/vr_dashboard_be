@@ -11,3 +11,21 @@ export class HttpException extends Error {
         this.error = error;
     }
 }
+
+export class NoRequiredParameter extends HttpException{
+    constructor(parameter: string) {
+        super(400, `${parameter} is a required parameter.`);
+    }
+}
+
+export class BadParameter extends HttpException{
+    constructor(parameter: string) {
+        super(400, `${parameter} has wrong value.`);
+    }
+}
+
+export class WrongBody extends HttpException{
+    constructor(model: string) {
+        super(400, `${model} has wrong body model.`);
+    }
+}

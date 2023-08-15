@@ -5,11 +5,11 @@
 import {IServerInstances} from "../interfaces/IServerInstances";
 import {Server} from "../../server/server";
 import express from 'express';
-import {DefaultController} from "../../app/default/default.controller";
 import { ConfigFactory } from '../../configs/factories/config.factory';
-import { DefaultService } from '../../app/default/default.service';
 import { AuthService } from "../../app/auth/auth.service";
 import { AuthController } from "../../app/auth/auth.controller";
+import { OrganisationService } from "../../app/organisation/organisation.service";
+import { OrganisationController } from "../../app/organisation/organisation.controller";
 
 export class ServerBaseBootstrap {
 
@@ -19,8 +19,8 @@ export class ServerBaseBootstrap {
     /**
      * Define services
      */
-    private defaultService = new DefaultService();
     private authService = new AuthService();
+    private organisationService = new OrganisationService();
 
 
 
@@ -28,8 +28,8 @@ export class ServerBaseBootstrap {
      * Define controllers
      */
     private controllers = [
-        new DefaultController(this.defaultService),
         new AuthController(this.authService),
+        new OrganisationController(this.organisationService)
     ]
 
     constructor() {
