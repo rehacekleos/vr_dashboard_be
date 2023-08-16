@@ -7,7 +7,7 @@ export class MongoDbStrategy {
     private readonly indexes: mongoDbIndex[] = mongoDbIndexes;
     private readonly config = ConfigFactory.getConfig();
 
-    async createCollections(client: MongoClient){
+    public async createCollections(client: MongoClient){
         console.info("Mongo creating collections!");
         const db = client.db(this.config.mongoDbDatabase);
         const promisesArray = []
@@ -28,7 +28,7 @@ export class MongoDbStrategy {
         }
     }
 
-    async createIndexing(client: MongoClient) {
+    public async createIndexing(client: MongoClient) {
         console.info("Mongo creating indexing!");
         const db = client.db(this.config.mongoDbDatabase);
         const promisesArray = []
@@ -52,7 +52,7 @@ export class MongoDbStrategy {
         console.info("Mongo indexes created!");
     }
 
-    async dropIndex(index: mongoDbIndex, db: Db){
+    public async dropIndex(index: mongoDbIndex, db: Db){
         const collectionIndexes = await db.collection(index.collection).indexes();
         if (collectionIndexes.findIndex(i => i.name === index.name + '_1') !== -1){
             try {
@@ -63,7 +63,7 @@ export class MongoDbStrategy {
         }
     }
 
-    async createClassicIndex(index: mongoDbIndex, db: Db) {
+    public async createClassicIndex(index: mongoDbIndex, db: Db) {
         const obj = {}
         if (index.name) {
             obj[index.name] = 1;
@@ -76,7 +76,7 @@ export class MongoDbStrategy {
         return await db.collection(index.collection).createIndex(obj);
     }
 
-    async createTTLIndex(index: mongoDbIndex, db: Db) {
+    public async createTTLIndex(index: mongoDbIndex, db: Db) {
         const obj = {}
         obj[index.name] = 1;
         return await db.collection(index.collection).createIndex(obj, {expireAfterSeconds: index.value});

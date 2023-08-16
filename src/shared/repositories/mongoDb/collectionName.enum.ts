@@ -1,3 +1,6 @@
+/**
+ * Define names of database collections
+ */
 export enum CollectionName {
     DEFAULT = "default",
     USERS = "users",

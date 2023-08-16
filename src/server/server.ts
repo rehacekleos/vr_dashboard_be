@@ -5,8 +5,9 @@ import {errorHandlerMiddleware} from "../shared/middlewares/errorHandler.middlew
 import {serverMiddleware} from "../shared/middlewares/server.middleware";
 import { ConfigFactory } from '../configs/factories/config.factory';
 
-const bodyParser = require('body-parser');
-const helmet = require("helmet");
+import swaggerUi from "swagger-ui-express";
+import bodyParser from "body-parser";
+import helmet from "helmet";
 
 export class Server {
     public app: express.Application

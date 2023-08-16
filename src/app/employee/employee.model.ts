@@ -8,3 +8,9 @@ export class Employee {
 
     participantIds: string[]
 }
+
+export class NewEmployee{
+    organisationId: string
+    userId: string
+    role: Role
+}

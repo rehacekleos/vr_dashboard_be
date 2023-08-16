@@ -8,14 +8,13 @@ import { PasswordUtil } from "../../shared/utils/password.util";
 
 export class AuthService extends BaseService{
 
-    private userDa = UserDataAccess.getInstance();
     private jwtUtil = JwtUtil.getInstance();
 
-    constructor() {
+    constructor(private userDa: UserDataAccess) {
         super();
     }
 
-    async login(login: LoginUser): Promise<AuthResponse> {
+    public async login(login: LoginUser): Promise<AuthResponse> {
         if (isEmpty(login.email) || isEmpty(login.password)){
             throw new HttpException(400, "Wrong login model.")
         }
@@ -35,7 +34,7 @@ export class AuthService extends BaseService{
         };
     }
 
-    async register(register: RegisterUser): Promise<AuthResponse> {
+    public async register(register: RegisterUser): Promise<AuthResponse> {
 
 
 

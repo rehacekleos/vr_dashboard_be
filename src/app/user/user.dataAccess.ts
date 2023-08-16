@@ -21,12 +21,15 @@ export class UserDataAccess extends BaseDataAccess {
         return UserDataAccess.instance;
     }
 
+    public async getUserById(id: string) {
+        return await this.db.collection(this.collection).findOne<User>({id: id});
+    }
 
-    async getUserByEmail(email: string) {
+    public async getUserByEmail(email: string) {
         return await this.db.collection(this.collection).findOne<User>({email: email.trim().toLowerCase()});
     }
 
-    async createUser(register: RegisterUser): Promise<User> {
+    public async createUser(register: RegisterUser): Promise<User> {
         const newUser: User = {
             id: uuid(),
             email: register.email.trim().toLowerCase(),
@@ -40,5 +43,12 @@ export class UserDataAccess extends BaseDataAccess {
         }
 
         return newUser;
+    }
+
+    public async deleteUser(id: string){
+        const res = await this.db.collection(this.collection).deleteOne({id: id});
+        if (res.acknowledged === false){
+            throw new Error("Cannot delete user from DB.")
+        }
     }
 }

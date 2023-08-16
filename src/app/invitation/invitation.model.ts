@@ -8,3 +8,15 @@ export class Invitation{
     code: string;
     time: string;
 }
+
+export class AcceptInvitation{
+    organisationId: string;
+    userId: string;
+    code: string;
+}
+
+export class NewInvitation{
+    organisationId: string;
+    userId: string;
+    role: Role;
+}
