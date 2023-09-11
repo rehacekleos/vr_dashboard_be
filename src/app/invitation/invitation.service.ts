@@ -16,10 +16,10 @@ export class InvitationService extends BaseService{
     }
 
     public async acceptInvitation(inv: AcceptInvitation) {
-        if (isEmptyAndNull(inv.organisationId) || isEmptyAndNull(inv.userId) || isEmptyAndNull(inv.code)){
+        if (isEmptyAndNull(inv.userId) || isEmptyAndNull(inv.code)){
             throw new WrongBody('Invitation')
         }
-        const existingInvitation = await this.invDa.getInvitationForOrgAndUser(inv.organisationId, inv.userId);
+        const existingInvitation = await this.invDa.getInvitationForCodeAndUser(inv.code, inv.userId);
         if (isEmptyAndNull(existingInvitation)){
             throw new HttpException(400, 'Invitation not found.')
         }
@@ -28,9 +28,6 @@ export class InvitationService extends BaseService{
             throw new HttpException(400, 'Invitation is expired.')
         }
 
-        if (existingInvitation.code !== inv.code){
-            throw new HttpException(400, 'Wrong validation code.')
-        }
         const newEmpl: NewEmployee = {
             organisationId: existingInvitation.organisationId,
             userId: existingInvitation.userId,

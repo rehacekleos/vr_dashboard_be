@@ -20,6 +20,7 @@ export class EmployeeDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).find<Employee>({userId: userId}).toArray();
     }
 
+
     public async getEmployeesForOrganisation(organisationId: string): Promise<Employee[]> {
         return await this.db.collection(this.collection).find<Employee>({organisationId: organisationId}).toArray();
     }

@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import { customAlphabet } from 'nanoid'
 import _ from 'lodash';
 
 export function isEmpty(value: any){
@@ -6,7 +6,8 @@ export function isEmpty(value: any){
 }
 
 export function generateCode(): string {
-    return crypto.randomBytes(6).toString();
+    const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 6)
+    return nanoId();
 }
 
 

@@ -28,7 +28,8 @@ export class ActivityDataAccess extends BaseDataAccess {
             time: activity.time,
             data: activity.data,
             applicationId: activity.applicationId,
-            notes: activity.notes
+            notes: activity.notes,
+            anonymous: activity.anonymous
         }
 
         const res = await this.db.collection(this.collection).insertOne(newActivity)

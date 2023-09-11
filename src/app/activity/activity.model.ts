@@ -3,6 +3,7 @@ export class Activity{
     time: string;
     data: any;
     notes: string;
+    anonymous: boolean;
 
     participantId: string;
     applicationId: string;

@@ -46,6 +46,7 @@ export class OrganisationService extends BaseService {
             }
         }
         await this.employeeDa.createEmployee(newEmpl);
+        return newOrganisation;
     }
 
     public async deleteOrganisation(id: string){

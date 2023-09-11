@@ -29,6 +29,10 @@ export class UserDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<User>({email: email.trim().toLowerCase()});
     }
 
+    public async getAllUsers() {
+        return await this.db.collection(this.collection).find<User>({}).toArray();
+    }
+
     public async createUser(register: RegisterUser): Promise<User> {
         const newUser: User = {
             id: uuid(),

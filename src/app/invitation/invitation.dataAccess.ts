@@ -19,6 +19,10 @@ export class InvitationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<Invitation>({organisationId: orgId, userId: userId})
     }
 
+    public async getInvitationForCodeAndUser(code: string, userId: string): Promise<Invitation> {
+        return await this.db.collection(this.collection).findOne<Invitation>({code: code, userId: userId})
+    }
+
     public async extendInvitation(id: string): Promise<Invitation>{
         const now = dayjs().toISOString();
         const res = await this.db.collection(this.collection).findOneAndUpdate({id: id}, {$set: {time: now}});

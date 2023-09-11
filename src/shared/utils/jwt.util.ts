@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { ConfigFactory } from "../../configs/factories/config.factory";
+import { HttpException } from "../exceptions/HttpException";
 
 export class JwtUtil{
 
@@ -41,7 +42,15 @@ export class JwtUtil{
         const conf: jwt.VerifyOptions = {
             issuer: this.issuer
         }
-        return jwt.verify(token, this.secret, conf) as T;
+        try {
+            return jwt.verify(token, this.secret, conf) as T;
+        } catch (e) {
+            if (e.message === "jwt expired"){
+                throw new HttpException(403, "JWT token expired");
+            } else {
+                throw e;
+            }
+        }
     }
 
 }

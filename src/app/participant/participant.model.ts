@@ -3,7 +3,8 @@ export class NewParticipant{
     name?: string;
     surname?: string;
     description?: string;
-    age?: number;
+    birthday?: number;
+    img?: string;
 }
 
 export class Participant extends NewParticipant{
