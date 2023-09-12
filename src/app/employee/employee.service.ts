@@ -78,5 +78,9 @@ export class EmployeeService extends BaseService {
         return await this.employeeDa.createEmployee(newEmpl);
     }
 
+    public async addParticipant(id: string, participantId: string){
+        return await this.employeeDa.addParticipant(id, participantId);
+    }
+
 
 }

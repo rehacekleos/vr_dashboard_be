@@ -18,11 +18,10 @@ export class ApplicationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).find<Application>({organisationId: orgId}).toArray();
     }
 
-    public async createApplication(application: NewApplication, orgId: string): Promise<Application> {
+    public async createApplication(application: NewApplication): Promise<Application> {
         const newApplication: Application = {
             id: uuid(),
             code: generateCode(),
-            organisationId: orgId,
             ...application
         }
 

@@ -5,6 +5,7 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { AuthMiddlewareResponse } from "../../models/middlewares.model";
 import { OrganisationService } from "./organisation.service";
 import { NewOrganisation } from "./organisation.model";
+import { userInfo } from "os";
 
 export class OrganisationController extends BaseController {
     path = '/organisation';
@@ -17,6 +18,8 @@ export class OrganisationController extends BaseController {
     initRouter(): void {
         this.router.get('/', [authMiddleware], this.getOrganisationsForUser);
         this.router.get('/:organisationId', [authMiddleware], this.getOrganisationsById);
+        this.router.get('/:organisationId/applications', [authMiddleware], this.getOrganisationApplications);
+        this.router.get('/:organisationId/participants', [authMiddleware], this.getOrganisationParticipants);
         this.router.post('/', [authMiddleware], this.createOrganisation);
         this.router.delete('/:organisationId', [authMiddleware], this.deleteOrganisation);
     }
@@ -42,7 +45,7 @@ export class OrganisationController extends BaseController {
             const result = await this.organisationService.getOrganisationsForUser(user);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -69,11 +72,42 @@ export class OrganisationController extends BaseController {
      */
     getOrganisationsById = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
+            const user = req.user;
             const orgId = req.params.organisationId
-            const result = await this.organisationService.getOrganisationById(orgId);
+            const result = await this.organisationService.getOrganisationByIdForUser(orgId, user.id);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot get organisations.', e));
+        }
+    };
+
+    getOrganisationApplications = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const user = req.user;
+            const orgId = req.params.organisationId
+            const result = await this.organisationService.getApplicationsForOrganisation(orgId, user);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException) {
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot get organisations.', e));
+        }
+    };
+
+    getOrganisationParticipants = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const user = req.user;
+            const orgId = req.params.organisationId
+            const result = await this.organisationService.getParticipantsForOrganisation(orgId, user);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -88,7 +122,7 @@ export class OrganisationController extends BaseController {
             const result = await this.organisationService.createOrganisation(body, user);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -115,11 +149,12 @@ export class OrganisationController extends BaseController {
      */
     deleteOrganisation = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
+            const user = req.user;
             const orgId = req.params.organisationId
-            const result = await this.organisationService.deleteOrganisation(orgId);
+            const result = await this.organisationService.deleteOrganisation(orgId, user);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }

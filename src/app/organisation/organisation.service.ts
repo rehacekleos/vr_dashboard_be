@@ -7,10 +7,16 @@ import { HttpException, WrongBody } from "../../shared/exceptions/HttpException"
 import { EmployeeDataAccess } from "../employee/employee.dataAccess";
 import { AdminRole, RoleNames } from "../../models/role.model";
 import { NewEmployee } from "../employee/employee.model";
+import { ParticipantDataAccess } from "../participant/participant.dataAccess";
+import { Application } from "../application/application.model";
+import { ApplicationDataAccess } from "../application/application.dataAccess";
+import { Participant } from "../participant/participant.model";
 
 export class OrganisationService extends BaseService {
 
     constructor(private orgDa: OrganisationDataAccess,
+                private participantDa: ParticipantDataAccess,
+                private applicationDa: ApplicationDataAccess,
                 private employeeDa: EmployeeDataAccess) {
         super();
     }
@@ -24,12 +30,33 @@ export class OrganisationService extends BaseService {
         return await this.orgDa.getOrganisationsByIds(orgIds);
     }
 
-    public async getOrganisationById(id: string): Promise<Organisation> {
-        return await this.orgDa.getOrganisationById(id);
+    public async getOrganisationByIdForUser(id: string, userId: string): Promise<Organisation> {
+        const employee = await this.employeeDa.getEmployeeForOrgAndUser(id, userId);
+        if (isEmptyAndNull(employee)){
+            return null;
+        }
+
+        return await this.orgDa.getOrganisationById(employee.id);
     }
 
     public async getOrganisationByCode(code: string): Promise<Organisation> {
         return await this.orgDa.getOrganisationByCode(code);
+    }
+
+    public async getApplicationsForOrganisation(orgId: string, user: User): Promise<Application[]> {
+        const org = await this.getOrganisationByIdForUser(orgId, user.id);
+        if (isEmptyAndNull(org)){
+            throw new HttpException(400, "Organisation not found.");
+        }
+        return await this.applicationDa.getApplicationsForOrganisation(orgId);
+    }
+
+    public async getParticipantsForOrganisation(orgId: string, user: User): Promise<Participant[]> {
+        const org = await this.getOrganisationByIdForUser(orgId, user.id);
+        if (isEmptyAndNull(org)){
+            throw new HttpException(400, "Organisation not found.");
+        }
+        return await this.participantDa.getParticipantsForOrganisation(orgId);
     }
 
     public async createOrganisation(body: NewOrganisation, user: User) {
@@ -49,8 +76,8 @@ export class OrganisationService extends BaseService {
         return newOrganisation;
     }
 
-    public async deleteOrganisation(id: string){
-        const org = await this.orgDa.getOrganisationById(id);
+    public async deleteOrganisation(id: string, user: User){
+        const org = await this.getOrganisationByIdForUser(id, user.id);
         if (isEmptyAndNull(org)){
             throw new HttpException(400, 'Organisation not found.')
         }
