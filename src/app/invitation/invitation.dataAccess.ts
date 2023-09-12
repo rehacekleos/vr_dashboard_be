@@ -19,6 +19,10 @@ export class InvitationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<Invitation>({organisationId: orgId, userId: userId})
     }
 
+    public async getInvitationsForOrg(orgId: string): Promise<Invitation[]> {
+        return await this.db.collection(this.collection).find<Invitation>({organisationId: orgId}).toArray()
+    }
+
     public async getInvitationForCodeAndUser(code: string, userId: string): Promise<Invitation> {
         return await this.db.collection(this.collection).findOne<Invitation>({code: code, userId: userId})
     }
@@ -32,11 +36,11 @@ export class InvitationDataAccess extends BaseDataAccess {
         return res.value as any as Invitation
     }
 
-    public async createInvitation(newInv: NewInvitation): Promise<Invitation> {
+    public async createInvitation(newInv: NewInvitation, orgId: string): Promise<Invitation> {
         const newInvitation: Invitation = {
             id: uuid(),
             code: generateCode(),
-            organisationId: newInv.organisationId,
+            organisationId: orgId,
             userId: newInv.userId,
             role: newInv.role,
             time: dayjs().toISOString()

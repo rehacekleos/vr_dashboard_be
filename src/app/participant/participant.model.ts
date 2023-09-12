@@ -5,10 +5,9 @@ export class NewParticipant{
     description?: string;
     birthday?: number;
     img?: string;
-
-    organisationId: string;
 }
 
 export class Participant extends NewParticipant{
     id: string;
+    organisationId: string;
 }

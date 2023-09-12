@@ -12,17 +12,16 @@ export class ApplicationService extends BaseService{
         super();
     }
 
+    public async getApplicationsForOrganisation(orgId: string): Promise<Application[]> {
+        return await this.applicationDa.getApplicationsForOrganisation(orgId);
+    }
+
     public async getApplication(id: string): Promise<Application> {
         return await this.applicationDa.getApplication(id);
     }
 
-    public async createApplication(application: NewApplication): Promise<Application> {
-        const org = await this.orgDa.getOrganisationById(application.organisationId);
-        if (isEmptyAndNull(org)){
-            throw new HttpException(400, "Organisation not found.");
-        }
-
-        return await this.applicationDa.createApplication(application);
+    public async createApplication(application: NewApplication, orgId: string): Promise<Application> {
+        return await this.applicationDa.createApplication(application, orgId);
     }
 
     public async updateSetting(id: string, setting: any): Promise<Application> {

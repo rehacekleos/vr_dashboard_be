@@ -7,9 +7,18 @@ import { User } from "../user/user.model";
 
 export class EmployeeDataAccess extends BaseDataAccess {
 
+    private static instance: EmployeeDataAccess;
+
 
     constructor() {
         super(CollectionName.EMPLOYEES);
+    }
+
+    public static getInstance(){
+        if (!EmployeeDataAccess.instance){
+            EmployeeDataAccess.instance = new EmployeeDataAccess();
+        }
+        return EmployeeDataAccess.instance;
     }
 
     public async getEmployeeForOrgAndUser(orgId: string, userId: string): Promise<Employee> {

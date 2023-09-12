@@ -10,5 +10,4 @@ export class Application {
 export class NewApplication {
     name: string;
     setting: any;
-    organisationId: string;
 }

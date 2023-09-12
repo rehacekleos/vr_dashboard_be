@@ -7,6 +7,7 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { NewParticipant, Participant } from "./participant.model";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { User } from "../user/user.model";
+import { Employee } from "../employee/employee.model";
 
 export class ParticipantService extends BaseService {
 
@@ -16,12 +17,11 @@ export class ParticipantService extends BaseService {
         super();
     }
 
-    public async getParticipantsForUserForOrganisation(orgId: string, userId: string) {
-        const employee = await this.employeeService.getEmployeeForOrgAndUser(orgId, userId);
-        if (isEmptyAndNull(employee)) {
-            throw new HttpException(400, 'Employee not found.')
-        }
+    public async getParticipants(orgId: string): Promise<Participant[]> {
+        return await this.participantDa.getParticipantsForOrganisation(orgId);
+    }
 
+    public async getParticipantsForUserForOrganisation(employee: Employee) {
         if (employee.participantIds.length < 1) {
             return [];
         }
@@ -56,18 +56,8 @@ export class ParticipantService extends BaseService {
         return await this.participantDa.getParticipantById(id);
     }
 
-    public async createParticipant(newParticipant: NewParticipant, user: User): Promise<Participant> {
-        const org = await this.orgDa.getOrganisationById(newParticipant.organisationId);
-        if (isEmptyAndNull(org)) {
-            throw new HttpException(400, "Organisation not found.");
-        }
-
-        const employee = await this.employeeService.getEmployeeForOrgAndUser(newParticipant.organisationId, user.id);
-        if (isEmptyAndNull(employee)) {
-            throw new HttpException(400, "User do not have access to organisation");
-        }
-
-        const participant = await this.participantDa.createParticipant(newParticipant);
+    public async createParticipant(newParticipant: NewParticipant, employee: Employee): Promise<Participant> {
+        const participant = await this.participantDa.createParticipant(newParticipant, employee.organisationId);
 
         await this.employeeService.addParticipant(employee.id, participant.id);
 

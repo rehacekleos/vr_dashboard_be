@@ -17,6 +17,14 @@ import { EmployeeDataAccess } from "../../app/employee/employee.dataAccess";
 import { EmployeeService } from "../../app/employee/employee.service";
 import { ParticipantDataAccess } from "../../app/participant/participant.dataAccess";
 import { ParticipantService } from "../../app/participant/participant.service";
+import { ApplicationDataAccess } from "../../app/application/application.dataAccess";
+import { InvitationController } from "../../app/invitation/invitation.controller";
+import { InvitationService } from "../../app/invitation/invitation.service";
+import { InvitationDataAccess } from "../../app/invitation/invitation.dataAccess";
+import { ApplicationController } from "../../app/application/application.controller";
+import { ApplicationService } from "../../app/application/application.service";
+import { ParticipantController } from "../../app/participant/participant.controller";
+import { EmployeeController } from "../../app/employee/employee.controller";
 
 export class ServerBaseBootstrap {
 
@@ -27,17 +35,21 @@ export class ServerBaseBootstrap {
      * Define DataAccess
      */
     private userDa = UserDataAccess.getInstance();
-    private orgDa = new OrganisationDataAccess();
-    private employeeDa = new EmployeeDataAccess();
+    private orgDa = OrganisationDataAccess.getInstance();
+    private employeeDa = EmployeeDataAccess.getInstance();
     private participantDa = new ParticipantDataAccess();
+    private applicationDa = new ApplicationDataAccess();
+    private invitationDa = new InvitationDataAccess();
 
     /**
      * Define services
      */
     private authService = new AuthService(this.userDa);
-    private organisationService = new OrganisationService(this.orgDa, this.employeeDa);
+    private organisationService = new OrganisationService(this.orgDa, this.participantDa, this.applicationDa, this.employeeDa);
     private employeeService = new EmployeeService(this.employeeDa, this.userDa, this.orgDa);
-    private participantService = new ParticipantService(this.participantDa, this.employeeService);
+    private participantService = new ParticipantService(this.participantDa, this.orgDa, this.employeeService);
+    private invitationService = new InvitationService(this.invitationDa, this.employeeService);
+    private applicationService = new ApplicationService(this.applicationDa, this.orgDa);
 
 
     /**
@@ -46,7 +58,11 @@ export class ServerBaseBootstrap {
     private controllers = [
         new DefaultController(),
         new AuthController(this.authService),
-        new OrganisationController(this.organisationService)
+        new OrganisationController(this.organisationService),
+        new ApplicationController(this.applicationService),
+        new ParticipantController(this.participantService),
+        new InvitationController(this.invitationService),
+        new EmployeeController(this.employeeService)
     ]
 
     constructor() {

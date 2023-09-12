@@ -22,9 +22,10 @@ export class ParticipantDataAccess extends BaseDataAccess{
         return await this.db.collection(this.collection).find<Participant>({organisationId: orgId}).toArray();
     }
 
-    public async createParticipant(participant: NewParticipant): Promise<Participant> {
+    public async createParticipant(participant: NewParticipant, orgId: string): Promise<Participant> {
         const newParticipant: Participant = {
             id: uuid(),
+            organisationId: orgId,
             ...participant
         }
 

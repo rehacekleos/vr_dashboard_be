@@ -15,11 +15,15 @@ export class InvitationService extends BaseService{
         super();
     }
 
-    public async acceptInvitation(inv: AcceptInvitation) {
-        if (isEmptyAndNull(inv.userId) || isEmptyAndNull(inv.code)){
+    public async getInvitationsForOrg(orgId: string): Promise<Invitation[]> {
+        return await this.invDa.getInvitationsForOrg(orgId);
+    }
+
+    public async acceptInvitation(inv: AcceptInvitation, userId: string) {
+        if (isEmptyAndNull(inv.code)){
             throw new WrongBody('Invitation')
         }
-        const existingInvitation = await this.invDa.getInvitationForCodeAndUser(inv.code, inv.userId);
+        const existingInvitation = await this.invDa.getInvitationForCodeAndUser(inv.code, userId);
         if (isEmptyAndNull(existingInvitation)){
             throw new HttpException(400, 'Invitation not found.')
         }
@@ -37,22 +41,22 @@ export class InvitationService extends BaseService{
         await this.invDa.deleteInvitation(existingInvitation.id);
     }
 
-    public async createInvitation(newInv: NewInvitation) {
-        if (isEmptyAndNull(newInv.organisationId) || isEmptyAndNull(newInv.userId) || isEmptyAndNull(newInv.role)){
+    public async createInvitation(newInv: NewInvitation, orgId: string) {
+        if (isEmptyAndNull(newInv.userId) || isEmptyAndNull(newInv.role)){
             throw new WrongBody('Invitation')
         }
 
-        const inv = await this.invDa.getInvitationForOrgAndUser(newInv.organisationId, newInv.userId);
+        const inv = await this.invDa.getInvitationForOrgAndUser(orgId, newInv.userId);
         if (!isEmptyAndNull(inv)){
             throw new HttpException(400, 'Invitation already exists.')
         }
 
-        const empl = await this.employeeService.getEmployeeForOrgAndUser(newInv.organisationId, newInv.userId);
+        const empl = await this.employeeService.getEmployeeForOrgAndUser(orgId, newInv.userId);
         if (!isEmptyAndNull(empl)){
             throw new HttpException(400, 'Employee already exists.')
         }
 
-        await this.invDa.createInvitation(newInv);
+        await this.invDa.createInvitation(newInv, orgId);
     }
 
     public async extendInvitation(id: string): Promise<Invitation>{
@@ -82,7 +86,7 @@ export class InvitationService extends BaseService{
         const now = dayjs();
         const created = dayjs(invitation.time);
 
-        return now.diff(created, 'minute', true) > 15
+        return now.diff(created, 'minute', true) > 30
     }
 
 }

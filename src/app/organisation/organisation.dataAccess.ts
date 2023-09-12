@@ -7,8 +7,17 @@ import { generateCode, isEmptyAndNull } from "../../shared/utils/common.util";
 
 export class OrganisationDataAccess extends BaseDataAccess {
 
+    private static instance: OrganisationDataAccess;
+
     constructor() {
         super(CollectionName.ORGANISATIONS);
+    }
+
+    public static getInstance(){
+        if (!OrganisationDataAccess.instance){
+            OrganisationDataAccess.instance = new OrganisationDataAccess();
+        }
+        return OrganisationDataAccess.instance;
     }
 
     public async getOrganisationsByIds(ids: string[]): Promise<Organisation[]> {

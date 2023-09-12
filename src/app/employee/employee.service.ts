@@ -30,10 +30,6 @@ export class EmployeeService extends BaseService {
     }
 
     public async getEmployeesForOrg(orgId: string): Promise<Employee[]> {
-        const org = await this.orgDa.getOrganisationById(orgId);
-        if (isEmptyAndNull(org)) {
-            throw new HttpException(400, 'Organisation not found');
-        }
         const users = await this.userDa.getAllUsers();
         const userMap = new Map(users.map(u => [u.id, u]));
         const employees =  await this.employeeDa.getEmployeesForOrganisation(orgId);

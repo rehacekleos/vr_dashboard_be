@@ -36,27 +36,11 @@ export class OrganisationService extends BaseService {
             return null;
         }
 
-        return await this.orgDa.getOrganisationById(employee.id);
+        return await this.orgDa.getOrganisationById(employee.organisationId);
     }
 
     public async getOrganisationByCode(code: string): Promise<Organisation> {
         return await this.orgDa.getOrganisationByCode(code);
-    }
-
-    public async getApplicationsForOrganisation(orgId: string, user: User): Promise<Application[]> {
-        const org = await this.getOrganisationByIdForUser(orgId, user.id);
-        if (isEmptyAndNull(org)){
-            throw new HttpException(400, "Organisation not found.");
-        }
-        return await this.applicationDa.getApplicationsForOrganisation(orgId);
-    }
-
-    public async getParticipantsForOrganisation(orgId: string, user: User): Promise<Participant[]> {
-        const org = await this.getOrganisationByIdForUser(orgId, user.id);
-        if (isEmptyAndNull(org)){
-            throw new HttpException(400, "Organisation not found.");
-        }
-        return await this.participantDa.getParticipantsForOrganisation(orgId);
     }
 
     public async createOrganisation(body: NewOrganisation, user: User) {

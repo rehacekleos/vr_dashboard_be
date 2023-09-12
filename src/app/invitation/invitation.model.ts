@@ -10,12 +10,10 @@ export class Invitation{
 }
 
 export class AcceptInvitation{
-    userId: string;
     code: string;
 }
 
 export class NewInvitation{
-    organisationId: string;
     userId: string;
     role: Role;
 }

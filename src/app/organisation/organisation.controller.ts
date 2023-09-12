@@ -18,8 +18,6 @@ export class OrganisationController extends BaseController {
     initRouter(): void {
         this.router.get('/', [authMiddleware], this.getOrganisationsForUser);
         this.router.get('/:organisationId', [authMiddleware], this.getOrganisationsById);
-        this.router.get('/:organisationId/applications', [authMiddleware], this.getOrganisationApplications);
-        this.router.get('/:organisationId/participants', [authMiddleware], this.getOrganisationParticipants);
         this.router.post('/', [authMiddleware], this.createOrganisation);
         this.router.delete('/:organisationId', [authMiddleware], this.deleteOrganisation);
     }
@@ -75,36 +73,6 @@ export class OrganisationController extends BaseController {
             const user = req.user;
             const orgId = req.params.organisationId
             const result = await this.organisationService.getOrganisationByIdForUser(orgId, user.id);
-            res.status(200).json(result);
-        } catch (e) {
-            if (e instanceof HttpException) {
-                next(e);
-                return;
-            }
-            next(new HttpException(400, 'Cannot get organisations.', e));
-        }
-    };
-
-    getOrganisationApplications = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
-        try {
-            const user = req.user;
-            const orgId = req.params.organisationId
-            const result = await this.organisationService.getApplicationsForOrganisation(orgId, user);
-            res.status(200).json(result);
-        } catch (e) {
-            if (e instanceof HttpException) {
-                next(e);
-                return;
-            }
-            next(new HttpException(400, 'Cannot get organisations.', e));
-        }
-    };
-
-    getOrganisationParticipants = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
-        try {
-            const user = req.user;
-            const orgId = req.params.organisationId
-            const result = await this.organisationService.getParticipantsForOrganisation(orgId, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {
