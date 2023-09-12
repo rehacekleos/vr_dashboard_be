@@ -6,7 +6,7 @@ export function isEmpty(value: any){
 }
 
 export function generateCode(): string {
-    const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 6)
+    const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
     return nanoId();
 }
 

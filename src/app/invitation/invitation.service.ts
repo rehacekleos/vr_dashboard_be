@@ -7,10 +7,13 @@ import dayjs from "dayjs";
 import { EmployeeService } from "../employee/employee.service";
 import { Role } from "../../models/role.model";
 import { NewEmployee } from "../employee/employee.model";
+import { User } from "../user/user.model";
+import { UserDataAccess } from "../user/user.dataAccess";
 
 export class InvitationService extends BaseService{
 
     constructor(private invDa: InvitationDataAccess,
+                private userDa: UserDataAccess,
                 private employeeService: EmployeeService) {
         super();
     }
@@ -19,11 +22,11 @@ export class InvitationService extends BaseService{
         return await this.invDa.getInvitationsForOrg(orgId);
     }
 
-    public async acceptInvitation(inv: AcceptInvitation, userId: string) {
+    public async acceptInvitation(inv: AcceptInvitation, user: User) {
         if (isEmptyAndNull(inv.code)){
             throw new WrongBody('Invitation')
         }
-        const existingInvitation = await this.invDa.getInvitationForCodeAndUser(inv.code, userId);
+        const existingInvitation = await this.invDa.getInvitationForCodeAndUser(inv.code, user.email);
         if (isEmptyAndNull(existingInvitation)){
             throw new HttpException(400, 'Invitation not found.')
         }
@@ -34,29 +37,34 @@ export class InvitationService extends BaseService{
 
         const newEmpl: NewEmployee = {
             organisationId: existingInvitation.organisationId,
-            userId: existingInvitation.userId,
-            role: existingInvitation.role
+            userId: user.id,
+            role: {
+                name: existingInvitation.role
+            }
         }
         await this.employeeService.createEmployee(newEmpl);
         await this.invDa.deleteInvitation(existingInvitation.id);
     }
 
-    public async createInvitation(newInv: NewInvitation, orgId: string) {
-        if (isEmptyAndNull(newInv.userId) || isEmptyAndNull(newInv.role)){
+    public async createInvitation(newInv: NewInvitation, orgId: string): Promise<Invitation> {
+        if (isEmptyAndNull(newInv.email) || isEmptyAndNull(newInv.role)){
             throw new WrongBody('Invitation')
         }
 
-        const inv = await this.invDa.getInvitationForOrgAndUser(orgId, newInv.userId);
+        const inv = await this.invDa.getInvitationForOrgAndUser(orgId, newInv.email);
         if (!isEmptyAndNull(inv)){
             throw new HttpException(400, 'Invitation already exists.')
         }
 
-        const empl = await this.employeeService.getEmployeeForOrgAndUser(orgId, newInv.userId);
-        if (!isEmptyAndNull(empl)){
-            throw new HttpException(400, 'Employee already exists.')
+        const user = await this.userDa.getUserByEmail(newInv.email);
+        if (!isEmptyAndNull(user)){
+            const empl = await this.employeeService.getEmployeeForOrgAndUser(orgId, user.id);
+            if (!isEmptyAndNull(empl)){
+                throw new HttpException(400, 'Employee already exists.')
+            }
         }
 
-        await this.invDa.createInvitation(newInv, orgId);
+        return await this.invDa.createInvitation(newInv, orgId);
     }
 
     public async extendInvitation(id: string): Promise<Invitation>{

@@ -16,7 +16,7 @@ export class InvitationController extends BaseController{
     }
 
     initRouter() {
-        this.router.get('/', [authMiddleware, organisationMiddleware], this.getInvivations);
+        this.router.get('/', [authMiddleware, organisationMiddleware], this.getInvitations);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createInvitation);
         this.router.post('/accept', [authMiddleware], this.acceptInvitation);
         this.router.patch('/:invitationId', [authMiddleware], this.extendInvitation);
@@ -24,7 +24,7 @@ export class InvitationController extends BaseController{
 
     }
 
-    getInvivations = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+    getInvitations = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const orgId = req.organisation.id;
             const result = await this.invitationService.getInvitationsForOrg(orgId);
@@ -57,7 +57,7 @@ export class InvitationController extends BaseController{
         try {
             const user = req.user;
             const accept: AcceptInvitation = req.body;
-            const result = await this.invitationService.acceptInvitation(accept, user.id);
+            const result = await this.invitationService.acceptInvitation(accept, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

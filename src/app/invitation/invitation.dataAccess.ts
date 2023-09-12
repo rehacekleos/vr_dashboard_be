@@ -1,5 +1,5 @@
 import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
-import { Role } from "../../models/role.model";
+import { Role, RoleNames } from "../../models/role.model";
 import { Invitation, NewInvitation } from "./invitation.model";
 import { v4 as uuid } from "uuid";
 import { generateCode } from "../../shared/utils/common.util";
@@ -15,16 +15,16 @@ export class InvitationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<Invitation>({id: id})
     }
 
-    public async getInvitationForOrgAndUser(orgId: string, userId: string): Promise<Invitation> {
-        return await this.db.collection(this.collection).findOne<Invitation>({organisationId: orgId, userId: userId})
+    public async getInvitationForOrgAndUser(orgId: string, email: string): Promise<Invitation> {
+        return await this.db.collection(this.collection).findOne<Invitation>({organisationId: orgId, email: email})
     }
 
     public async getInvitationsForOrg(orgId: string): Promise<Invitation[]> {
         return await this.db.collection(this.collection).find<Invitation>({organisationId: orgId}).toArray()
     }
 
-    public async getInvitationForCodeAndUser(code: string, userId: string): Promise<Invitation> {
-        return await this.db.collection(this.collection).findOne<Invitation>({code: code, userId: userId})
+    public async getInvitationForCodeAndUser(code: string, email: string): Promise<Invitation> {
+        return await this.db.collection(this.collection).findOne<Invitation>({code: code, email: email})
     }
 
     public async extendInvitation(id: string): Promise<Invitation>{
@@ -41,8 +41,8 @@ export class InvitationDataAccess extends BaseDataAccess {
             id: uuid(),
             code: generateCode(),
             organisationId: orgId,
-            userId: newInv.userId,
-            role: newInv.role,
+            email: newInv.email,
+            role: newInv.role as RoleNames,
             time: dayjs().toISOString()
         }
 

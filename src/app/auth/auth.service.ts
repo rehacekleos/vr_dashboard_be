@@ -1,7 +1,7 @@
 import { BaseService } from "../../shared/services/Base.service";
 import { UserDataAccess } from "../user/user.dataAccess";
 import { AuthResponse, LoginUser, RegisterUser } from "./auth.model";
-import { isEmpty } from "../../shared/utils/common.util";
+import { isEmpty, isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { JwtUtil } from "../../shared/utils/jwt.util";
 import { PasswordUtil } from "../../shared/utils/password.util";
@@ -36,14 +36,17 @@ export class AuthService extends BaseService{
 
     public async register(register: RegisterUser): Promise<AuthResponse> {
 
+        const user = await this.userDa.getUserByEmail(register.email);
+        if (!isEmptyAndNull(user)){
+            throw new HttpException(400, 'You cannot use the following email.');
+        }
 
-
-        const user = await this.userDa.createUser(register);
-        const token = this.jwtUtil.createToken(user);
+        const newUser = await this.userDa.createUser(register);
+        const token = this.jwtUtil.createToken(newUser);
 
         return {
             token: token,
-            user: user
+            user: newUser
         };
     }
 }

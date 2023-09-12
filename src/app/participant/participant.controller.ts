@@ -5,7 +5,6 @@ import { ParticipantService } from "./participant.service";
 import { AuthMiddlewareResponse, OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
-import { NewApplication } from "../application/application.model";
 import { NewParticipant, Participant } from "./participant.model";
 import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 

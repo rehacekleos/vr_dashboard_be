@@ -1,10 +1,10 @@
-import { Role } from "../../models/role.model";
+import { Role, RoleNames } from "../../models/role.model";
 
 export class Invitation{
     id: string;
     organisationId: string;
-    userId: string;
-    role: Role;
+    email: string;
+    role: RoleNames;
     code: string;
     time: string;
 }
@@ -14,6 +14,6 @@ export class AcceptInvitation{
 }
 
 export class NewInvitation{
-    userId: string;
-    role: Role;
+    email: string;
+    role: string;
 }

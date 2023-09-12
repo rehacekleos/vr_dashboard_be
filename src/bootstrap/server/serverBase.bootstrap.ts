@@ -25,6 +25,9 @@ import { ApplicationController } from "../../app/application/application.control
 import { ApplicationService } from "../../app/application/application.service";
 import { ParticipantController } from "../../app/participant/participant.controller";
 import { EmployeeController } from "../../app/employee/employee.controller";
+import { ActivityService } from "../../app/activity/activity.service";
+import { ActivityDataAccess } from "../../app/activity/activity.dataAccess";
+import { ActivityController } from "../../app/activity/activity.controller";
 
 export class ServerBaseBootstrap {
 
@@ -40,6 +43,7 @@ export class ServerBaseBootstrap {
     private participantDa = new ParticipantDataAccess();
     private applicationDa = new ApplicationDataAccess();
     private invitationDa = new InvitationDataAccess();
+    private activityDa = new ActivityDataAccess();
 
     /**
      * Define services
@@ -48,8 +52,9 @@ export class ServerBaseBootstrap {
     private organisationService = new OrganisationService(this.orgDa, this.participantDa, this.applicationDa, this.employeeDa);
     private employeeService = new EmployeeService(this.employeeDa, this.userDa, this.orgDa);
     private participantService = new ParticipantService(this.participantDa, this.orgDa, this.employeeService);
-    private invitationService = new InvitationService(this.invitationDa, this.employeeService);
+    private invitationService = new InvitationService(this.invitationDa, this.userDa, this.employeeService);
     private applicationService = new ApplicationService(this.applicationDa, this.orgDa);
+    private activityService = new ActivityService(this.activityDa, this.applicationService);
 
 
     /**
@@ -62,7 +67,8 @@ export class ServerBaseBootstrap {
         new ApplicationController(this.applicationService),
         new ParticipantController(this.participantService),
         new InvitationController(this.invitationService),
-        new EmployeeController(this.employeeService)
+        new EmployeeController(this.employeeService),
+        new ActivityController(this.activityService)
     ]
 
     constructor() {

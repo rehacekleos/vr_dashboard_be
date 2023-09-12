@@ -17,6 +17,10 @@ export class ActivityDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).find<Activity>({applicationId: applicationId}).toArray();
     }
 
+    public async getActivitiesForApplicationIds(applicationIds: string[]): Promise<Activity[]> {
+        return await this.db.collection(this.collection).find<Activity>({applicationId: {$in: applicationIds}}).toArray();
+    }
+
     public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {
         return await this.db.collection(this.collection).find<Activity>({participantId: participantId}).toArray();
     }
@@ -33,7 +37,7 @@ export class ActivityDataAccess extends BaseDataAccess {
         }
 
         const res = await this.db.collection(this.collection).insertOne(newActivity)
-        if (res.acknowledged === false){
+        if (res.acknowledged === false) {
             throw new Error("Cannot save activity into DB.")
         }
 
@@ -42,7 +46,7 @@ export class ActivityDataAccess extends BaseDataAccess {
 
     public async updateNotes(id: string, notes: string): Promise<Activity> {
         const res = await this.db.collection(this.collection).findOneAndUpdate({id: id}, {$set: {notes: notes}}, {returnDocument: "after"});
-        if (!res.ok){
+        if (!res.ok) {
             throw new Error("Cannot update notes.")
         }
         return res.value as any as Activity
@@ -50,7 +54,7 @@ export class ActivityDataAccess extends BaseDataAccess {
 
     public async deleteActivity(id: string) {
         const res = await this.db.collection(this.collection).deleteOne({id: id});
-        if (res.acknowledged === false){
+        if (res.acknowledged === false) {
             throw new Error("Cannot delete activity from DB.")
         }
     }
