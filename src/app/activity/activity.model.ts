@@ -18,3 +18,19 @@ export class NewActivity{
     applicationId: string;
     participantId?: string
 }
+
+export class VRData{
+    start: string;
+    end: string;
+    log_rate: number;
+    head_data: Position[];
+    left_hand_data?: Position[];
+    right_hand_data?: Position[];
+    custom_data?: any;
+}
+
+export class Position {
+    x: string;
+    y: string;
+    z: string;
+}
