@@ -1,13 +1,12 @@
 export class Application {
     id: string;
-    code: string;
+    identifier: string;
     name: string;
     setting: any;
-
-    organisationId: string;
 }
 
 export class NewApplication {
     name: string;
+    identifier: string;
     setting: any;
 }

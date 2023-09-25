@@ -10,4 +10,5 @@ export enum CollectionName {
     ACTIVITIES = 'activities',
     APPLICATIONS = 'applications',
     INVITATIONS = 'invitations',
+    APPLICATION_ASSIGNMENT = "application_assignment"
 }

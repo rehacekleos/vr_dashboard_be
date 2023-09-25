@@ -28,6 +28,9 @@ import { EmployeeController } from "../../app/employee/employee.controller";
 import { ActivityService } from "../../app/activity/activity.service";
 import { ActivityDataAccess } from "../../app/activity/activity.dataAccess";
 import { ActivityController } from "../../app/activity/activity.controller";
+import { AdminService } from "../../app/admin/admin.service";
+import { AdminController } from "../../app/admin/admin.controller";
+import { ApplicationAssignmentDataAccess } from "../../app/application_assignment/application_assignment_data_access";
 
 export class ServerBaseBootstrap {
 
@@ -44,17 +47,19 @@ export class ServerBaseBootstrap {
     private applicationDa = new ApplicationDataAccess();
     private invitationDa = new InvitationDataAccess();
     private activityDa = new ActivityDataAccess();
+    private applicationAssignmentDa = new ApplicationAssignmentDataAccess()
 
     /**
      * Define services
      */
     private authService = new AuthService(this.userDa);
+    private adminService = new AdminService(this.applicationDa);
     private organisationService = new OrganisationService(this.orgDa, this.participantDa, this.applicationDa, this.employeeDa);
     private employeeService = new EmployeeService(this.employeeDa, this.userDa, this.orgDa);
     private participantService = new ParticipantService(this.participantDa, this.orgDa, this.employeeService);
     private invitationService = new InvitationService(this.invitationDa, this.userDa, this.employeeService);
-    private applicationService = new ApplicationService(this.applicationDa, this.orgDa);
-    private activityService = new ActivityService(this.activityDa, this.applicationService);
+    private applicationService = new ApplicationService(this.applicationDa, this.applicationAssignmentDa, this.orgDa);
+    private activityService = new ActivityService(this.activityDa, this.participantDa, this.applicationService);
 
 
     /**
@@ -68,7 +73,8 @@ export class ServerBaseBootstrap {
         new ParticipantController(this.participantService),
         new InvitationController(this.invitationService),
         new EmployeeController(this.employeeService),
-        new ActivityController(this.activityService)
+        new ActivityController(this.activityService),
+        new AdminController(this.adminService)
     ]
 
     constructor() {

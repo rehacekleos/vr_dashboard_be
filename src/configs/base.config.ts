@@ -15,5 +15,5 @@ export const baseConfig: BaseConfigModel =  {
     dbUrl: process.env.DB_URL,
     mongoDbType: process.env.MONGO_DB_TYPE ? MongoDbType[process.env.MONGO_DB_TYPE]: MongoDbType.MONGODB,
     mongoDbDatabase: process.env.MONGO_DB_DATABASE,
-    mongoDbCollections: [CollectionName.USERS, CollectionName.ORGANISATIONS, CollectionName.EMPLOYEES, CollectionName.PARTICIPANTS],
+    mongoDbCollections: [CollectionName.USERS, CollectionName.ORGANISATIONS, CollectionName.EMPLOYEES, CollectionName.PARTICIPANTS, CollectionName.ACTIVITIES, CollectionName.APPLICATIONS, CollectionName.INVITATIONS, CollectionName.APPLICATION_ASSIGNMENT],
 }

@@ -5,6 +5,7 @@ import { OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { ActivityService } from "./activity.service";
+import { NewActivity } from "./activity.model";
 
 export class ActivityController extends BaseController{
     path = '/activity'
@@ -16,6 +17,7 @@ export class ActivityController extends BaseController{
 
     initRouter() {
         this.router.get('/', [authMiddleware, organisationMiddleware], this.getActivities)
+        this.router.post('/', [authMiddleware, organisationMiddleware], this.createActivity)
     }
 
     getActivities = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
@@ -29,6 +31,21 @@ export class ActivityController extends BaseController{
                 return;
             }
             next(new HttpException(400, 'Cannot get activities.', e));
+        }
+    };
+
+    createActivity = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const orgId = req.organisation.id;
+            const body: NewActivity = req.body;
+            const result = await this.activityService.createActivity(body, orgId);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot create activity.', e));
         }
     };
 }

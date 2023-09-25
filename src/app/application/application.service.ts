@@ -4,16 +4,23 @@ import { Application, NewApplication } from "./application.model";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
+import { ApplicationAssignmentDataAccess } from "../application_assignment/application_assignment_data_access";
 
 export class ApplicationService extends BaseService{
 
     constructor(private applicationDa: ApplicationDataAccess,
+                private applicationAssigmentDa: ApplicationAssignmentDataAccess,
                 private orgDa: OrganisationDataAccess) {
         super();
     }
 
     public async getApplicationsForOrganisation(orgId: string): Promise<Application[]> {
-        return await this.applicationDa.getApplicationsForOrganisation(orgId);
+        const assignments = await this.applicationAssigmentDa.getAssignmentsByOrgId(orgId);
+        if (assignments.length < 1){
+            return [];
+        }
+        const applicationIds = assignments.map(a => a.applicationId);
+        return await this.applicationDa.getApplicationsByIds(applicationIds);
     }
 
     public async getApplication(id: string): Promise<Application> {
@@ -21,7 +28,7 @@ export class ApplicationService extends BaseService{
     }
 
     public async createApplication(application: NewApplication, orgId: string): Promise<Application> {
-        return await this.applicationDa.createApplication(application, orgId);
+        return await this.applicationDa.createApplication(application);
     }
 
     public async updateSetting(id: string, setting: any): Promise<Application> {

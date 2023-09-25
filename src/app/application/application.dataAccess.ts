@@ -14,15 +14,17 @@ export class ApplicationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<Application>({id: id});
     }
 
-    public async getApplicationsForOrganisation(orgId: string): Promise<Application[]> {
-        return await this.db.collection(this.collection).find<Application>({organisationId: orgId}).toArray();
+    async getAllApplications(): Promise<Application[]> {
+        return await this.db.collection(this.collection).find<Application>({}).toArray();
     }
 
-    public async createApplication(application: NewApplication, orgId: string): Promise<Application> {
+    async getApplicationsByIds(applicationIds: string[]): Promise<Application[]> {
+        return await this.db.collection(this.collection).find<Application>({id: {$in: applicationIds}}).toArray();
+    }
+
+    public async createApplication(application: NewApplication): Promise<Application> {
         const newApplication: Application = {
             id: uuid(),
-            code: generateCode(),
-            organisationId: orgId,
             ...application
         }
 

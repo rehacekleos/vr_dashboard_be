@@ -25,10 +25,10 @@ export class ActivityDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).find<Activity>({participantId: participantId}).toArray();
     }
 
-    public async createActivity(activity: NewActivity, participantId: string): Promise<Activity> {
+    public async createActivity(activity: NewActivity): Promise<Activity> {
         const newActivity: Activity = {
             id: uuid(),
-            participantId: participantId,
+            participantId: activity.participantId,
             time: activity.time,
             data: activity.data,
             applicationId: activity.applicationId,
