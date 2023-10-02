@@ -72,7 +72,7 @@ export class OrganisationController extends BaseController {
         try {
             const user = req.user;
             const orgId = req.params.organisationId
-            const result = await this.organisationService.getOrganisationByIdForUser(orgId, user.id);
+            const result = await this.organisationService.getOrganisationByIdForUser(orgId, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {

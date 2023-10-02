@@ -1,7 +1,7 @@
 export class Activity{
     id: string;
     time: string;
-    data: any;
+    data: VRData;
     notes: string;
     anonymous: boolean;
 
@@ -10,8 +10,7 @@ export class Activity{
 }
 
 export class NewActivity{
-    time: string;
-    data: any;
+    data: VRData;
     anonymous: boolean;
     notes: string;
 
@@ -19,18 +18,44 @@ export class NewActivity{
     participantId?: string
 }
 
+export class SendActivity{
+    data: VRData;
+    anonymous: boolean;
+    notes: string;
+
+    organisation_code: string;
+    application_identifier: string;
+    log_version: number;
+    participantId?: string
+}
+
 export class VRData{
+    application_identifier: string;
+    log_version: number;
     start: string;
     end: string;
     log_rate: number;
-    head_data: Position[];
-    left_hand_data?: Position[];
-    right_hand_data?: Position[];
+    records: Record[];
     custom_data?: any;
 }
 
-export class Position {
-    x: string;
-    y: string;
-    z: string;
+export class Record{
+    timestamp: string;
+    tick: number;
+    environment: string;
+    head: PositionAndRotation;
+    left_hand?: PositionAndRotation;
+    right_hand?: PositionAndRotation;
+    custom_data?: any;
+}
+
+export class PositionAndRotation {
+    position: Axis;
+    rotation: Axis;
+}
+
+export class Axis {
+    x: number;
+    y: number;
+    z: number;
 }

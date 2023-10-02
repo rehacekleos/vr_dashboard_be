@@ -31,6 +31,15 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.createApplication(application);
     }
 
+    public async assignApplication(applicationId: string, orgId: string) {
+        const assignments = await this.applicationAssigmentDa.getAssignmentsByOrgId(orgId);
+        if (assignments.find(a => a.applicationId === applicationId)){
+            throw new HttpException(400, "Application is already assigned to organisation.");
+        }
+
+        await this.applicationAssigmentDa.createAssignment(applicationId, orgId);
+    }
+
     public async updateSetting(id: string, setting: any): Promise<Application> {
         const app = await this.applicationDa.getApplication(id);
         if (isEmptyAndNull(app)){

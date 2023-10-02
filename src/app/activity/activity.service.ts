@@ -25,6 +25,14 @@ export class ActivityService extends BaseService{
         return await this.activityDa.getActivitiesForApplicationIds(applicationIds);
     }
 
+    public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {
+        return await this.activityDa.getActivitiesForParticipant(participantId);
+    }
+
+    public async getActivity(activityId: string) {
+        return await this.activityDa.getActivityById(activityId);
+    }
+
     async createActivity(body: NewActivity, orgId: string): Promise<Activity> {
         const applications = await this.applicationService.getApplicationsForOrganisation(orgId);
         if (applications.length < 1) {
@@ -35,7 +43,7 @@ export class ActivityService extends BaseService{
             throw new HttpException(400, "Application not exists");
         }
 
-        if (body.anonymous) {
+        if (!body.anonymous) {
             if (isEmptyAndNull(body.participantId)){
                 throw new WrongBody('Activity')
             }
@@ -52,4 +60,6 @@ export class ActivityService extends BaseService{
 
         return await this.activityDa.createActivity(body);
     }
+
+
 }

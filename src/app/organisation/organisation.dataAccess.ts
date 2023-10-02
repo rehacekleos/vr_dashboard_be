@@ -20,6 +20,10 @@ export class OrganisationDataAccess extends BaseDataAccess {
         return OrganisationDataAccess.instance;
     }
 
+    public async getAllOrganisations(): Promise<Organisation[]> {
+        return await this.db.collection(this.collection).find<Organisation>({}).toArray();
+    }
+
     public async getOrganisationsByIds(ids: string[]): Promise<Organisation[]> {
         return await this.db.collection(this.collection).find<Organisation>({id: {$in: ids}}).toArray();
     }
@@ -32,10 +36,10 @@ export class OrganisationDataAccess extends BaseDataAccess {
         return await this.db.collection(this.collection).findOne<Organisation>({code: code});
     }
 
-    public async createOrganisation(name: string, userId?: string): Promise<Organisation>{
+    public async createOrganisation(name: string): Promise<Organisation>{
         const newOrganisation: Organisation = {
             id: uuid(),
-            code: generateCode(),
+            code: generateCode(6),
             name: name,
             applicationIds: []
         }

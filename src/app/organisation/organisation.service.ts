@@ -5,12 +5,8 @@ import { NewOrganisation, Organisation } from "./organisation.model";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { EmployeeDataAccess } from "../employee/employee.dataAccess";
-import { AdminRole, RoleNames } from "../../models/role.model";
-import { NewEmployee } from "../employee/employee.model";
 import { ParticipantDataAccess } from "../participant/participant.dataAccess";
-import { Application } from "../application/application.model";
 import { ApplicationDataAccess } from "../application/application.dataAccess";
-import { Participant } from "../participant/participant.model";
 
 export class OrganisationService extends BaseService {
 
@@ -30,8 +26,12 @@ export class OrganisationService extends BaseService {
         return await this.orgDa.getOrganisationsByIds(orgIds);
     }
 
-    public async getOrganisationByIdForUser(id: string, userId: string): Promise<Organisation> {
-        const employee = await this.employeeDa.getEmployeeForOrgAndUser(id, userId);
+    public async getOrganisationByIdForUser(id: string, user: User): Promise<Organisation> {
+        if (user.superAdmin === true){
+            return await this.orgDa.getOrganisationById(id);
+        }
+
+        const employee = await this.employeeDa.getEmployeeForOrgAndUser(id, user.id);
         if (isEmptyAndNull(employee)){
             return null;
         }
@@ -48,20 +48,11 @@ export class OrganisationService extends BaseService {
             new WrongBody("New Organisation")
         }
 
-        const newOrganisation = await this.orgDa.createOrganisation(body.name, user.id);
-        const newEmpl: NewEmployee = {
-            organisationId: newOrganisation.id,
-            userId: user.id,
-            role: {
-                name: RoleNames.ADMIN
-            }
-        }
-        await this.employeeDa.createEmployee(newEmpl);
-        return newOrganisation;
+        return await this.orgDa.createOrganisation(body.name);
     }
 
     public async deleteOrganisation(id: string, user: User){
-        const org = await this.getOrganisationByIdForUser(id, user.id);
+        const org = await this.getOrganisationByIdForUser(id, user);
         if (isEmptyAndNull(org)){
             throw new HttpException(400, 'Organisation not found.')
         }

@@ -26,7 +26,7 @@ export class ParticipantController extends BaseController{
 
     getParticipants = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
-            const orgId = req.employee.organisationId;
+            const orgId = req.organisation.id;
             const result = await this.participantService.getParticipants(orgId);
             res.status(200).json(result);
         } catch (e) {

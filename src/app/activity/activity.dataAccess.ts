@@ -3,6 +3,7 @@ import { CollectionName } from "../../shared/repositories/mongoDb/collectionName
 import { Activity, NewActivity } from "./activity.model";
 import { v4 as uuid } from "uuid";
 import { Participant } from "../participant/participant.model";
+import dayjs from "dayjs";
 
 export class ActivityDataAccess extends BaseDataAccess {
     constructor() {
@@ -18,18 +19,18 @@ export class ActivityDataAccess extends BaseDataAccess {
     }
 
     public async getActivitiesForApplicationIds(applicationIds: string[]): Promise<Activity[]> {
-        return await this.db.collection(this.collection).find<Activity>({applicationId: {$in: applicationIds}}).toArray();
+        return await this.db.collection(this.collection).find<Activity>({applicationId: {$in: applicationIds}}, {projection: {"data.records": 0}}).toArray();
     }
 
     public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {
-        return await this.db.collection(this.collection).find<Activity>({participantId: participantId}).toArray();
+        return await this.db.collection(this.collection).find<Activity>({participantId: participantId},{projection: {"data.records": 0}}).toArray();
     }
 
     public async createActivity(activity: NewActivity): Promise<Activity> {
         const newActivity: Activity = {
             id: uuid(),
             participantId: activity.participantId,
-            time: activity.time,
+            time: dayjs().toISOString(),
             data: activity.data,
             applicationId: activity.applicationId,
             notes: activity.notes,

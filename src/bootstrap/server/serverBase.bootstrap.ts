@@ -53,7 +53,7 @@ export class ServerBaseBootstrap {
      * Define services
      */
     private authService = new AuthService(this.userDa);
-    private adminService = new AdminService(this.applicationDa);
+    private adminService = new AdminService(this.applicationDa, this.orgDa);
     private organisationService = new OrganisationService(this.orgDa, this.participantDa, this.applicationDa, this.employeeDa);
     private employeeService = new EmployeeService(this.employeeDa, this.userDa, this.orgDa);
     private participantService = new ParticipantService(this.participantDa, this.orgDa, this.employeeService);

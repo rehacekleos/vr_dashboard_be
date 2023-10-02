@@ -8,7 +8,7 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { Application, NewApplication } from "./application.model";
 import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 
-export class ApplicationController extends BaseController{
+export class ApplicationController extends BaseController {
     path = '/application';
 
     constructor(private applicationService: ApplicationService) {
@@ -20,6 +20,7 @@ export class ApplicationController extends BaseController{
         this.router.get('/', [authMiddleware, organisationMiddleware], this.getApplications);
         this.router.get('/:id', [authMiddleware], this.getApplication);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createApplication);
+        this.router.post('/:id/assign', [authMiddleware, organisationMiddleware], this.assignApplication);
         this.router.put('/:id/settings', [authMiddleware], this.updateSettings);
         this.router.delete('/:id', [authMiddleware], this.deleteApplication);
     }
@@ -30,7 +31,7 @@ export class ApplicationController extends BaseController{
             const result = await this.applicationService.getApplicationsForOrganisation(orgId);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -45,7 +46,7 @@ export class ApplicationController extends BaseController{
             const result = await this.applicationService.getApplication(applicationId);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -60,7 +61,22 @@ export class ApplicationController extends BaseController{
             const result = await this.applicationService.createApplication(app, orgId);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot create application.', e));
+        }
+    };
+
+    assignApplication = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const orgId = req.organisation.id;
+            const applicationId: string = req.params.id
+            const result = await this.applicationService.assignApplication(applicationId, orgId);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -76,7 +92,7 @@ export class ApplicationController extends BaseController{
             const result = await this.applicationService.updateSetting(applicationId, setting);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }
@@ -91,7 +107,7 @@ export class ApplicationController extends BaseController{
             const result = await this.applicationService.deleteApplication(applicationId);
             res.status(200).json(result);
         } catch (e) {
-            if (e instanceof HttpException){
+            if (e instanceof HttpException) {
                 next(e);
                 return;
             }

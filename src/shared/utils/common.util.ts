@@ -5,8 +5,8 @@ export function isEmpty(value: any){
     return value === null || value === undefined || (typeof value === 'string' && value.toString().trim() === "");
 }
 
-export function generateCode(): string {
-    const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
+export function generateCode(length = 12): string {
+    const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
     return nanoId();
 }
 

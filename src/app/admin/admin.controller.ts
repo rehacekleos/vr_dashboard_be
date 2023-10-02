@@ -18,11 +18,25 @@ export class AdminController extends BaseController {
 
     initRouter() {
         this.router.get('/applications', [authMiddleware, adminMiddleware], this.getAllApplications)
+        this.router.get('/organisations', [authMiddleware, adminMiddleware], this.getAllOrganisations)
     }
 
     getAllApplications = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const result = await this.adminService.getAllApplications();
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot get activities.', e));
+        }
+    };
+
+    getAllOrganisations = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const result = await this.adminService.getAllOrganisations();
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

@@ -24,6 +24,13 @@ export async function organisationMiddleware(request: OrganisationMiddlewareResp
 
             const employeeDa = EmployeeDataAccess.getInstance();
             const employee = await employeeDa.getEmployeeForOrgAndUser(organisationId, user.id);
+
+            // if user is superAdmin allow access
+            if (isEmptyAndNull(employee) && user.superAdmin === true){
+                request.organisation = organisation;
+                next();
+                return;
+            }
             if (isEmptyAndNull(employee)){
                 next(new HttpException(401, "The user does not have access to the organisation."));
                 return;

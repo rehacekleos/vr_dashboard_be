@@ -57,12 +57,13 @@ export class ParticipantService extends BaseService {
     }
 
     public async createParticipant(newParticipant: NewParticipant, employee: Employee): Promise<Participant> {
+        if (isEmptyAndNull(employee)){
+            throw new HttpException(400, "User is not an employee.");
+        }
+
         const participant = await this.participantDa.createParticipant(newParticipant, employee.organisationId);
-
         await this.employeeService.addParticipant(employee.id, participant.id);
-
         return participant;
-
     }
 
     public async updateParticipant(participant: Participant, user: User) {

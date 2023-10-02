@@ -11,4 +11,8 @@ export class ApplicationAssignmentDataAccess extends BaseDataAccess{
     async getAssignmentsByOrgId(orgId: string): Promise<ApplicationAssignment[]> {
         return await this.db.collection(this.collection).find<ApplicationAssignment>({organisationId: orgId}).toArray();
     }
+
+    async createAssignment(applicationId: string, orgId: string) {
+        await this.db.collection(this.collection).insertOne({organisationId: orgId, applicationId: applicationId});
+    }
 }
