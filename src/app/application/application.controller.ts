@@ -21,7 +21,7 @@ export class ApplicationController extends BaseController {
         this.router.get('/:id', [authMiddleware], this.getApplication);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createApplication);
         this.router.post('/:id/assign', [authMiddleware, organisationMiddleware], this.assignApplication);
-        this.router.put('/:id/settings', [authMiddleware], this.updateSettings);
+        this.router.patch('/:id/settings', [authMiddleware], this.updateSettings);
         this.router.delete('/:id', [authMiddleware], this.deleteApplication);
     }
 
@@ -88,7 +88,7 @@ export class ApplicationController extends BaseController {
         try {
             const user = req.user;
             const applicationId = req.params.id;
-            const setting: any = req.body;
+            const setting: any = req.body.settings;
             const result = await this.applicationService.updateSetting(applicationId, setting);
             res.status(200).json(result);
         } catch (e) {

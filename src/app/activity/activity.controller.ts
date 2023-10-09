@@ -19,7 +19,9 @@ export class ActivityController extends BaseController{
         this.router.get('/', [authMiddleware, organisationMiddleware], this.getActivities)
         this.router.get('/:id', [authMiddleware, organisationMiddleware], this.getActivity)
         this.router.get('/participant/:participantId', [authMiddleware, organisationMiddleware], this.getActivitiesForParticipant)
+        this.router.patch('/:id/note', [authMiddleware, organisationMiddleware], this.updateActivityNote)
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createActivity)
+        this.router.delete('/:id', [authMiddleware, organisationMiddleware], this.deleteActivity)
     }
 
     getActivities = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
@@ -77,6 +79,35 @@ export class ActivityController extends BaseController{
                 return;
             }
             next(new HttpException(400, 'Cannot create activity.', e));
+        }
+    };
+
+    updateActivityNote = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const activityId = req.params.id;
+            const newNote: string = req.body?.note;
+            const result = await this.activityService.updateActivityNote(activityId, newNote);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot update activity.', e));
+        }
+    };
+
+    deleteActivity = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const activityId = req.params.id;
+            const result = await this.activityService.deleteActivity(activityId);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot update activity.', e));
         }
     };
 }

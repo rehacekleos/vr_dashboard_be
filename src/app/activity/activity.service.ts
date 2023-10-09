@@ -61,5 +61,21 @@ export class ActivityService extends BaseService{
         return await this.activityDa.createActivity(body);
     }
 
+    async updateActivityNote(activityId: string, newNote: string){
+        const activity = await this.getActivity(activityId);
+        if (isEmptyAndNull(activity)){
+            throw new HttpException(400, "Activity not found");
+        }
 
+        await this.activityDa.updateNotes(activityId, newNote);
+    }
+
+    async deleteActivity(activityId: string) {
+        const activity = await this.getActivity(activityId);
+        if (isEmptyAndNull(activity)){
+            throw new HttpException(400, "Activity not found");
+        }
+
+        await this.activityDa.deleteActivity(activityId);
+    }
 }

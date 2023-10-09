@@ -24,8 +24,6 @@ export class SendActivity{
     notes: string;
 
     organisation_code: string;
-    application_identifier: string;
-    log_version: number;
     participantId?: string
 }
 
