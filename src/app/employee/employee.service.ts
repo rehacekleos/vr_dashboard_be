@@ -51,8 +51,7 @@ export class EmployeeService extends BaseService {
         if (isEmptyAndNull(org)) {
             throw new HttpException(400, 'Organisation not found');
         }
-        const employee =  await this.employeeDa.getEmployeeForOrgAndUser(orgId, userId);
-        return {...employee, user: user}
+        return  await this.employeeDa.getEmployeeForOrgAndUser(orgId, userId);
     }
 
     public async createEmployee(newEmpl: NewEmployee): Promise<Employee> {

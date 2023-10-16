@@ -15,14 +15,7 @@ export class ActivityService extends BaseService{
     }
 
     public async getActivities(orgId: string): Promise<Activity[]>{
-        const applications = await this.applicationService.getApplicationsForOrganisation(orgId);
-        if (applications.length < 1) {
-            return [];
-        }
-
-        const applicationIds = applications.map(a => a.id);
-
-        return await this.activityDa.getActivitiesForApplicationIds(applicationIds);
+        return await this.activityDa.getActivitiesForOrganisation(orgId);
     }
 
     public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {
@@ -58,7 +51,7 @@ export class ActivityService extends BaseService{
             }
         }
 
-        return await this.activityDa.createActivity(body);
+        return await this.activityDa.createActivity(body, orgId);
     }
 
     async updateActivityNote(activityId: string, newNote: string){

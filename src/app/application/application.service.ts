@@ -36,7 +36,6 @@ export class ApplicationService extends BaseService{
         if (assignments.find(a => a.applicationId === applicationId)){
             throw new HttpException(400, "Application is already assigned to organisation.");
         }
-
         await this.applicationAssigmentDa.createAssignment(applicationId, orgId);
     }
 

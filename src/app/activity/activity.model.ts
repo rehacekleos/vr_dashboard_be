@@ -7,6 +7,7 @@ export class Activity{
 
     participantId: string;
     applicationId: string;
+    organisationId: string;
 }
 
 export class NewActivity{
@@ -15,7 +16,7 @@ export class NewActivity{
     notes: string;
 
     applicationId: string;
-    participantId?: string
+    participantId?: string;
 }
 
 export class SendActivity{
@@ -33,7 +34,7 @@ export class VRData{
     start: string;
     end: string;
     log_rate: number;
-    records: Record[];
+    records: Record[] | string;
     custom_data?: any;
 }
 

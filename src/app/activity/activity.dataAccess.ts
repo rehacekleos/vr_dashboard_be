@@ -4,6 +4,7 @@ import { Activity, NewActivity } from "./activity.model";
 import { v4 as uuid } from "uuid";
 import { Participant } from "../participant/participant.model";
 import dayjs from "dayjs";
+import { sortDate } from "../../shared/utils/common.util";
 
 export class ActivityDataAccess extends BaseDataAccess {
     constructor() {
@@ -11,22 +12,31 @@ export class ActivityDataAccess extends BaseDataAccess {
     }
 
     public async getActivityById(id: string): Promise<Activity> {
-        return await this.db.collection(this.collection).findOne<Activity>({id: id});
+        const res =  await this.db.collection(this.collection).findOne<Activity>({id: id});
+        return this.decompressVRData(res);
+    }
+
+    async getActivitiesForOrganisation(orgId: string) {
+        const res =  await this.db.collection(this.collection).find<Activity>({organisationId: orgId}, {projection: {"data.records": 0}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
     public async getActivitiesForApplication(applicationId: string): Promise<Activity[]> {
-        return await this.db.collection(this.collection).find<Activity>({applicationId: applicationId}).toArray();
+        const res =  await this.db.collection(this.collection).find<Activity>({applicationId: applicationId}, {projection: {"data.records": 0}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
     public async getActivitiesForApplicationIds(applicationIds: string[]): Promise<Activity[]> {
-        return await this.db.collection(this.collection).find<Activity>({applicationId: {$in: applicationIds}}, {projection: {"data.records": 0}}).toArray();
+        const res =  await this.db.collection(this.collection).find<Activity>({applicationId: {$in: applicationIds}}, {projection: {"data.records": 0}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
     public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {
-        return await this.db.collection(this.collection).find<Activity>({participantId: participantId},{projection: {"data.records": 0}}).toArray();
+        const res = await this.db.collection(this.collection).find<Activity>({participantId: participantId},{projection: {"data.records": 0}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
-    public async createActivity(activity: NewActivity): Promise<Activity> {
+    public async createActivity(activity: NewActivity, orgId: string): Promise<Activity> {
         const newActivity: Activity = {
             id: uuid(),
             participantId: activity.participantId,
@@ -34,10 +44,13 @@ export class ActivityDataAccess extends BaseDataAccess {
             data: activity.data,
             applicationId: activity.applicationId,
             notes: activity.notes,
-            anonymous: activity.anonymous
+            anonymous: activity.anonymous,
+            organisationId: orgId
         }
 
-        const res = await this.db.collection(this.collection).insertOne(newActivity)
+        const compressActivity = this.compressVRData(newActivity)
+
+        const res = await this.db.collection(this.collection).insertOne(compressActivity)
         if (res.acknowledged === false) {
             throw new Error("Cannot save activity into DB.")
         }
@@ -58,6 +71,20 @@ export class ActivityDataAccess extends BaseDataAccess {
         if (res.acknowledged === false) {
             throw new Error("Cannot delete activity from DB.")
         }
+    }
+
+    private compressVRData(activity: Activity): Activity{
+        const copy = {...activity};
+        copy.data.records = JSON.stringify(copy.data.records);
+        return copy;
+    }
+
+    private decompressVRData(activity: Activity): Activity{
+        const copy = {...activity};
+        if (copy.data.records) {
+            copy.data.records = JSON.parse(copy.data.records as string);
+        }
+        return copy;
     }
 
 }
