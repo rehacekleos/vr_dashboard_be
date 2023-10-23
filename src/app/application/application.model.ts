@@ -10,3 +10,7 @@ export class NewApplication {
     identifier: string;
     setting: any;
 }
+
+export class AddModule{
+    module: string;
+}

@@ -51,4 +51,11 @@ export class ApplicationDataAccess extends BaseDataAccess {
         }
     }
 
+    async updateApplicationModule(applicationId: string, hasModule: boolean) {
+        const res = await this.db.collection(this.collection).findOneAndUpdate({id: applicationId}, {$set: {hasModule: hasModule}}, {returnDocument: "after"});
+        if (!res.ok){
+            throw new Error("Cannot update application module.")
+        }
+        return res.value as any as Application
+    }
 }

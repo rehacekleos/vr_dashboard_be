@@ -5,7 +5,7 @@ import { ApplicationService } from "./application.service";
 import { AuthMiddlewareResponse, OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express, { application } from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
-import { Application, NewApplication } from "./application.model";
+import { AddModule, NewApplication } from "./application.model";
 import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 
 export class ApplicationController extends BaseController {
@@ -21,6 +21,7 @@ export class ApplicationController extends BaseController {
         this.router.get('/:id', [authMiddleware], this.getApplication);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createApplication);
         this.router.post('/:id/assign', [authMiddleware, organisationMiddleware], this.assignApplication);
+        this.router.put('/:id/add/module', [authMiddleware], this.addModule);
         this.router.patch('/:id/settings', [authMiddleware], this.updateSettings);
         this.router.delete('/:id', [authMiddleware], this.deleteApplication);
     }
@@ -81,6 +82,22 @@ export class ApplicationController extends BaseController {
                 return;
             }
             next(new HttpException(400, 'Cannot create application.', e));
+        }
+    };
+
+    addModule = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const user = req.user;
+            const applicationId = req.params.id;
+            const module: AddModule = req.body;
+            const result = await this.applicationService.addModule(applicationId, module);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException) {
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot add application module.', e));
         }
     };
 

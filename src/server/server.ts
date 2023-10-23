@@ -8,6 +8,7 @@ import { ConfigFactory } from '../configs/factories/config.factory';
 import swaggerUi from "swagger-ui-express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import path from "path";
 
 export class Server {
     public app: express.Application
@@ -15,8 +16,28 @@ export class Server {
 
     constructor(port, controllers: BaseController[]) {
         this.app = express();
-        this.app.use(helmet());
+        this.app.use(cors());
         this.app.use(serverMiddleware);
+
+        this.app.use("/public/modules/:applicationId/*", (req, res, next) => {
+            let applicationId = req.params.applicationId
+            if (req.params[0]){
+                applicationId = applicationId + `/${req.params[0]}`;
+            }
+            express.static(path.resolve(__dirname, "../../public/modules/", applicationId), {
+                setHeaders: (res, path) => {
+                    if (path.endsWith(".gz")) {
+                        // add a HTTP response header for gzip
+                        res.set("Content-Encoding", "gzip");
+                    }
+                    if (path.includes("wasm")) {
+                        // add a HTTP response header for wasm
+                        res.set("Content-Type", "application/wasm");
+                    }
+                }
+            })(req, res, next);
+        });
+
 
         this.port = port;
 
