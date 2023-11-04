@@ -18,13 +18,23 @@ export class Server {
         this.app = express();
         this.app.use(cors());
         this.app.use(serverMiddleware);
+        this.port = port;
 
-        this.app.use("/public/modules/:applicationId/*", (req, res, next) => {
+        this.app.use(bodyParser.json({limit: "100mb"}));
+        this.app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:50000}));
+
+        this.app.use(express.json());
+
+        this.app.use("/public/modules/:applicationId/:logVersion/*", (req, res, next) => {
+
             let applicationId = req.params.applicationId
+            let log_version = req.params.logVersion
+            let assets = ""
             if (req.params[0]){
-                applicationId = applicationId + `/${req.params[0]}`;
+                assets = `/${req.params[0]}`;
             }
-            express.static(path.resolve(__dirname, "../../public/modules/", applicationId), {
+
+            express.static(path.resolve(__dirname, `../../public/modules/${applicationId}/${log_version}${assets}`), {
                 setHeaders: (res, path) => {
                     if (path.endsWith(".gz")) {
                         // add a HTTP response header for gzip
@@ -37,15 +47,6 @@ export class Server {
                 }
             })(req, res, next);
         });
-
-
-        this.port = port;
-
-        this.app.use(bodyParser.json({limit: "100mb"}));
-        this.app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:50000}));
-
-        this.app.use(express.json());
-        this.app.use(cors());
 
         this.initControllers(controllers);
         this.app.use(errorHandlerMiddleware);

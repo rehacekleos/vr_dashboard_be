@@ -2,9 +2,6 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { Application, NewApplication } from "./application.model";
 import { v4 as uuid } from "uuid";
-import { generateCode } from "../../shared/utils/common.util";
-import { Activity } from "../activity/activity.model";
-
 export class ApplicationDataAccess extends BaseDataAccess {
     constructor() {
         super(CollectionName.APPLICATIONS);
@@ -25,7 +22,8 @@ export class ApplicationDataAccess extends BaseDataAccess {
     public async createApplication(application: NewApplication): Promise<Application> {
         const newApplication: Application = {
             id: uuid(),
-            ...application
+            ...application,
+            modules: []
         }
 
         const res = await this.db.collection(this.collection).insertOne(newApplication)
@@ -51,8 +49,8 @@ export class ApplicationDataAccess extends BaseDataAccess {
         }
     }
 
-    async updateApplicationModule(applicationId: string, hasModule: boolean) {
-        const res = await this.db.collection(this.collection).findOneAndUpdate({id: applicationId}, {$set: {hasModule: hasModule}}, {returnDocument: "after"});
+    async updateApplicationModule(applicationId: string, moduleLogVersion: string) {
+        const res = await this.db.collection(this.collection).findOneAndUpdate({id: applicationId}, {$addToSet: {modules: moduleLogVersion} as any}, {returnDocument: "after"});
         if (!res.ok){
             throw new Error("Cannot update application module.")
         }

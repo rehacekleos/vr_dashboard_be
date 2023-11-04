@@ -2,7 +2,7 @@ import { BaseService } from "../../shared/services/Base.service";
 import { ApplicationDataAccess } from "./application.dataAccess";
 import { AddModule, Application, NewApplication } from "./application.model";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
-import { HttpException } from "../../shared/exceptions/HttpException";
+import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { ApplicationAssignmentDataAccess } from "../application_assignment/application_assignment_data_access";
 import AdmZip from "adm-zip";
@@ -61,6 +61,9 @@ export class ApplicationService extends BaseService{
     }
 
     async addModule(applicationId: string, module: AddModule) {
+        if (isEmptyAndNull(module.module) || isEmptyAndNull(module.log_version)){
+            throw new WrongBody("Module");
+        }
         const app = await this.applicationDa.getApplication(applicationId);
         if (isEmptyAndNull(app)){
             throw new HttpException(400, "Application not found");
@@ -68,12 +71,12 @@ export class ApplicationService extends BaseService{
         const buffer = Buffer.from(module.module, "base64");
         try {
             const zip = new AdmZip(buffer);
-            zip.extractAllTo(path.resolve(__dirname, `../../../public/modules/${applicationId}`), true);
+            zip.extractAllTo(path.resolve(__dirname, `../../../public/modules/${applicationId}/${module.log_version}`), true);
         } catch (e) {
             throw new HttpException(400, "Cannot uncompressed zip file.")
         }
 
-        await this.applicationDa.updateApplicationModule(applicationId, true)
+        await this.applicationDa.updateApplicationModule(applicationId, module.log_version);
 
     }
 }

@@ -3,6 +3,7 @@ export class Application {
     identifier: string;
     name: string;
     setting: any;
+    modules: string[]
 }
 
 export class NewApplication {
@@ -13,4 +14,5 @@ export class NewApplication {
 
 export class AddModule{
     module: string;
+    log_version: string;
 }

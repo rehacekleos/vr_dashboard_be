@@ -30,7 +30,7 @@ export class SendActivity{
 
 export class VRData{
     application_identifier: string;
-    log_version: number;
+    log_version: string;
     start: string;
     end: string;
     log_rate: number;
