@@ -14,8 +14,12 @@ export class ActivityService extends BaseService{
         super();
     }
 
-    public async getActivities(orgId: string): Promise<Activity[]>{
-        return await this.activityDa.getActivitiesForOrganisation(orgId);
+    public async getActivities(orgId: string, filters: { ids: string[] }): Promise<Activity[]>{
+        if (filters.ids){
+            return await this.activityDa.getActivitiesForOrganisationByIds(orgId, filters.ids);
+        } else {
+            return await this.activityDa.getActivitiesForOrganisation(orgId);
+        }
     }
 
     public async getActivitiesForParticipant(participantId: string): Promise<Activity[]> {

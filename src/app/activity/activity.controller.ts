@@ -27,7 +27,8 @@ export class ActivityController extends BaseController{
     getActivities = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const orgId = req.organisation.id;
-            const result = await this.activityService.getActivities(orgId);
+            const filters = req.query as any;
+            const result = await this.activityService.getActivities(orgId, filters);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

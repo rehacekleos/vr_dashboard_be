@@ -21,6 +21,11 @@ export class ActivityDataAccess extends BaseDataAccess {
         return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
+    async getActivitiesForOrganisationByIds(orgId: string, ids: string[]) {
+        const res =  await this.db.collection(this.collection).find<Activity>({organisationId: orgId, id: {$in: ids}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
+    }
+
     public async getActivitiesForApplication(applicationId: string): Promise<Activity[]> {
         const res =  await this.db.collection(this.collection).find<Activity>({applicationId: applicationId}, {projection: {"data.records": 0}}).toArray();
         return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
@@ -86,5 +91,6 @@ export class ActivityDataAccess extends BaseDataAccess {
         }
         return copy;
     }
+
 
 }
