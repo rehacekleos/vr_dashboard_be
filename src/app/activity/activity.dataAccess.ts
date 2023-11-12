@@ -1,6 +1,6 @@
 import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
-import { Activity, NewActivity } from "./activity.model";
+import { Activity, CompressedActivity, NewActivity } from "./activity.model";
 import { v4 as uuid } from "uuid";
 import { Participant } from "../participant/participant.model";
 import dayjs from "dayjs";
@@ -78,16 +78,16 @@ export class ActivityDataAccess extends BaseDataAccess {
         }
     }
 
-    private compressVRData(activity: Activity): Activity{
-        const copy = {...activity};
+    private compressVRData(activity: Activity): CompressedActivity{
+        const copy: CompressedActivity = {...activity};
         copy.data.records = JSON.stringify(copy.data.records);
         return copy;
     }
 
-    private decompressVRData(activity: Activity): Activity{
+    private decompressVRData(activity: CompressedActivity): Activity{
         const copy = {...activity};
         if (copy.data.records) {
-            copy.data.records = JSON.parse(copy.data.records as string);
+            copy.data.records = JSON.parse(copy.data.records);
         }
         return copy;
     }

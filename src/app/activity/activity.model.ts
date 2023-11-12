@@ -10,6 +10,10 @@ export class Activity{
     organisationId: string;
 }
 
+export class CompressedActivity extends Activity{
+    data: any;
+}
+
 export class NewActivity{
     data: VRData;
     anonymous: boolean;
@@ -34,7 +38,7 @@ export class VRData{
     start: string;
     end: string;
     log_rate: number;
-    records: Record[] | string;
+    records: Record[];
     custom_data?: any;
 }
 
@@ -42,11 +46,11 @@ export class Record{
     timestamp: string;
     tick: number;
     environment: string;
-    head: PositionAndRotation;
+    head?: PositionAndRotation;
     left_hand?: PositionAndRotation;
     right_hand?: PositionAndRotation;
     custom_data?: any;
-    event?: string[]
+    events?: string[]
 }
 
 export class PositionAndRotation {

@@ -61,7 +61,7 @@ export class ApplicationService extends BaseService{
     }
 
     async addModule(applicationId: string, module: AddModule) {
-        if (isEmptyAndNull(module.module) || isEmptyAndNull(module.log_version)){
+        if (isEmptyAndNull(module.module) || isEmptyAndNull(module.module_version)){
             throw new WrongBody("Module");
         }
         const app = await this.applicationDa.getApplication(applicationId);
@@ -71,12 +71,12 @@ export class ApplicationService extends BaseService{
         const buffer = Buffer.from(module.module, "base64");
         try {
             const zip = new AdmZip(buffer);
-            zip.extractAllTo(path.resolve(__dirname, `../../../public/modules/${applicationId}/${module.log_version}`), true);
+            zip.extractAllTo(path.resolve(__dirname, `../../../public/modules/${applicationId}/${module.module_version}`), true);
         } catch (e) {
             throw new HttpException(400, "Cannot uncompressed zip file.")
         }
 
-        await this.applicationDa.updateApplicationModule(applicationId, module.log_version);
+        await this.applicationDa.updateApplicationModule(applicationId, module.module_version);
 
     }
 }

@@ -31,6 +31,8 @@ import { ActivityController } from "../../app/activity/activity.controller";
 import { AdminService } from "../../app/admin/admin.service";
 import { AdminController } from "../../app/admin/admin.controller";
 import { ApplicationAssignmentDataAccess } from "../../app/application_assignment/application_assignment_data_access";
+import { PublicService } from "../../app/public/public.service";
+import { PublicController } from "../../app/public/public.controller";
 
 export class ServerBaseBootstrap {
 
@@ -60,6 +62,7 @@ export class ServerBaseBootstrap {
     private invitationService = new InvitationService(this.invitationDa, this.userDa, this.employeeService);
     private applicationService = new ApplicationService(this.applicationDa, this.applicationAssignmentDa, this.orgDa);
     private activityService = new ActivityService(this.activityDa, this.participantDa, this.applicationService);
+    private publicService = new PublicService(this.organisationService, this.applicationService, this.activityService);
 
 
     /**
@@ -74,7 +77,8 @@ export class ServerBaseBootstrap {
         new InvitationController(this.invitationService),
         new EmployeeController(this.employeeService),
         new ActivityController(this.activityService),
-        new AdminController(this.adminService)
+        new AdminController(this.adminService),
+        new PublicController(this.publicService)
     ]
 
     constructor() {

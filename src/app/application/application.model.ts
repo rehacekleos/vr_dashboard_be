@@ -14,5 +14,5 @@ export class NewApplication {
 
 export class AddModule{
     module: string;
-    log_version: string;
+    module_version: string;
 }
