@@ -3,7 +3,7 @@ export class NewParticipant{
     name?: string;
     surname?: string;
     description?: string;
-    birthday?: number;
+    birthday?: string;
     img?: string;
 }
 
