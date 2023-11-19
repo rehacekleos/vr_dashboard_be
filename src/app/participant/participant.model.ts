@@ -4,6 +4,7 @@ export class NewParticipant{
     surname?: string;
     description?: string;
     birthday?: string;
+    sex?: string;
     img?: string;
 }
 
