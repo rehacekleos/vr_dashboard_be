@@ -4,7 +4,7 @@ import { EmployeeDataAccess } from "../employee/employee.dataAccess";
 import { EmployeeService } from "../employee/employee.service";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
-import { NewParticipant, Participant } from "./participant.model";
+import { NewParticipant, Participant, ParticipantMetadata, ParticipantsMetadataList } from "./participant.model";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { User } from "../user/user.model";
 import { Employee } from "../employee/employee.model";
@@ -93,5 +93,17 @@ export class ParticipantService extends BaseService {
         }
 
         await this.participantDa.deleteParticipant(id);
+    }
+
+    async GetParticipantsMetadata(orgCode: string): Promise<ParticipantsMetadataList> {
+        const participants =  await this.participantDa.getParticipantsForOrganisation(orgCode);
+        const metadata: ParticipantMetadata[] = participants.map(p => {
+            return {
+                id: p.id,
+                nickname: p.nickname
+            }
+        });
+
+        return {participants: metadata};
     }
 }

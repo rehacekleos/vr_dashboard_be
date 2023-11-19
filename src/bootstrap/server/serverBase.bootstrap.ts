@@ -62,7 +62,7 @@ export class ServerBaseBootstrap {
     private invitationService = new InvitationService(this.invitationDa, this.userDa, this.employeeService);
     private applicationService = new ApplicationService(this.applicationDa, this.applicationAssignmentDa, this.orgDa);
     private activityService = new ActivityService(this.activityDa, this.participantDa, this.applicationService);
-    private publicService = new PublicService(this.organisationService, this.applicationService, this.activityService);
+    private publicService = new PublicService(this.organisationService, this.applicationService, this.activityService, this.participantService);
 
 
     /**

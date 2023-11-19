@@ -25,6 +25,8 @@ export class Server {
 
         this.app.use(express.json());
 
+        this.app.use("/docs", express.static(path.resolve(__dirname , "../../docs")));
+
         this.app.use("/public/modules/:applicationId/:logVersion/*", (req, res, next) => {
 
             let applicationId = req.params.applicationId

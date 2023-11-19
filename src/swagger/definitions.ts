@@ -34,10 +34,8 @@ export const swaggerJSDocOptions: OAS3Options = {
  * tags:
  *  - name: Default
  *    description:
- *  - name: Auth
- *    description: Login and register
- *  - name: Organisation
- *    description: Organisation
+ *  - name: Public
+ *    description: Public
  */
 
 /**
@@ -62,4 +60,24 @@ export const swaggerJSDocOptions: OAS3Options = {
  *     in: path
  *     description: ID of organisation
  *     required: true
+ *   applicationIdentifier:
+ *     name: applicationIdentifier
+ *     in: path
+ *     description: Identifier of application
+ *     required: true
+ *   orgCode:
+ *     name: orgCode
+ *     in: path
+ *     description: Code of organisation
+ *     required: true
+ *   activityId:
+ *     name: activityId
+ *     in: path
+ *     description: ID of activity
+ *     required: true
+ *   environmentId:
+ *     name: environmentId
+ *     in: path
+ *     description: ID of environment
+ *     required: false
  */

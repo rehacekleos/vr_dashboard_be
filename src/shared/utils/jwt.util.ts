@@ -2,6 +2,9 @@ import jwt from 'jsonwebtoken';
 import { ConfigFactory } from "../../configs/factories/config.factory";
 import { HttpException } from "../exceptions/HttpException";
 
+/**
+ * Jwt utils
+ */
 export class JwtUtil{
 
     private static instance: JwtUtil;
@@ -21,7 +24,7 @@ export class JwtUtil{
     }
 
     /**
-     *
+     * Create jwt token.
      * @param payload
      * @param duration expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js) . Eg: 60, “2 days”, “10h”, “7d”
      */
@@ -38,6 +41,10 @@ export class JwtUtil{
     }
 
 
+    /**
+     * Verify if token is valid and signed with same issuer.
+     * @param token
+     */
     public verifyToken<T>(token: string): T{
         const conf: jwt.VerifyOptions = {
             issuer: this.issuer

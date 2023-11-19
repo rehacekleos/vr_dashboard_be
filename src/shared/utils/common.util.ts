@@ -4,10 +4,18 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc)
 
+/**
+ * Check if value is null, undefined or empty string
+ * @param value
+ */
 export function isEmpty(value: any){
     return value === null || value === undefined || (typeof value === 'string' && value.toString().trim() === "");
 }
 
+/**
+ * Generate code.
+ * @param length Standard generate code of length 12 char
+ */
 export function generateCode(length = 12): string {
     const nanoId = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', length)
     return nanoId();
@@ -29,6 +37,12 @@ export function isEmptyAndNull(value: any) {
     return _.isNil(value) || isNaN(value);
 }
 
+/**
+ * Check if entered dates are valid
+ * @param date
+ * @returns True if all dates are valid
+ * @throws "Date is not valid" if some of the date is not valid
+ */
 export function isDateValid(...date: string[]): boolean {
     const args = [...date];
     for (const arg of args) {

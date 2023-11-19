@@ -18,30 +18,6 @@ export class AuthController extends BaseController{
         this.router.post('/register', this.register);
     }
 
-    /**
-     * @swagger
-     * /auth/login:
-     *  post:
-     *      tags:
-     *          - Auth
-     *      description: Login user
-     *      requestBody:
-     *          required: true
-     *          description: Login user into application
-     *          content:
-     *              application/json:
-     *                  schema:
-     *                      $ref: '#/definitions/LoginUser'
-     *      responses:
-     *          200:
-     *              description: Successful operation
-     *          400:
-     *               description: Error
-     *
-     * @param req
-     * @param res
-     * @param next
-     */
     login = async (req: express.Request, res: express.Response, next) => {
         try {
             const login: LoginUser = req.body

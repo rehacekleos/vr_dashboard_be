@@ -1,9 +1,8 @@
-# NodeJS structure template
+# VR dashboard server
 
-This is template of NodeJS application.
-Template contains 3 layer architecture and connection to MongoDb database
+This server is used to record and retrieve Vr data from various applications. The server supports multi-organization.
 
-## Template Structure
+## Application Structure
 
 #### `/app` Application logic
 #### `/bootstrap` Defining different types of server
@@ -23,6 +22,14 @@ Open [http://localhost:8000/health-check](http://localhost:8000/health-check) to
 ### `npm run build`
 
 Builds the app for production to the `/build` folder.
+
+### `npm run generate:docs`
+
+Builds the docs to the `/docs` folder.
+
+## Swagger
+
+Api swagger is available on route: `/api/docs`
 
 ## Environmental variables
 

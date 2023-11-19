@@ -5,7 +5,6 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { AuthMiddlewareResponse } from "../../models/middlewares.model";
 import { OrganisationService } from "./organisation.service";
 import { NewOrganisation } from "./organisation.model";
-import { userInfo } from "os";
 
 export class OrganisationController extends BaseController {
     path = '/organisation';
@@ -22,21 +21,6 @@ export class OrganisationController extends BaseController {
         this.router.delete('/:organisationId', [authMiddleware], this.deleteOrganisation);
     }
 
-    /**
-     * @swagger
-     * /organisation:
-     *  get:
-     *      description: Get organisations for User
-     *      security:
-     *        - bearerAuth: []
-     *      tags:
-     *        - Organisation
-     *      responses:
-     *          200:
-     *              description: Successful operation
-     *          400:
-     *               description: Error
-     */
     getOrganisationsForUser = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
             const user = req.user;
@@ -51,23 +35,6 @@ export class OrganisationController extends BaseController {
         }
     };
 
-    /**
-     * @swagger
-     * /organisation/{organisationId}:
-     *  get:
-     *      description: Get organisation by ID
-     *      security:
-     *        - bearerAuth: []
-     *      tags:
-     *        - Organisation
-     *      parameters:
-     *        - $ref: '#/parameters/organisationId'
-     *      responses:
-     *          200:
-     *              description: Successful operation
-     *          400:
-     *               description: Error
-     */
     getOrganisationsById = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
             const user = req.user;
@@ -98,23 +65,6 @@ export class OrganisationController extends BaseController {
         }
     };
 
-    /**
-     * @swagger
-     * /organisation/{organisationId}:
-     *  delete:
-     *      description: Delete organisation by ID
-     *      security:
-     *        - bearerAuth: []
-     *      tags:
-     *        - Organisation
-     *      parameters:
-     *        - $ref: '#/parameters/organisationId'
-     *      responses:
-     *          200:
-     *              description: Successful operation
-     *          400:
-     *               description: Error
-     */
     deleteOrganisation = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
             const user = req.user;
