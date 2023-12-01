@@ -8,7 +8,7 @@
     "dev": "nodemon -r dotenv/config -x ts-node src/index.ts",
     "generate:docs": "typedoc",
     "build": "tsc",
-    "zip:deploy": "zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
+    "zip:deploy": "tsc && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
   },
   "keywords": [],
   "author": "Leos Rehacek",
