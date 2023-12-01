@@ -1,7 +1,7 @@
 import { BaseService } from "../../shared/services/Base.service";
 import { ActivityDataAccess } from "./activity.dataAccess";
 import { ApplicationService } from "../application/application.service";
-import { Activity, NewActivity } from "./activity.model";
+import { Activity, NewActivity, SendActivity } from "./activity.model";
 import { ParticipantDataAccess } from "../participant/participant.dataAccess";
 import { HttpException, NoRequiredParameter, WrongBody } from "../../shared/exceptions/HttpException";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
@@ -50,12 +50,39 @@ export class ActivityService extends BaseService{
                 throw new HttpException(400, "Participant not exists");
             }
             const participant = participants.find(p => p.id = body.participantId);
-            if (isEmptyAndNull(application)) {
+            if (isEmptyAndNull(participant)) {
                 throw new HttpException(400, "Participant not exists");
             }
         }
 
         return await this.activityDa.createActivity(body, orgId);
+    }
+
+    async createSendActivity(activity: SendActivity, applicationId: string, organisationId: string){
+        if (!activity.anonymous) {
+            if (isEmptyAndNull(activity.participantId)){
+                throw new WrongBody('Activity')
+            }
+
+            const participants = await this.participantDa.getParticipantsForOrganisation(organisationId);
+            if (participants.length < 1) {
+                throw new HttpException(400, "Participant not exists");
+            }
+            const participant = participants.find(p => p.id = activity.participantId);
+            if (isEmptyAndNull(participant)) {
+                throw new HttpException(400, "Participant not exists");
+            }
+        }
+
+        const newActivity: NewActivity = {
+            data: activity.data,
+            participantId: activity.participantId,
+            anonymous: activity.anonymous,
+            notes: "",
+            applicationId: applicationId
+        }
+
+        return await this.activityDa.createActivity(newActivity, organisationId);
     }
 
     async updateActivityNote(activityId: string, newNote: string){

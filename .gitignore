@@ -6,8 +6,9 @@
 # Node artifact files
 node_modules/
 dist/
-public/
 build/
+
+deploy-code.zip
 
 # Compiled Java class files
 *.class
@@ -49,3 +50,4 @@ Thumbs.db
 *.mov
 *.wmv
 
+/public/

@@ -54,6 +54,77 @@ export const swaggerJSDocOptions: OAS3Options = {
  *         type: string
  *       password:
  *         type: string
+ *   VrData:
+ *     required:
+ *       - application_identifier
+ *       - log_version
+ *       - start
+ *       - end
+ *       - log_rate
+ *       - records
+ *     properties:
+ *       application_identifier:
+ *         type: string
+ *       log_version:
+ *         type: string
+ *       start:
+ *         type: string
+ *       end:
+ *         type: string
+ *       log_rate:
+ *         type: number
+ *       records:
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/Record'
+ *       custom_data:
+ *         type: object
+ *   Record:
+ *     required:
+ *       - timestamp
+ *       - tick
+ *       - environment
+ *     properties:
+ *       timestamp:
+ *         type: string
+ *       tick:
+ *         type: number
+ *       environment:
+ *         type: string
+ *       head:
+ *         $ref: '#/definitions/PositionAndRotation'
+ *       left_hand:
+ *         $ref: '#/definitions/PositionAndRotation'
+ *       right_hand:
+ *         $ref: '#/definitions/PositionAndRotation'
+ *       custom_data:
+ *         type: object
+ *       events:
+ *         type: array
+ *         items:
+ *           type: string
+ *   PositionAndRotation:
+ *     required:
+ *       - position
+ *       - rotation
+ *     properties:
+ *       position:
+ *         $ref: '#/definitions/Axis'
+ *       rotation:
+ *         $ref: '#/definitions/Axis'
+ *   Axis:
+ *     required:
+ *       - x
+ *       - y
+ *       - z
+ *     properties:
+ *       x:
+ *         type: number
+ *       y:
+ *         type: number
+ *       z:
+ *         type: number
+ *
  */
 
 /**
@@ -84,4 +155,24 @@ export const swaggerJSDocOptions: OAS3Options = {
  *     in: path
  *     description: ID of environment
  *     required: false
+ *   sendActivityBody:
+ *     name: activity
+ *     in: body
+ *     required: true
+ *     description: New Activity
+ *     schema:
+ *       type: object
+ *       required:
+ *         - data
+ *         - anonymous
+ *         - organisation_code
+ *       properties:
+ *         data:
+ *           $ref: '#/definitions/VrData'
+ *         anonymous:
+ *           type: boolean
+ *         organisation_code:
+ *           type: string
+ *         participantId:
+ *           type: string
  */

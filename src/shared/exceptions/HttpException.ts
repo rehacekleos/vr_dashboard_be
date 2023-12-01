@@ -25,7 +25,11 @@ export class BadParameter extends HttpException{
 }
 
 export class WrongBody extends HttpException{
-    constructor(model: string) {
-        super(400, `${model} has wrong body model.`);
+    constructor(model: string, message?: string) {
+        let m = `${model} has wrong body model.`;
+        if (message){
+            m += ` ${message}`;
+        }
+        super(400, m);
     }
 }
