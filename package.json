@@ -4,10 +4,11 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "start": "tsc && node --max_old_space_size=200 index.js",
+    "start": "node --max_old_space_size=400 build/index.js",
     "dev": "nodemon -r dotenv/config -x ts-node src/index.ts",
     "generate:docs": "typedoc",
-    "build": "tsc"
+    "build": "tsc",
+    "zip:deploy": "zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
   },
   "keywords": [],
   "author": "Leos Rehacek",

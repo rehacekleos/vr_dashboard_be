@@ -12,6 +12,10 @@ export const swaggerJSDocOptions: OAS3Options = {
                 url: 'http://localhost:8080',
                 description: 'Localhost',
             },
+            {
+                url: 'https://api.vr-dashboard.leosrehacek.com',
+                description: 'production',
+            },
         ],
         components: {
             securitySchemes: {
@@ -25,7 +29,7 @@ export const swaggerJSDocOptions: OAS3Options = {
         }
     },
 
-    apis: ['./**/*.ts'],
+    apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js'],
 };
 
 
