@@ -5,6 +5,9 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import { swaggerJSDocOptions } from "../../swagger/definitions";
 
+/**
+ * Default Controller
+ */
 export class DefaultController extends BaseController {
     path = '/';
 
@@ -21,11 +24,18 @@ export class DefaultController extends BaseController {
         this.router.use('/api/docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec))
     }
 
+    /**
+     * Redirect user to /api/docs
+     * @param req
+     * @param res
+     */
     indexHandler = async (req, res) => {
         res.redirect('/api/docs');
     };
 
     /**
+     * Returning health of the server
+     *
      * @swagger
      *
      * /health-check:

@@ -1,13 +1,12 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { ActivityService } from "../activity/activity.service";
-import { authMiddleware } from "../../shared/middlewares/auth.middleware";
-import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
-import { OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
-import { NewActivity, SendActivity } from "../activity/activity.model";
+import { SendActivity } from "../activity/activity.model";
 import { PublicService } from "./public.service";
 
+/**
+ * Public Controller
+ */
 export class PublicController extends BaseController{
     path = '/public'
 
@@ -24,6 +23,8 @@ export class PublicController extends BaseController{
     }
 
     /**
+     * Handle request for getting VrData
+     *
      * @swagger
      *
      * /public/vr-data/{applicationIdentifier}/{orgCode}/{activityId}/{environmentId}:
@@ -42,7 +43,7 @@ export class PublicController extends BaseController{
      *          400:
      *               description: Error
      */
-    getActivityVrData = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+    getActivityVrData = async (req: express.Request, res: express.Response, next) => {
         try {
             const applicationIdentifier = req.params.applicationIdentifier;
             const orgCode = req.params.orgCode;
@@ -60,6 +61,8 @@ export class PublicController extends BaseController{
     };
 
     /**
+     * Handle request for getting Participants metadata
+     *
      * @swagger
      *
      * /public/participants/{applicationIdentifier}/{orgCode}:
@@ -76,7 +79,7 @@ export class PublicController extends BaseController{
      *          400:
      *               description: Error
      */
-    getParticipants = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+    getParticipants = async (req: express.Request, res: express.Response, next) => {
         try {
             const applicationIdentifier = req.params.applicationIdentifier;
             const orgCode = req.params.orgCode;
@@ -92,6 +95,8 @@ export class PublicController extends BaseController{
     };
 
     /**
+     * Handle request for sending new Activity
+     *
      * @swagger
      *
      * /public/vr-data/{applicationIdentifier}:
@@ -108,7 +113,7 @@ export class PublicController extends BaseController{
      *          400:
      *               description: Error
      */
-    sendNewActivity = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+    sendNewActivity = async (req: express.Request, res: express.Response, next) => {
         try {
             const applicationIdentifier = req.params.applicationIdentifier;
             const activity: SendActivity = req.body;

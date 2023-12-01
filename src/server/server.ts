@@ -25,18 +25,47 @@ export class Server {
 
         this.app.use(express.json());
 
-        this.app.use("/docs", express.static(path.resolve(__dirname , "../../docs")));
+        this.setAppJsDocs();
 
-        this.app.use("/public/modules/:applicationId/:logVersion/*", (req, res, next) => {
+        this.setWebGLModuleHosting();
+
+        this.initControllers(controllers);
+        this.app.use(errorHandlerMiddleware);
+    }
+
+    /**
+     * Setting JSDocs on /docs endpoint
+     * @private
+     */
+    private setAppJsDocs(){
+        this.app.use("/docs", express.static(path.resolve(__dirname , "../../docs")));
+    }
+
+    /**
+     * Setting hosting for WebGL application modules
+     *
+     * Modules are available at /public/modules/:applicationId/:moduleVersion endpoint
+     * @private
+     *
+     * @swagger
+     *
+     * /public/modules/{applicationId}/{moduleVersion}:
+     *  get:
+     *      description: Return WebGL application module for browser
+     *      tags:
+     *          - Public
+     */
+    private setWebGLModuleHosting(){
+        this.app.use("/public/modules/:applicationId/:moduleVersion/*", (req, res, next) => {
 
             let applicationId = req.params.applicationId
-            let log_version = req.params.logVersion
+            let moduleVersion = req.params.moduleVersion
             let assets = ""
             if (req.params[0]){
                 assets = `/${req.params[0]}`;
             }
 
-            express.static(path.resolve(__dirname, `../../public/modules/${applicationId}/${log_version}${assets}`), {
+            express.static(path.resolve(__dirname, `../../public/modules/${applicationId}/${moduleVersion}${assets}`), {
                 setHeaders: (res, path) => {
                     if (path.endsWith(".gz")) {
                         // add a HTTP response header for gzip
@@ -49,9 +78,6 @@ export class Server {
                 }
             })(req, res, next);
         });
-
-        this.initControllers(controllers);
-        this.app.use(errorHandlerMiddleware);
     }
 
     public listen() {

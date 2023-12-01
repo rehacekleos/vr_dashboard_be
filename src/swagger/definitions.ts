@@ -29,7 +29,7 @@ export const swaggerJSDocOptions: OAS3Options = {
         }
     },
 
-    apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js'],
+    apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/server/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js', './**/server/**/*.js'],
 };
 
 
@@ -139,6 +139,16 @@ export const swaggerJSDocOptions: OAS3Options = {
  *     name: applicationIdentifier
  *     in: path
  *     description: Identifier of application
+ *     required: true
+ *   applicationId:
+ *     name: applicationId
+ *     in: path
+ *     description: ID od application
+ *     required: true
+ *   moduleVersion:
+ *     name: moduleVersion
+ *     in: path
+ *     description: Version of WebGL module
  *     required: true
  *   orgCode:
  *     name: orgCode
