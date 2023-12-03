@@ -5,6 +5,7 @@ export const swaggerJSDocOptions: OAS3Options = {
         openapi: '3.0.0',
         info: {
             title: 'VR Dashboard',
+            description: 'VR Dashboard is used to record and retrieve Vr data from various Virtual Reality applications.',
             version: '1.0.0',
         },
         servers: [
@@ -26,7 +27,7 @@ export const swaggerJSDocOptions: OAS3Options = {
                     description: "Please insert: \"Bearer <API_KEY>\""
                 }
             }
-        }
+        },
     },
 
     apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/server/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js', './**/server/**/*.js'],
@@ -37,9 +38,11 @@ export const swaggerJSDocOptions: OAS3Options = {
  * @swagger
  * tags:
  *  - name: Default
- *    description:
+ *    description: Default controller
  *  - name: Public
- *    description: Public
+ *    description: Public controller which is used for communication with VRLogger library. All endpoints are secured with <b>Application Identifier</b> and <b>Organisation Code</b>.
+ *  - name: Webgl
+ *    description: Webgl controller which is used to retrieve the webgl application stored on the server.
  */
 
 /**
@@ -143,7 +146,7 @@ export const swaggerJSDocOptions: OAS3Options = {
  *   applicationId:
  *     name: applicationId
  *     in: path
- *     description: ID od application
+ *     description: ID of application
  *     required: true
  *   moduleVersion:
  *     name: moduleVersion

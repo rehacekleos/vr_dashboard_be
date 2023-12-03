@@ -1,7 +1,7 @@
 import { BaseController } from "../../shared/controllers/base.controller";
 import { ConfigFactory } from '../../configs/factories/config.factory';
 import { MongoDbConnection } from '../../shared/repositories/mongoDb/mongoDb.connection';
-import swaggerUi from "swagger-ui-express";
+import swaggerUi, { SwaggerOptions } from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import { swaggerJSDocOptions } from "../../swagger/definitions";
 
@@ -13,6 +13,19 @@ export class DefaultController extends BaseController {
 
     swaggerSpec = swaggerJSDoc(swaggerJSDocOptions);
 
+    swaggerOptions: SwaggerOptions = {
+        operationsSorter: (a: any, b: any) => {
+            const methodsOrder = ["get", "post", "put", "patch", "delete", "options", "trace"];
+            let result = methodsOrder.indexOf(a.get("method")) - methodsOrder.indexOf(b.get("method"));
+
+            if (result === 0) {
+                result = a.get("path").localeCompare(b.get("path"));
+            }
+
+            return result;
+        }
+    }
+
     constructor() {
         super()
         this.initRouter()
@@ -21,7 +34,17 @@ export class DefaultController extends BaseController {
     initRouter(): void {
         this.router.get('/', this.indexHandler);
         this.router.get('/health-check', this.getHealthCheck);
-        this.router.use('/api/docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec))
+
+        /**
+         * @swagger
+         *
+         * /api/docs:
+         *  get:
+         *      description: Return swagger page.
+         *      tags:
+         *          - Default
+         */
+        this.router.use('/api/docs', swaggerUi.serve, swaggerUi.setup(this.swaggerSpec, {swaggerOptions: this.swaggerOptions}))
     }
 
     /**

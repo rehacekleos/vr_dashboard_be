@@ -36,6 +36,14 @@ export class Server {
     /**
      * Setting JSDocs on /docs endpoint
      * @private
+     *
+     * @swagger
+     *
+     * /docs:
+     *  get:
+     *      description: Return page with JsDoc documentation
+     *      tags:
+     *          - Default
      */
     private setAppJsDocs(){
         this.app.use("/docs", express.static(path.resolve(__dirname , "../../docs")));
@@ -44,19 +52,22 @@ export class Server {
     /**
      * Setting hosting for WebGL application modules
      *
-     * Modules are available at /public/modules/:applicationId/:moduleVersion endpoint
+     * Modules are available at /webgl/modules/:applicationId/:moduleVersion endpoint
      * @private
      *
      * @swagger
      *
-     * /public/modules/{applicationId}/{moduleVersion}:
+     * /webgl/modules/{applicationId}/{moduleVersion}:
      *  get:
-     *      description: Return WebGL application module for browser
-     *      tags:
-     *          - Public
+     *    description: Return WebGL application module for browser
+     *    tags:
+     *      - Webgl
+     *    parameters:
+     *        - $ref: '#/parameters/applicationId'
+     *        - $ref: '#/parameters/moduleVersion'
      */
     private setWebGLModuleHosting(){
-        this.app.use("/public/modules/:applicationId/:moduleVersion/*", (req, res, next) => {
+        this.app.use("/webgl/modules/:applicationId/:moduleVersion/*", (req, res, next) => {
 
             let applicationId = req.params.applicationId
             let moduleVersion = req.params.moduleVersion

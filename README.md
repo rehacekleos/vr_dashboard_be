@@ -1,6 +1,10 @@
 # VR dashboard server
 
-This server is used to record and retrieve Vr data from various applications. The server supports multi-organization.
+This server is used to record and retrieve Vr data from various Virtual Reality applications.<br>
+The server supports multi-organization.
+
+The server application is written in Node.js using typescript and express.js.<br>
+MongoDb version 6.0 is used as the database.
 
 ## Application Structure in /src directory
 
