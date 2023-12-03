@@ -2,7 +2,7 @@
 
 This server is used to record and retrieve Vr data from various applications. The server supports multi-organization.
 
-## Application Structure
+## Application Structure in /src directory
 
 #### `/app` Application logic
 #### `/bootstrap` Defining different types of server
@@ -22,9 +22,9 @@ To run the application on the local machine for the first time, you need to do t
 
 3. Run the application using npm run dev
 
-After that, the application should be available at http://localhost:8080.<br> If you try opening the following address in a browser, you should see the Swagger documentation.
+After that, the application should be available at [http://localhost:8000](http://localhost:8000).<br> If you try opening the following address in a browser, you should see the Swagger documentation.
 
-You can find out if the application is connected to the DB by using the address: http://localhost:8080/health-check where you should see message: `vr_dashboard_be is running on version: $app_version`.
+You can find out if the application is connected to the DB by using the address: [http://localhost:8000/health-check](http://localhost:8000/health-check) where you should see message: `vr_dashboard_be is running on version: $app_version`.
 
 
 ## Available Scripts
@@ -51,6 +51,10 @@ Builds the app for production and zip it into `deploy-code.zip`.
 ## Swagger
 
 Api swagger is available on route: `/api/docs`
+
+## JsDoc
+
+Js docs are available on route: /docs
 
 ## Environmental variables
 
