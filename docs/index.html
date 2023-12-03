@@ -12,13 +12,43 @@
 <div class="col-content">
 <div class="tsd-page-title">
 <h2>vr_dashboard_be - v1.0.0</h2></div>
-<div class="tsd-panel tsd-typography"><a id="md:vr-dashboard-server" class="tsd-anchor"></a><h1><a href="#md:vr-dashboard-server">VR dashboard server</a></h1><p>This server is used to record and retrieve Vr data from various applications. The server supports multi-organization.</p>
-<a id="md:application-structure" class="tsd-anchor"></a><h2><a href="#md:application-structure">Application Structure</a></h2><a id="md:app-application-logic" class="tsd-anchor"></a><h4><a href="#md:app-application-logic"><code>/app</code> Application logic</a></h4><a id="md:bootstrap-defining-different-types-of-server" class="tsd-anchor"></a><h4><a href="#md:bootstrap-defining-different-types-of-server"><code>/bootstrap</code> Defining different types of server</a></h4><a id="md:configs-setting-env-variables-and-all-global-variables" class="tsd-anchor"></a><h4><a href="#md:configs-setting-env-variables-and-all-global-variables"><code>/configs</code> Setting env variables and all global variables</a></h4><a id="md:server-expressjs-server-settings" class="tsd-anchor"></a><h4><a href="#md:server-expressjs-server-settings"><code>/server</code> Express.js server settings</a></h4><a id="md:shared-global-files-such-as-models-enums-repositories-controllers-middlewares-etc" class="tsd-anchor"></a><h4><a href="#md:shared-global-files-such-as-models-enums-repositories-controllers-middlewares-etc"><code>/shared</code> Global files such as models, enums, repositories, controllers, middlewares, etc.</a></h4><a id="md:available-scripts" class="tsd-anchor"></a><h2><a href="#md:available-scripts">Available Scripts</a></h2><p>In the project directory, you can run:</p>
+<div class="tsd-panel tsd-typography"><a id="md:vr-dashboard-server-application" class="tsd-anchor"></a><h1><a href="#md:vr-dashboard-server-application">VR dashboard server application</a></h1><p>This server is used to record and retrieve Vr data from various Virtual Reality applications and support for <a href="https://github.com/rehacekleos/vr_dashboard_fe">VR Dashboard app</a>.<br>
+The server supports multi-organization.</p>
+<p>The server application is written in Node.js using typescript and express.js.<br>
+MongoDb version 6.0 is used as the database.</p>
+<a id="md:application-structure-in-src-directory" class="tsd-anchor"></a><h2><a href="#md:application-structure-in-src-directory">Application Structure in /src directory</a></h2><a id="md:app-application-logic" class="tsd-anchor"></a><h4><a href="#md:app-application-logic"><code>/app</code> Application logic</a></h4><a id="md:bootstrap-defining-different-types-of-server" class="tsd-anchor"></a><h4><a href="#md:bootstrap-defining-different-types-of-server"><code>/bootstrap</code> Defining different types of server</a></h4><a id="md:configs-setting-env-variables-and-all-global-variables" class="tsd-anchor"></a><h4><a href="#md:configs-setting-env-variables-and-all-global-variables"><code>/configs</code> Setting env variables and all global variables</a></h4><a id="md:server-expressjs-server-settings" class="tsd-anchor"></a><h4><a href="#md:server-expressjs-server-settings"><code>/server</code> Express.js server settings</a></h4><a id="md:shared-global-files-such-as-models-enums-repositories-controllers-middlewares-etc" class="tsd-anchor"></a><h4><a href="#md:shared-global-files-such-as-models-enums-repositories-controllers-middlewares-etc"><code>/shared</code> Global files such as models, enums, repositories, controllers, middlewares, etc.</a></h4><a id="md:first-run-on-local-machine" class="tsd-anchor"></a><h2><a href="#md:first-run-on-local-machine">First run on local machine</a></h2><a id="md:prerequisites" class="tsd-anchor"></a><h3><a href="#md:prerequisites">Prerequisites</a></h3><ul>
+<li>Installed Node.js (minimal v18) and npm<ul>
+<li>How to install Node.js: <a href="https://nodejs.org/en/learn/getting-started/how-to-install-nodejs">How to install Node.js</a>.</li>
+<li>npm is installed together with Node.js</li>
+<li>Check if Node.js and npm is installed?<ul>
+<li>Run <code>node -v</code></li>
+<li>Run <code>npm -v</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<a id="md:run-application" class="tsd-anchor"></a><h3><a href="#md:run-application">Run application</a></h3><p>To run the application on the local machine for the first time, you need to do the following:</p>
+<ol>
+<li>Run <code>npm install</code></li>
+<li>Create an .env file in the project root folder.</li>
+<li>Define the following env in the .env file<ul>
+<li>DB_URL</li>
+<li>MONGO_DB_DATABASE</li>
+</ul>
+</li>
+<li>Run the application using <code>npm run dev</code></li>
+</ol>
+<p>After that, the application should be available at <a href="http://localhost:8000">http://localhost:8000</a>.<br> If you try opening the following address in a browser, you should see the Swagger documentation.</p>
+<p>You can find out if the application is connected to the DB by using the address: <a href="http://localhost:8000/health-check">http://localhost:8000/health-check</a> where you should see message: <code>vr_dashboard_be is running on version: $app_version</code>.</p>
+<a id="md:available-scripts" class="tsd-anchor"></a><h2><a href="#md:available-scripts">Available Scripts</a></h2><p>In the project directory, you can run:</p>
 <a id="md:npm-run-dev" class="tsd-anchor"></a><h3><a href="#md:npm-run-dev"><code>npm run dev</code></a></h3><p>Runs the app in the development mode. <br>Open <a href="http://localhost:8000/health-check">http://localhost:8000/health-check</a> to view it in the browser if server is running well.</p>
 <a id="md:npm-run-build" class="tsd-anchor"></a><h3><a href="#md:npm-run-build"><code>npm run build</code></a></h3><p>Builds the app for production to the <code>/build</code> folder.</p>
 <a id="md:npm-run-generatedocs" class="tsd-anchor"></a><h3><a href="#md:npm-run-generatedocs"><code>npm run generate:docs</code></a></h3><p>Builds the docs to the <code>/docs</code> folder.</p>
+<a id="md:npm-run-zipdeploy" class="tsd-anchor"></a><h3><a href="#md:npm-run-zipdeploy"><code>npm run zip:deploy</code></a></h3><p>Builds the app for production and zip it into <code>deploy-code.zip</code>.</p>
 <a id="md:swagger" class="tsd-anchor"></a><h2><a href="#md:swagger">Swagger</a></h2><p>Api swagger is available on route: <code>/api/docs</code></p>
-<a id="md:environmental-variables" class="tsd-anchor"></a><h2><a href="#md:environmental-variables">Environmental variables</a></h2><p>Environment variables are defined in the <code>/configs</code> folder</p>
+<a id="md:jsdoc" class="tsd-anchor"></a><h2><a href="#md:jsdoc">JsDoc</a></h2><p>Js docs are available on route: /docs</p>
+<a id="md:environmental-variables" class="tsd-anchor"></a><h2><a href="#md:environmental-variables">Environmental variables</a></h2><p>Environment variables are defined in the <code>/src/configs</code> folder</p>
 <ul>
 <li>APP_MODE: Define in which mode application is running.<ul>
 <li><strong>REQUIRED</strong></li>
@@ -72,10 +102,10 @@
 <ul>
 <li>
 <ul>
-<li><a href="#md:vr-dashboard-server"><span>VR dashboard server</span></a></li>
+<li><a href="#md:vr-dashboard-server-application"><span>VR dashboard server application</span></a></li>
 <li>
 <ul>
-<li><a href="#md:application-structure"><span>Application <wbr/>Structure</span></a></li>
+<li><a href="#md:application-structure-in-src-directory"><span>Application <wbr/>Structure in /src directory</span></a></li>
 <li>
 <ul>
 <li><a href="#md:app-application-logic"><span>/app <wbr/>Application logic</span></a></li>
@@ -85,13 +115,20 @@
 <li><a href="#md:configs-setting-env-variables-and-all-global-variables"><span>/configs <wbr/>Setting env variables and all global variables</span></a></li>
 <li><a href="#md:server-expressjs-server-settings"><span>/server <wbr/>Express.js server settings</span></a></li>
 <li><a href="#md:shared-global-files-such-as-models-enums-repositories-controllers-middlewares-etc"><span>/shared <wbr/>Global files such as models, enums, repositories, controllers, middlewares, etc.</span></a></li></ul></li></ul></li>
+<li><a href="#md:first-run-on-local-machine"><span>First run on local machine</span></a></li>
+<li>
+<ul>
+<li><a href="#md:prerequisites"><span>Prerequisites</span></a></li>
+<li><a href="#md:run-application"><span>Run application</span></a></li></ul></li>
 <li><a href="#md:available-scripts"><span>Available <wbr/>Scripts</span></a></li>
 <li>
 <ul>
 <li><a href="#md:npm-run-dev"><span>npm run dev</span></a></li>
 <li><a href="#md:npm-run-build"><span>npm run build</span></a></li>
-<li><a href="#md:npm-run-generatedocs"><span>npm run generate:docs</span></a></li></ul></li>
+<li><a href="#md:npm-run-generatedocs"><span>npm run generate:docs</span></a></li>
+<li><a href="#md:npm-run-zipdeploy"><span>npm run zip:deploy</span></a></li></ul></li>
 <li><a href="#md:swagger"><span>Swagger</span></a></li>
+<li><a href="#md:jsdoc"><span>Js<wbr/>Doc</span></a></li>
 <li><a href="#md:environmental-variables"><span>Environmental variables</span></a></li></ul></li></ul></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-4"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)"></path></g></svg><span>vr_<wbr/>dashboard_<wbr/>be -<wbr/> v1.0.0</span></a>
