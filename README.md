@@ -1,4 +1,4 @@
-# VR dashboard server
+# VR dashboard server application
 
 This server is used to record and retrieve Vr data from various Virtual Reality applications.<br>
 The server supports multi-organization.
@@ -16,15 +16,25 @@ MongoDb version 6.0 is used as the database.
 
 ## First run on local machine
 
+### Prerequisites
+
+- Installed Node.js (minimal v18) and npm
+  - How to install Node.js: [How to install Node.js](https://nodejs.org/en/learn/getting-started/how-to-install-nodejs).
+  - npm is installed together with Node.js
+  - Check if Node.js and npm is installed?
+    - Run `node -v`
+    - Run `npm -v`
+
+### Run application
+
 To run the application on the local machine for the first time, you need to do the following:
 
-1. Create an .env file in the project root folder.
-
-2. Define the following env in the .env file
+1. Run `npm install`
+2. Create an .env file in the project root folder.
+3. Define the following env in the .env file
    - DB_URL
    - MONGO_DB_DATABASE
-
-3. Run the application using npm run dev
+4. Run the application using `npm run dev`
 
 After that, the application should be available at [http://localhost:8000](http://localhost:8000).<br> If you try opening the following address in a browser, you should see the Swagger documentation.
 
