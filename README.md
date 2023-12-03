@@ -1,6 +1,6 @@
 # VR dashboard server application
 
-This server is used to record and retrieve Vr data from various Virtual Reality applications.<br>
+This server is used to record and retrieve Vr data from various Virtual Reality applications and support for [VR Dashboard app](https://github.com/rehacekleos/vr_dashboard_fe).<br>
 The server supports multi-organization.
 
 The server application is written in Node.js using typescript and express.js.<br>
