@@ -10,6 +10,23 @@ This server is used to record and retrieve Vr data from various applications. Th
 #### `/server` Express.js server settings
 #### `/shared` Global files such as models, enums, repositories, controllers, middlewares, etc.
 
+## First run on local machine
+
+To run the application on the local machine for the first time, you need to do the following:
+
+1. Create an .env file in the project root folder.
+
+2. Define the following env in the .env file
+   - DB_URL
+   - MONGO_DB_DATABASE
+
+3. Run the application using npm run dev
+
+After that, the application should be available at http://localhost:8080.<br> If you try opening the following address in a browser, you should see the Swagger documentation.
+
+You can find out if the application is connected to the DB by using the address: http://localhost:8080/health-check where you should see message: `vr_dashboard_be is running on version: $app_version`.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -27,13 +44,17 @@ Builds the app for production to the `/build` folder.
 
 Builds the docs to the `/docs` folder.
 
+### `npm run zip:deploy`
+
+Builds the app for production and zip it into `deploy-code.zip`.
+
 ## Swagger
 
 Api swagger is available on route: `/api/docs`
 
 ## Environmental variables
 
-Environment variables are defined in the `/configs` folder
+Environment variables are defined in the `/src/configs` folder
 
 * APP_MODE: Define in which mode application is running.
     * __REQUIRED__

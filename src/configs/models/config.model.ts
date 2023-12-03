@@ -18,5 +18,5 @@ export class BaseConfigModel{
 }
 
 export class ConfigModel{
-    ApiDocsHost: string
+
 }

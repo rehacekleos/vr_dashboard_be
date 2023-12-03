@@ -9,12 +9,12 @@ export const swaggerJSDocOptions: OAS3Options = {
         },
         servers: [
             {
-                url: 'http://localhost:8080',
-                description: 'Localhost',
+                url: 'https://api.vr-dashboard.leosrehacek.com',
+                description: 'Production',
             },
             {
-                url: 'https://api.vr-dashboard.leosrehacek.com',
-                description: 'production',
+                url: 'http://localhost:8080',
+                description: 'Localhost',
             },
         ],
         components: {
