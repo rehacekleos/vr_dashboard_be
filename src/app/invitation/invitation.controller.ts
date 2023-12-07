@@ -19,8 +19,8 @@ export class InvitationController extends BaseController{
         this.router.get('/', [authMiddleware, organisationMiddleware], this.getInvitations);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createInvitation);
         this.router.post('/accept', [authMiddleware], this.acceptInvitation);
-        this.router.patch('/:invitationId', [authMiddleware], this.extendInvitation);
-        this.router.delete('/:invitationId', [authMiddleware], this.deleteInvitation);
+        this.router.patch('/:invitationId', [authMiddleware, organisationMiddleware], this.extendInvitation);
+        this.router.delete('/:invitationId', [authMiddleware, organisationMiddleware], this.deleteInvitation);
 
     }
 
@@ -42,7 +42,9 @@ export class InvitationController extends BaseController{
         try {
             const orgId = req.organisation.id;
             const newInvitation: NewInvitation = req.body;
-            const result = await this.invitationService.createInvitation(newInvitation, orgId);
+            const user = req.user;
+            const emp = req.employee;
+            const result = await this.invitationService.createInvitation(newInvitation, orgId, user, emp);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){
@@ -68,10 +70,12 @@ export class InvitationController extends BaseController{
         }
     };
 
-    extendInvitation = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
+    extendInvitation = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const invitationId: string = req.params.invitationId;
-            const result = await this.invitationService.extendInvitation(invitationId);
+            const user = req.user;
+            const emp = req.employee;
+            const result = await this.invitationService.extendInvitation(invitationId, user, emp);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){
@@ -82,10 +86,12 @@ export class InvitationController extends BaseController{
         }
     };
 
-    deleteInvitation = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
+    deleteInvitation = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const invitationId: string = req.params.invitationId;
-            const result = await this.invitationService.deleteInvitation(invitationId);
+            const user = req.user;
+            const emp = req.employee;
+            const result = await this.invitationService.deleteInvitation(invitationId, user, emp);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

@@ -12,17 +12,23 @@ import { Employee } from "../employee/employee.model";
 export class ParticipantService extends BaseService {
 
     constructor(private participantDa: ParticipantDataAccess,
-                private orgDa: OrganisationDataAccess,
                 private employeeService: EmployeeService) {
         super();
     }
 
-    public async getParticipants(orgId: string): Promise<Participant[]> {
+    public async getParticipantsForOrganisation(orgId: string): Promise<Participant[]> {
         return await this.participantDa.getParticipantsForOrganisation(orgId);
     }
 
-    public async getParticipantsForUserForOrganisation(employee: Employee) {
-        if (employee.participantIds.length < 1) {
+    public async getParticipants(orgId: string, user: User, emp: Employee): Promise<Participant[]> {
+        if (user.superAdmin) {
+            return await this.participantDa.getParticipantsForOrganisation(orgId);
+        }
+        return this.getParticipantsEmployee(emp);
+    }
+
+    public async getParticipantsEmployee(employee: Employee) {
+        if (isEmptyAndNull(employee) || employee.participantIds.length < 1) {
             return [];
         }
 
@@ -57,7 +63,7 @@ export class ParticipantService extends BaseService {
     }
 
     public async createParticipant(newParticipant: NewParticipant, employee: Employee): Promise<Participant> {
-        if (isEmptyAndNull(employee)){
+        if (isEmptyAndNull(employee)) {
             throw new HttpException(400, "User is not an employee.");
         }
 
@@ -95,8 +101,8 @@ export class ParticipantService extends BaseService {
         await this.participantDa.deleteParticipant(id);
     }
 
-    async GetParticipantsMetadata(orgCode: string): Promise<ParticipantsMetadataList> {
-        const participants =  await this.participantDa.getParticipantsForOrganisation(orgCode);
+    async getParticipantsMetadata(orgCode: string): Promise<ParticipantsMetadataList> {
+        const participants = await this.participantDa.getParticipantsForOrganisation(orgCode);
         const metadata: ParticipantMetadata[] = participants.map(p => {
             return {
                 id: p.id,

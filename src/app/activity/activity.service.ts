@@ -5,20 +5,27 @@ import { Activity, NewActivity, SendActivity } from "./activity.model";
 import { ParticipantDataAccess } from "../participant/participant.dataAccess";
 import { HttpException, NoRequiredParameter, WrongBody } from "../../shared/exceptions/HttpException";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
+import { User } from "../user/user.model";
+import { ParticipantService } from "../participant/participant.service";
+import { Employee } from "../employee/employee.model";
 
 export class ActivityService extends BaseService{
 
     constructor(private activityDa: ActivityDataAccess,
-                private participantDa: ParticipantDataAccess,
+                private participantService: ParticipantService,
                 private applicationService: ApplicationService) {
         super();
     }
 
-    public async getActivities(orgId: string, filters: { ids: string[] }): Promise<Activity[]>{
+    public async getActivities(orgId: string, filters: { ids: string[] }, user: User, emp: Employee): Promise<Activity[]>{
         if (filters.ids){
             return await this.activityDa.getActivitiesForOrganisationByIds(orgId, filters.ids);
         } else {
-            return await this.activityDa.getActivitiesForOrganisation(orgId);
+            if (user.superAdmin) {
+                return await this.activityDa.getActivitiesForOrganisation(orgId);
+            } else {
+                return await this.activityDa.getActivitiesForParticipantsByIds(emp.participantIds);
+            }
         }
     }
 
@@ -45,7 +52,7 @@ export class ActivityService extends BaseService{
                 throw new WrongBody('Activity')
             }
 
-            const participants = await this.participantDa.getParticipantsForOrganisation(orgId);
+            const participants = await this.participantService.getParticipantsForOrganisation(orgId);
             if (participants.length < 1) {
                 throw new HttpException(400, "Participant not exists");
             }
@@ -64,7 +71,7 @@ export class ActivityService extends BaseService{
                 throw new WrongBody('Activity')
             }
 
-            const participants = await this.participantDa.getParticipantsForOrganisation(organisationId);
+            const participants = await this.participantService.getParticipantsForOrganisation(organisationId);
             if (participants.length < 1) {
                 throw new HttpException(400, "Participant not exists");
             }

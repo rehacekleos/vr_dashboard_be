@@ -54,21 +54,35 @@ export class EmployeeDataAccess extends BaseDataAccess {
     public async addParticipant(id: string, participantId: string){
         const res = await this.db.collection(this.collection).updateOne({id: id}, {$push: { participantIds: participantId}});
         if (res.acknowledged === false){
-            throw new Error("Cannot save user into DB.")
+            throw new Error("Cannot add participant in DB.")
+        }
+    }
+
+    async assignParticipants(employeeId: string, participants: string[]) {
+        const res = await this.db.collection(this.collection).updateOne({id: employeeId}, {$set: { participantIds: participants}});
+        if (res.acknowledged === false){
+            throw new Error("Cannot assign participants in DB.")
         }
     }
 
     public async removeParticipant(id: string, participantId: string) {
         const res = await this.db.collection(this.collection).updateOne({id: id}, {$pull: { participantIds: participantId}});
         if (res.acknowledged === false){
-            throw new Error("Cannot save user into DB.")
+            throw new Error("Cannot remove participant in DB.")
         }
     }
 
-    public async deleteEmployee(orgId: string, userId: string) {
-        const res = await this.db.collection(this.collection).deleteOne({organisationId: orgId, userId: userId});
+    async deleteEmployeeById(empId: string) {
+        const res = await this.db.collection(this.collection).deleteOne({id: empId});
         if (res.acknowledged === false) {
             throw new Error("Cannot delete employee from DB.")
+        }
+    }
+
+    async changeEmployeeRole(employeeId: string, roleName: string) {
+        const res = await this.db.collection(this.collection).updateOne({id: employeeId}, {$set: {"role.name": roleName}});
+        if (res.acknowledged === false){
+            throw new Error("Cannot update employee in DB.")
         }
     }
 

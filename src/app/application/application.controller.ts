@@ -59,7 +59,8 @@ export class ApplicationController extends BaseController {
         try {
             const orgId = req.organisation.id;
             const app: NewApplication = req.body;
-            const result = await this.applicationService.createApplication(app, orgId);
+            const user = req.user;
+            const result = await this.applicationService.createApplication(app, orgId, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {
@@ -74,7 +75,8 @@ export class ApplicationController extends BaseController {
         try {
             const orgId = req.organisation.id;
             const applicationId: string = req.params.id
-            const result = await this.applicationService.assignApplication(applicationId, orgId);
+            const user = req.user;
+            const result = await this.applicationService.assignApplication(applicationId, orgId, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {
@@ -90,7 +92,7 @@ export class ApplicationController extends BaseController {
             const user = req.user;
             const applicationId = req.params.id;
             const module: AddModule = req.body;
-            const result = await this.applicationService.addModule(applicationId, module);
+            const result = await this.applicationService.addModule(applicationId, module, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {
@@ -106,7 +108,7 @@ export class ApplicationController extends BaseController {
             const user = req.user;
             const applicationId = req.params.id;
             const setting: any = req.body.settings;
-            const result = await this.applicationService.updateSetting(applicationId, setting);
+            const result = await this.applicationService.updateSetting(applicationId, setting, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {
@@ -121,7 +123,7 @@ export class ApplicationController extends BaseController {
         try {
             const user = req.user;
             const applicationId = req.params.id;
-            const result = await this.applicationService.deleteApplication(applicationId);
+            const result = await this.applicationService.deleteApplication(applicationId, user);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException) {

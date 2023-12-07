@@ -19,6 +19,7 @@ export class PublicController extends BaseController{
         this.router.get('/vr-data/:applicationIdentifier/:orgCode/:activityId', this.getActivityVrData)
         this.router.get('/vr-data/:applicationIdentifier/:orgCode/:activityId/:environmentId', this.getActivityVrData)
         this.router.get('/participants/:applicationIdentifier/:orgCode', this.getParticipants)
+        this.router.get('/activities/:applicationIdentifier/:orgCode/:participantId', this.getActivities)
         this.router.post('/activity/:applicationIdentifier', this.sendNewActivity)
     }
 
@@ -40,6 +41,10 @@ export class PublicController extends BaseController{
      *      responses:
      *          200:
      *              description: Successful operation
+     *              content:
+     *                application/json:
+     *                  schema:
+     *                    $ref: '#/definitions/VrData'
      *          400:
      *               description: Error
      */
@@ -76,6 +81,12 @@ export class PublicController extends BaseController{
      *      responses:
      *          200:
      *              description: Successful operation
+     *              content:
+     *                application/json:
+     *                  schema:
+     *                    type: array
+     *                    items:
+     *                      $ref: '#/definitions/ParticipantMetadata'
      *          400:
      *               description: Error
      */
@@ -84,6 +95,48 @@ export class PublicController extends BaseController{
             const applicationIdentifier = req.params.applicationIdentifier;
             const orgCode = req.params.orgCode;
             const result = await this.publicService.getParticipants(applicationIdentifier, orgCode);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot get vr data.', e));
+        }
+    };
+
+    /**
+     * Handle request for getting activities for participant
+     *
+     * @swagger
+     *
+     * /public/activities/{applicationIdentifier}/{orgCode}/{participantId}:
+     *  get:
+     *      description: Get Activities for Participant
+     *      tags:
+     *        - Public
+     *      parameters:
+     *        - $ref: '#/parameters/applicationIdentifier'
+     *        - $ref: '#/parameters/orgCode'
+     *        - $ref: '#/parameters/participantId'
+     *      responses:
+     *          200:
+     *              description: Successful operation
+     *              content:
+     *                application/json:
+     *                  schema:
+     *                    type: array
+     *                    items:
+     *                      $ref: '#/definitions/Activity'
+     *          400:
+     *               description: Error
+     */
+    getActivities = async (req: express.Request, res: express.Response, next) => {
+        try {
+            const applicationIdentifier = req.params.applicationIdentifier;
+            const orgCode = req.params.orgCode;
+            const participantId = req.params.participantId;
+            const result = await this.publicService.getActivities(applicationIdentifier, orgCode, participantId);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

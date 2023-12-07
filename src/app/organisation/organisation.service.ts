@@ -7,6 +7,8 @@ import { HttpException, WrongBody } from "../../shared/exceptions/HttpException"
 import { EmployeeDataAccess } from "../employee/employee.dataAccess";
 import { ParticipantDataAccess } from "../participant/participant.dataAccess";
 import { ApplicationDataAccess } from "../application/application.dataAccess";
+import { NewEmployee } from "../employee/employee.model";
+import { RoleNames } from "../../models/role.model";
 
 export class OrganisationService extends BaseService {
 
@@ -48,7 +50,20 @@ export class OrganisationService extends BaseService {
             new WrongBody("New Organisation")
         }
 
-        return await this.orgDa.createOrganisation(body.name);
+        const newOrg =  await this.orgDa.createOrganisation(body.name);
+
+        if (!user.superAdmin){
+            const emp: NewEmployee = {
+                organisationId: newOrg.id,
+                userId: user.id,
+                role: {
+                    name: RoleNames.ADMIN
+                }
+            }
+            await this.employeeDa.createEmployee(emp);
+        }
+
+        return newOrg;
     }
 
     public async deleteOrganisation(id: string, user: User){

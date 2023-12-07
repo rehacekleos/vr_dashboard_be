@@ -57,6 +57,33 @@ export const swaggerJSDocOptions: OAS3Options = {
  *         type: string
  *       password:
  *         type: string
+ *   Activity:
+ *     required:
+ *       - id
+ *       - time
+ *       - data
+ *       - notes
+ *       - anonymous
+ *       - participantId
+ *       - applicationId
+ *       - organisationId
+ *     properties:
+ *       id:
+ *         type: string
+ *       time:
+ *         type: string
+ *       data:
+ *         $ref: '#/definitions/VrDataWithoutRecords'
+ *       anonymous:
+ *         type: boolean
+ *       notes:
+ *         type: string
+ *       participantId:
+ *         type: string
+ *       applicationId:
+ *         type: string
+ *       organisationId:
+ *         type: string
  *   VrData:
  *     required:
  *       - application_identifier
@@ -80,6 +107,27 @@ export const swaggerJSDocOptions: OAS3Options = {
  *         type: array
  *         items:
  *           $ref: '#/definitions/Record'
+ *       custom_data:
+ *         type: object
+ *   VrDataWithoutRecords:
+ *     required:
+ *       - application_identifier
+ *       - log_version
+ *       - start
+ *       - end
+ *       - log_rate
+ *       - records
+ *     properties:
+ *       application_identifier:
+ *         type: string
+ *       log_version:
+ *         type: string
+ *       start:
+ *         type: string
+ *       end:
+ *         type: string
+ *       log_rate:
+ *         type: number
  *       custom_data:
  *         type: object
  *   Record:
@@ -127,6 +175,15 @@ export const swaggerJSDocOptions: OAS3Options = {
  *         type: number
  *       z:
  *         type: number
+ *   ParticipantMetadata:
+ *     required:
+ *       - id
+ *       - nickname
+ *     properties:
+ *       id:
+ *         type: string
+ *       nickname:
+ *         type: string
  *
  */
 
@@ -168,6 +225,11 @@ export const swaggerJSDocOptions: OAS3Options = {
  *     in: path
  *     description: ID of environment
  *     required: false
+ *   participantId:
+ *     name: participantId
+ *     in: path
+ *     description: ID of participant
+ *     required: true
  *   sendActivityBody:
  *     name: activity
  *     in: body

@@ -5,4 +5,5 @@ export class User {
     surname: string;
     password: string;
     superAdmin?: boolean;
+    developer?: boolean;
 }

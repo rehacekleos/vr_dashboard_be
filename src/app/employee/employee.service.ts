@@ -1,11 +1,12 @@
 import { BaseService } from "../../shared/services/Base.service";
-import { Role } from "../../models/role.model";
-import { Employee, NewEmployee } from "./employee.model";
+import { RoleNames } from "../../models/role.model";
+import { AssignParticipantsModel, ChangeRoleModel, Employee, NewEmployee } from "./employee.model";
 import { UserDataAccess } from "../user/user.dataAccess";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { EmployeeDataAccess } from "./employee.dataAccess";
+import { User } from "../user/user.model";
 
 export class EmployeeService extends BaseService {
 
@@ -75,6 +76,55 @@ export class EmployeeService extends BaseService {
 
     public async addParticipant(id: string, participantId: string){
         return await this.employeeDa.addParticipant(id, participantId);
+    }
+
+    async assignParticipants(assign: AssignParticipantsModel, orgId: string, user: User, emp: Employee) {
+        if (!user.superAdmin){
+            if (emp.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
+        }
+
+        const employeeForOrg = await this.employeeDa.getEmployeesForOrganisation(orgId);
+        const employee = employeeForOrg.find(e => e.id === assign.employeeId);
+        if (isEmptyAndNull(employee)){
+            throw new HttpException(400, 'Employee not found');
+        }
+
+        await this.employeeDa.assignParticipants(assign.employeeId, assign.participants);
+    }
+
+
+    async changeEmployeeRole(changeRole: ChangeRoleModel, orgId: string, user: User, emp: Employee) {
+        if (!user.superAdmin){
+            if (emp.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
+        }
+
+        const employeeForOrg = await this.employeeDa.getEmployeesForOrganisation(orgId);
+        const employee = employeeForOrg.find(e => e.id === changeRole.employeeId);
+        if (isEmptyAndNull(employee)){
+            throw new HttpException(400, 'Employee not found');
+        }
+
+        await this.employeeDa.changeEmployeeRole(changeRole.employeeId, changeRole.roleName);
+    }
+
+    async deleteEmployee(empId: string, orgId: string, user: User, emp: Employee) {
+        if (!user.superAdmin){
+            if (emp.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
+        }
+
+        const employeeForOrg = await this.employeeDa.getEmployeesForOrganisation(orgId);
+        const employee = employeeForOrg.find(e => e.id === empId);
+        if (isEmptyAndNull(employee)){
+            throw new HttpException(400, 'Employee not found');
+        }
+
+        await this.employeeDa.deleteEmployeeById(empId);
     }
 
 

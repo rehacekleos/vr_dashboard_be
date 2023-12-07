@@ -18,7 +18,8 @@ export class ParticipantController extends BaseController{
 
     initRouter(): void {
         this.router.get('/', [authMiddleware, organisationMiddleware], this.getParticipants);
-        this.router.get('/:id', [authMiddleware], this.getParticipant);
+        this.router.get('/organisation', [authMiddleware, organisationMiddleware], this.getParticipantsForOrganisation);
+        this.router.get('/:id', [authMiddleware, organisationMiddleware], this.getParticipant);
         this.router.post('/', [authMiddleware, organisationMiddleware], this.createParticipant);
         this.router.put('/', [authMiddleware], this.updateParticipant);
         this.router.delete('/:id', [authMiddleware], this.deleteParticipant);
@@ -27,7 +28,23 @@ export class ParticipantController extends BaseController{
     getParticipants = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
         try {
             const orgId = req.organisation.id;
-            const result = await this.participantService.getParticipants(orgId);
+            const user = req.user;
+            const emp = req.employee;
+            const result = await this.participantService.getParticipants(orgId, user, emp);
+            res.status(200).json(result);
+        } catch (e) {
+            if (e instanceof HttpException){
+                next(e);
+                return;
+            }
+            next(new HttpException(400, 'Cannot get application.', e));
+        }
+    };
+
+    getParticipantsForOrganisation = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {
+        try {
+            const orgId = req.organisation.id;
+            const result = await this.participantService.getParticipantsForOrganisation(orgId);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){
@@ -40,7 +57,6 @@ export class ParticipantController extends BaseController{
 
     getParticipant = async (req: AuthMiddlewareResponse, res: express.Response, next) => {
         try {
-            const user = req.user;
             const participantId = req.params.id;
             const result = await this.participantService.getParticipantById(participantId);
             res.status(200).json(result);

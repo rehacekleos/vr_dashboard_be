@@ -28,7 +28,9 @@ export class ActivityController extends BaseController{
         try {
             const orgId = req.organisation.id;
             const filters = req.query as any;
-            const result = await this.activityService.getActivities(orgId, filters);
+            const user = req.user;
+            const emp = req.employee;
+            const result = await this.activityService.getActivities(orgId, filters, user, emp);
             res.status(200).json(result);
         } catch (e) {
             if (e instanceof HttpException){

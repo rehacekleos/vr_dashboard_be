@@ -8,6 +8,7 @@ import { ApplicationAssignmentDataAccess } from "../application_assignment/appli
 import AdmZip from "adm-zip";
 import path from "path";
 import * as zlib from "zlib";
+import { User } from "../user/user.model";
 
 export class ApplicationService extends BaseService{
 
@@ -30,11 +31,24 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.getApplication(id);
     }
 
-    public async createApplication(application: NewApplication, orgId: string): Promise<Application> {
+    public async createApplication(application: NewApplication, orgId: string, user: User): Promise<Application> {
+        if (!user.superAdmin && !user.developer){
+            throw new HttpException(400, "You do not have permission");
+        }
+
+        const allApplications = await this.applicationDa.getAllApplications();
+        if (allApplications.some(a => a.identifier === application.identifier)){
+            throw new HttpException(400, "Application with this identifier already exists.");
+        }
+
         return await this.applicationDa.createApplication(application);
     }
 
-    public async assignApplication(applicationId: string, orgId: string) {
+    public async assignApplication(applicationId: string, orgId: string, user: User) {
+        if (!user.superAdmin && !user.developer){
+            throw new HttpException(400, "You do not have permission");
+        }
+
         const assignments = await this.applicationAssigmentDa.getAssignmentsByOrgId(orgId);
         if (assignments.find(a => a.applicationId === applicationId)){
             throw new HttpException(400, "Application is already assigned to organisation.");
@@ -42,7 +56,11 @@ export class ApplicationService extends BaseService{
         await this.applicationAssigmentDa.createAssignment(applicationId, orgId);
     }
 
-    public async updateSetting(id: string, setting: any): Promise<Application> {
+    public async updateSetting(id: string, setting: any, user: User): Promise<Application> {
+        if (!user.superAdmin && !user.developer){
+            throw new HttpException(400, "You do not have permission");
+        }
+
         const app = await this.applicationDa.getApplication(id);
         if (isEmptyAndNull(app)){
             throw new HttpException(400, "Application not found");
@@ -51,7 +69,11 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.updateSetting(id, setting);
     }
 
-    public async deleteApplication(id: string) {
+    public async deleteApplication(id: string, user: User) {
+        if (!user.superAdmin && !user.developer){
+            throw new HttpException(400, "You do not have permission");
+        }
+
         const app = await this.applicationDa.getApplication(id);
         if (isEmptyAndNull(app)){
             throw new HttpException(400, "Application not found");
@@ -60,7 +82,11 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.deleteApplication(id);
     }
 
-    async addModule(applicationId: string, module: AddModule) {
+    async addModule(applicationId: string, module: AddModule, user: User) {
+        if (!user.superAdmin && !user.developer){
+            throw new HttpException(400, "You do not have permission");
+        }
+
         if (isEmptyAndNull(module.module) || isEmptyAndNull(module.module_version)){
             throw new WrongBody("Module");
         }

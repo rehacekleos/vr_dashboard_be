@@ -8,7 +8,7 @@ import { EmployeeDataAccess } from "../../app/employee/employee.dataAccess";
 export async function adminMiddleware(request: AuthMiddlewareResponse, response: express.Response, next: NextFunction) {
     const user = request.user;
 
-    if (!isEmptyAndNull(user) && user.superAdmin === true) {
+    if (!isEmptyAndNull(user) && (user.superAdmin === true || user.developer === true)) {
         next()
     } else {
         next(new HttpException(401, "The user is not an admin."));

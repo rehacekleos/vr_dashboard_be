@@ -60,7 +60,7 @@ export class PublicService extends BaseService{
             throw new HttpException(400, `Application with identifier: ${applicationIdentifier} not found or not associated with Organisation.`);
         }
 
-        return await this.participantService.GetParticipantsMetadata(org.id);
+        return await this.participantService.getParticipantsMetadata(org.id);
     }
 
     async saveNewActivity(applicationIdentifier: string, activity: SendActivity) {
@@ -86,5 +86,27 @@ export class PublicService extends BaseService{
 
         await this.activityService.createSendActivity(activity, application.id, org.id);
 
+    }
+
+    async getActivities(applicationIdentifier: string, orgCode: string, participantId: string) {
+        const org = await this.organisationService.getOrganisationByCode(orgCode);
+        if (isEmptyAndNull(org)){
+            throw new HttpException(400, `Organisation with code: ${orgCode} not found.`);
+        }
+
+        const applicationsForOrg = await this.applicationService.getApplicationsForOrganisation(org.id);
+        const application = applicationsForOrg.find(a => a.identifier === applicationIdentifier);
+
+        if (isEmptyAndNull(application)){
+            throw new HttpException(400, `Application with identifier: ${applicationIdentifier} not found or not associated with Organisation.`);
+        }
+
+        const participants = await this.participantService.getParticipantsForOrganisation(org.id);
+        if (isEmptyAndNull(participants.find(p => p.id == participantId))){
+            throw new HttpException(400, `Participant with id: ${participantId} not found or not associated with Organisation.`);
+        }
+
+        const activities = await this.activityService.getActivitiesForParticipant(participantId);
+        return activities.filter(a => a.organisationId === org.id && a.applicationId === application.id);
     }
 }

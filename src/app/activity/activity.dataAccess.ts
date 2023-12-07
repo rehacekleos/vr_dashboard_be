@@ -41,6 +41,11 @@ export class ActivityDataAccess extends BaseDataAccess {
         return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
     }
 
+    async getActivitiesForParticipantsByIds(participantsIds: string[]) {
+        const res = await this.db.collection(this.collection).find<Activity>({participantId: {$in: participantsIds}},{projection: {"data.records": 0}}).toArray();
+        return res.map(r => this.decompressVRData(r)).sort((a,b) => sortDate(a.data.start, b.data.start));
+    }
+
     public async createActivity(activity: NewActivity, orgId: string): Promise<Activity> {
         const newActivity: Activity = {
             id: uuid(),
@@ -91,6 +96,7 @@ export class ActivityDataAccess extends BaseDataAccess {
         }
         return copy;
     }
+
 
 
 }

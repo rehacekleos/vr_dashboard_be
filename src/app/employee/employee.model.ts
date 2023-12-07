@@ -16,3 +16,12 @@ export class NewEmployee{
     userId: string
     role: Role
 }
+
+export class ChangeRoleModel{
+    employeeId: string
+    roleName: string
+}
+export class AssignParticipantsModel{
+    employeeId: string
+    participants: string[]
+}

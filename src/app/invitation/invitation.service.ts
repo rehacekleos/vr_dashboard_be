@@ -5,8 +5,8 @@ import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import dayjs from "dayjs";
 import { EmployeeService } from "../employee/employee.service";
-import { Role } from "../../models/role.model";
-import { NewEmployee } from "../employee/employee.model";
+import { RoleNames } from "../../models/role.model";
+import { Employee, NewEmployee } from "../employee/employee.model";
 import { User } from "../user/user.model";
 import { UserDataAccess } from "../user/user.dataAccess";
 
@@ -46,9 +46,15 @@ export class InvitationService extends BaseService{
         await this.invDa.deleteInvitation(existingInvitation.id);
     }
 
-    public async createInvitation(newInv: NewInvitation, orgId: string): Promise<Invitation> {
+    public async createInvitation(newInv: NewInvitation, orgId: string, user: User, emp: Employee): Promise<Invitation> {
         if (isEmptyAndNull(newInv.email) || isEmptyAndNull(newInv.role)){
             throw new WrongBody('Invitation')
+        }
+
+        if (!user.superAdmin) {
+            if (emp?.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
         }
 
         const inv = await this.invDa.getInvitationForOrgAndUser(orgId, newInv.email);
@@ -56,10 +62,10 @@ export class InvitationService extends BaseService{
             throw new HttpException(400, 'Invitation already exists.')
         }
 
-        const user = await this.userDa.getUserByEmail(newInv.email);
-        if (!isEmptyAndNull(user)){
-            const empl = await this.employeeService.getEmployeeForOrgAndUser(orgId, user.id);
-            if (!isEmptyAndNull(empl)){
+        const invitedUser = await this.userDa.getUserByEmail(newInv.email);
+        if (!isEmptyAndNull(invitedUser)){
+            const checkEmpl = await this.employeeService.getEmployeeForOrgAndUser(orgId, invitedUser.id);
+            if (!isEmptyAndNull(checkEmpl)){
                 throw new HttpException(400, 'Employee already exists.')
             }
         }
@@ -67,7 +73,12 @@ export class InvitationService extends BaseService{
         return await this.invDa.createInvitation(newInv, orgId);
     }
 
-    public async extendInvitation(id: string): Promise<Invitation>{
+    public async extendInvitation(id: string, user: User, emp: Employee): Promise<Invitation>{
+        if (!user.superAdmin){
+            if (emp?.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
+        }
         const inv = await this.invDa.getInvitationById(id);
         if (isEmptyAndNull(inv)){
             throw new HttpException(400, 'Invitation not found!')
@@ -76,7 +87,12 @@ export class InvitationService extends BaseService{
         return await this.invDa.extendInvitation(id);
     }
 
-    public async deleteInvitation(id: string) {
+    public async deleteInvitation(id: string, user: User, emp: Employee) {
+        if (!user.superAdmin){
+            if (emp?.role.name !== RoleNames.ADMIN){
+                throw new HttpException(400, "You are not admin of this organisation.");
+            }
+        }
         const inv = await this.invDa.getInvitationById(id);
         if (isEmptyAndNull(inv)){
             throw new HttpException(400, 'Invitation not found!')
