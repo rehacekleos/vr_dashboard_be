@@ -18,6 +18,7 @@ MongoDb version 6.0 is used as the database.
 
 ### Prerequisites
 
+- MongoDB database with minimal 6 version
 - Installed Node.js (minimal v18) and npm
   - How to install Node.js: [How to install Node.js](https://nodejs.org/en/learn/getting-started/how-to-install-nodejs).
   - npm is installed together with Node.js
