@@ -7,7 +7,6 @@ import { OrganisationDataAccess } from "../organisation/organisation.dataAccess"
 import { ApplicationAssignmentDataAccess } from "../application_assignment/application_assignment_data_access";
 import AdmZip from "adm-zip";
 import path from "path";
-import * as zlib from "zlib";
 import { User } from "../user/user.model";
 
 export class ApplicationService extends BaseService{
