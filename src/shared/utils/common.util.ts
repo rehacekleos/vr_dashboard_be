@@ -72,3 +72,14 @@ export function sortDate(a: string, b: string) {
     }
     return 0;
 }
+
+/**
+ * Getting all values from Enum
+ * @param source - Enum
+ */
+export function getValuesFromEnum(source: any): any[]{
+    if (source && _.isObject(source)){
+        return Object.values(source);
+    }
+    return [];
+}

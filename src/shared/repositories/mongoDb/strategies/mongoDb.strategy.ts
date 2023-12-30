@@ -23,7 +23,8 @@ export class MongoDbStrategy {
                 ))
                 }
         try{
-            await Promise.all(promisesArray);
+            await Promise.all(promisesArray).catch(() => {});
+            console.info("Mongo collection created or updated!");
         } catch (e) {
         }
     }

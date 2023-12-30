@@ -1,6 +1,6 @@
 import {ServerBaseBootstrap} from './serverBase.bootstrap';
 import express from 'express';
-const cluster = require('cluster');
+import cluster from "cluster";
 
 /**
  * @extends {ServerBaseBootstrap}

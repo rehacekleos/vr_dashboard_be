@@ -1,4 +1,4 @@
-import {ConfigModel} from './models/config.model';
+import {ConfigModel} from './config.model';
 
 export const productionConfig: ConfigModel = {
 

@@ -6,13 +6,22 @@ The server supports multi-organization.
 The server application is written in Node.js using typescript and express.js.<br>
 MongoDb version 6.0 is used as the database.
 
-## Application Structure in /src directory
+## Application Structure
 
-#### `/app` Application logic
-#### `/bootstrap` Defining different types of server
-#### `/configs` Setting env variables and all global variables
-#### `/server` Express.js server settings
-#### `/shared` Global files such as models, enums, repositories, controllers, middlewares, etc.
+- `/.platform` Specific settings for AWS elastic Beanstalk
+- `/docs` Generated JsDoc documentation
+- `/src` Project source folder
+  - `/app` Application logic 
+  - `/bootstrap` Defining different types of server
+  - `/configs` Setting env variables and all global variables
+  - `/models` Defined global models
+  - `/server` Express.js server settings
+  - `/shared` Global files such as enums, repositories, controllers, middlewares, etc.
+    - `/exceptions` Custom Exceptions
+    - `/repositories` Connection with database
+    - `/utils` Global Utils
+  - `/swagger` Definition of swagger
+  - `index.ts` Application executable file
 
 ## First run on local machine
 

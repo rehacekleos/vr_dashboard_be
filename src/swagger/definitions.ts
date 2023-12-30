@@ -17,17 +17,7 @@ export const swaggerJSDocOptions: OAS3Options = {
                 url: 'http://localhost:8080',
                 description: 'Localhost',
             },
-        ],
-        components: {
-            securitySchemes: {
-                bearerAuth: {
-                    type: "apiKey",
-                    in: "header",
-                    name: "Authorization",
-                    description: "Please insert: \"Bearer <API_KEY>\""
-                }
-            }
-        },
+        ]
     },
 
     apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/server/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js', './**/server/**/*.js'],

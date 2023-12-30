@@ -1,7 +1,8 @@
-import { BaseConfigModel } from './models/config.model';
+import { BaseConfigModel } from './config.model';
 import { ServerType } from '../shared/enums/serverType.enum';
 import { MongoDbType } from '../shared/repositories/mongoDb/strategies/mongoDb.strategy.factory';
 import { CollectionName } from "../shared/repositories/mongoDb/collectionName.enum";
+import { getValuesFromEnum } from "../shared/utils/common.util";
 
 export const baseConfig: BaseConfigModel =  {
     serverName: "vr_dashboard_be",
@@ -15,5 +16,5 @@ export const baseConfig: BaseConfigModel =  {
     dbUrl: process.env.DB_URL,
     mongoDbType: process.env.MONGO_DB_TYPE ? MongoDbType[process.env.MONGO_DB_TYPE]: MongoDbType.MONGODB,
     mongoDbDatabase: process.env.MONGO_DB_DATABASE,
-    mongoDbCollections: [CollectionName.USERS, CollectionName.ORGANISATIONS, CollectionName.EMPLOYEES, CollectionName.PARTICIPANTS, CollectionName.ACTIVITIES, CollectionName.APPLICATIONS, CollectionName.INVITATIONS, CollectionName.APPLICATION_ASSIGNMENT],
+    mongoDbCollections: getValuesFromEnum(CollectionName)
 }

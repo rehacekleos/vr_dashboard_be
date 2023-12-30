@@ -1,6 +1,6 @@
-import { CollectionName } from '../../shared/repositories/mongoDb/collectionName.enum';
-import { ServerType } from '../../shared/enums/serverType.enum';
-import { MongoDbType } from '../../shared/repositories/mongoDb/strategies/mongoDb.strategy.factory';
+import { CollectionName } from '../shared/repositories/mongoDb/collectionName.enum';
+import { ServerType } from '../shared/enums/serverType.enum';
+import { MongoDbType } from '../shared/repositories/mongoDb/strategies/mongoDb.strategy.factory';
 
 export class BaseConfigModel{
     serverName: string;
