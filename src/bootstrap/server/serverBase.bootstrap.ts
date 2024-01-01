@@ -34,6 +34,10 @@ import { ApplicationAssignmentDataAccess } from "../../app/application_assignmen
 import { PublicService } from "../../app/public/public.service";
 import { PublicController } from "../../app/public/public.controller";
 
+/**
+ * Bootstrap of the application.
+ * The service and controller instances are created here and their dependencies are defined.
+ */
 export class ServerBaseBootstrap {
 
     protected workers: number;

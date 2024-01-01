@@ -1,4 +1,4 @@
-import { mongoDbIndexes } from '../indexes/mongoDb.indexes';
+import { mongoDbIndexes } from '../mongoDb.indexes';
 import { DatabaseIndexType, mongoDbIndex } from './mongoDb.strategy.factory';
 import { Db, MongoClient } from 'mongodb';
 import { ConfigFactory } from '../../../../configs/factories/config.factory';
