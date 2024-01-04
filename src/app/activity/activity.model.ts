@@ -55,21 +55,21 @@ export class VRData{
  * Record
  */
 export class Record{
-    /** Timestamp*/
+    /** Timestamp */
     timestamp: string;
-    /** Number of tick*/
+    /** Number of tick */
     tick: number;
-    /** Environment Id*/
+    /** Environment Id */
     environment: string;
-    /** Head position and rotation*/
+    /** Head position and rotation */
     head?: PositionAndRotation;
-    /** Left hand position and rotation*/
+    /** Left hand position and rotation */
     left_hand?: PositionAndRotation;
-    /** Right hand position and rotation*/
+    /** Right hand position and rotation */
     right_hand?: PositionAndRotation;
-    /** Custom data*/
+    /** Custom data */
     custom_data?: any;
-    /** List of event which happen in this record*/
+    /** List of event which happen in this record */
     events?: string[]
 }
 

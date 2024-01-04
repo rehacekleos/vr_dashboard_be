@@ -1,4 +1,4 @@
-import { Role, RoleNames } from "../../models/role.model";
+import { RoleNames } from "../../models/role.model";
 
 export class Invitation{
     id: string;

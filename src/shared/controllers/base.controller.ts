@@ -1,9 +1,15 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { BaseControllerInterface } from './base.controller.interface';
 
+/**
+ * Base controller
+ */
 export class BaseController implements BaseControllerInterface{
-    path = '/';
-    router = express.Router();
+    /** route for controller */
+    readonly path: string = '/';
+
+    /** express.js router */
+    router: Router = express.Router();
 
     constructor() {
     }

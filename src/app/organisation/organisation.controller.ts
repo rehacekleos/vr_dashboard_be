@@ -6,9 +6,17 @@ import { AuthMiddlewareResponse } from "../../models/middlewares.model";
 import { OrganisationService } from "./organisation.service";
 import { NewOrganisation } from "./organisation.model";
 
+/**
+ * Controller for entity Organisation
+ */
 export class OrganisationController extends BaseController {
-    path = '/organisation';
+    /** Controller base route */
+    readonly path = '/organisation';
 
+    /**
+     *
+     * @param organisationService
+     */
     constructor(private organisationService: OrganisationService) {
         super();
         this.initRouter();

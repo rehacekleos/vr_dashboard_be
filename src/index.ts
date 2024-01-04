@@ -1,6 +1,6 @@
-import {IServerInstances} from "./bootstrap/interfaces/IServerInstances";
-import {ServerBootstrap} from "./bootstrap/server/server.bootstrap";
-import {ServerFactory} from "./bootstrap/factories/server.factory";
+import { IServerInstances } from "./bootstrap/interfaces/IServerInstances";
+import { ServerBootstrap } from "./bootstrap/server/server.bootstrap";
+import { ServerFactory } from "./bootstrap/factories/server.factory";
 
 /**
  * Server constant that hold server instance.

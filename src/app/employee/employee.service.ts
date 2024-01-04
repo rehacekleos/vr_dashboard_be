@@ -8,8 +8,17 @@ import { OrganisationDataAccess } from "../organisation/organisation.dataAccess"
 import { EmployeeDataAccess } from "./employee.dataAccess";
 import { User } from "../user/user.model";
 
+/**
+ * Service for entity Employee
+ */
 export class EmployeeService extends BaseService {
 
+    /**
+     *
+     * @param employeeDa
+     * @param userDa
+     * @param orgDa
+     */
     constructor(private employeeDa: EmployeeDataAccess,
                 private userDa: UserDataAccess,
                 private orgDa: OrganisationDataAccess) {

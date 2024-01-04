@@ -2,15 +2,23 @@ import { BaseService } from "../../shared/services/Base.service";
 import { ActivityDataAccess } from "./activity.dataAccess";
 import { ApplicationService } from "../application/application.service";
 import { Activity, NewActivity, SendActivity } from "./activity.model";
-import { ParticipantDataAccess } from "../participant/participant.dataAccess";
-import { HttpException, NoRequiredParameter, WrongBody } from "../../shared/exceptions/HttpException";
+import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { User } from "../user/user.model";
 import { ParticipantService } from "../participant/participant.service";
 import { Employee } from "../employee/employee.model";
 
+/**
+ * Service for entity Activity
+ */
 export class ActivityService extends BaseService{
 
+    /**
+     *
+     * @param activityDa
+     * @param participantService
+     * @param applicationService
+     */
     constructor(private activityDa: ActivityDataAccess,
                 private participantService: ParticipantService,
                 private applicationService: ApplicationService) {

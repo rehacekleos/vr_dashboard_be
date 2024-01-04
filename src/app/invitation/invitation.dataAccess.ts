@@ -1,12 +1,18 @@
 import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
-import { Role, RoleNames } from "../../models/role.model";
+import { RoleNames } from "../../models/role.model";
 import { Invitation, NewInvitation } from "./invitation.model";
 import { v4 as uuid } from "uuid";
 import { generateCode } from "../../shared/utils/common.util";
 import dayjs from "dayjs";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 
+/**
+ * DataAccess for entity Invitation
+ */
 export class InvitationDataAccess extends BaseDataAccess {
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.INVITATIONS);
     }

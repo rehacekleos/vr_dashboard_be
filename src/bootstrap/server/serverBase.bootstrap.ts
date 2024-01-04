@@ -5,7 +5,7 @@
 import { IServerInstances } from "../interfaces/IServerInstances";
 import { Server } from "../../server/server";
 import express from 'express';
-import { ConfigFactory } from '../../configs/factories/config.factory';
+import { ConfigFactory } from '../../configs/config.factory';
 import { AuthService } from "../../app/auth/auth.service";
 import { AuthController } from "../../app/auth/auth.controller";
 import { OrganisationService } from "../../app/organisation/organisation.service";
@@ -60,11 +60,11 @@ export class ServerBaseBootstrap {
      */
     private authService = new AuthService(this.userDa);
     private adminService = new AdminService(this.applicationDa, this.orgDa);
-    private organisationService = new OrganisationService(this.orgDa, this.participantDa, this.applicationDa, this.employeeDa);
+    private organisationService = new OrganisationService(this.orgDa, this.employeeDa);
     private employeeService = new EmployeeService(this.employeeDa, this.userDa, this.orgDa);
     private participantService = new ParticipantService(this.participantDa, this.employeeService);
     private invitationService = new InvitationService(this.invitationDa, this.userDa, this.employeeService);
-    private applicationService = new ApplicationService(this.applicationDa, this.applicationAssignmentDa, this.orgDa);
+    private applicationService = new ApplicationService(this.applicationDa, this.applicationAssignmentDa);
     private activityService = new ActivityService(this.activityDa, this.participantService, this.applicationService);
     private publicService = new PublicService(this.organisationService, this.applicationService, this.activityService, this.participantService);
 

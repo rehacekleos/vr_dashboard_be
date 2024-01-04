@@ -1,16 +1,22 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { OrganisationService } from "../organisation/organisation.service";
 import { authMiddleware } from "../../shared/middlewares/auth.middleware";
 import { ApplicationService } from "./application.service";
 import { AuthMiddlewareResponse, OrganisationMiddlewareResponse } from "../../models/middlewares.model";
-import express, { application } from "express";
+import express from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { AddModule, NewApplication } from "./application.model";
 import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 
+/**
+ * Controller for entity Application
+ */
 export class ApplicationController extends BaseController {
-    path = '/application';
+    /** Controller base route */
+    readonly path = '/application';
 
+    /**
+     * @param applicationService
+     */
     constructor(private applicationService: ApplicationService) {
         super();
         this.initRouter();

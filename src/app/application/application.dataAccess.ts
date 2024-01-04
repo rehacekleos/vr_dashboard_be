@@ -2,7 +2,14 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { Application, NewApplication } from "./application.model";
 import { v4 as uuid } from "uuid";
+
+/**
+ * DataAccess for entity Application
+ */
 export class ApplicationDataAccess extends BaseDataAccess {
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.APPLICATIONS);
     }

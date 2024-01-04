@@ -1,5 +1,4 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { OrganisationService } from "../organisation/organisation.service";
 import { authMiddleware } from "../../shared/middlewares/auth.middleware";
 import { OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express from "express";
@@ -8,9 +7,17 @@ import { organisationMiddleware } from "../../shared/middlewares/organisation.mi
 import { EmployeeService } from "./employee.service";
 import { AssignParticipantsModel, ChangeRoleModel } from "./employee.model";
 
+/**
+ * Controller for entity Employee
+ */
 export class EmployeeController extends BaseController{
-    path = '/employee';
+    /** Controller base route */
+    readonly path = '/employee';
 
+    /**
+     *
+     * @param employeeService
+     */
     constructor(private employeeService: EmployeeService) {
         super();
         this.initRouter();

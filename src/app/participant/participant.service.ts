@@ -1,16 +1,22 @@
 import { BaseService } from "../../shared/services/Base.service";
 import { ParticipantDataAccess } from "./participant.dataAccess";
-import { EmployeeDataAccess } from "../employee/employee.dataAccess";
 import { EmployeeService } from "../employee/employee.service";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { NewParticipant, Participant, ParticipantMetadata, ParticipantsMetadataList } from "./participant.model";
-import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { User } from "../user/user.model";
 import { Employee } from "../employee/employee.model";
 
+/**
+ * Service for entity Participant
+ */
 export class ParticipantService extends BaseService {
 
+    /**
+     *
+     * @param participantDa
+     * @param employeeService
+     */
     constructor(private participantDa: ParticipantDataAccess,
                 private employeeService: EmployeeService) {
         super();

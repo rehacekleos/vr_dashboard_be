@@ -1,15 +1,17 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { ActivityService } from "../activity/activity.service";
 import { authMiddleware } from "../../shared/middlewares/auth.middleware";
-import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 import { OrganisationMiddlewareResponse } from "../../models/middlewares.model";
 import express from "express";
 import { HttpException } from "../../shared/exceptions/HttpException";
 import { AdminService } from "./admin.service";
 import { adminMiddleware } from "../../shared/middlewares/admin.middleware";
 
+/**
+ * Controller for Administrators
+ */
 export class AdminController extends BaseController {
-    path = '/admin'
+    /** Controller base route */
+    readonly path = '/admin'
 
     constructor(private adminService: AdminService) {
         super();

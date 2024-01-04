@@ -8,8 +8,13 @@ import { PublicService } from "./public.service";
  * Public Controller
  */
 export class PublicController extends BaseController{
-    path = '/public'
+    /** Controller base route */
+    readonly path = '/public'
 
+    /**
+     *
+     * @param publicService
+     */
     constructor(private publicService: PublicService) {
         super();
         this.initRouter();

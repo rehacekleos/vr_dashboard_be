@@ -3,17 +3,23 @@ import { ApplicationDataAccess } from "./application.dataAccess";
 import { AddModule, Application, NewApplication } from "./application.model";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
-import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
 import { ApplicationAssignmentDataAccess } from "../application_assignment/application_assignment_data_access";
 import AdmZip from "adm-zip";
 import path from "path";
 import { User } from "../user/user.model";
 
+/**
+ * Service for entity Application
+ */
 export class ApplicationService extends BaseService{
 
+    /**
+     *
+     * @param applicationDa
+     * @param applicationAssigmentDa
+     */
     constructor(private applicationDa: ApplicationDataAccess,
-                private applicationAssigmentDa: ApplicationAssignmentDataAccess,
-                private orgDa: OrganisationDataAccess) {
+                private applicationAssigmentDa: ApplicationAssignmentDataAccess) {
         super();
     }
 

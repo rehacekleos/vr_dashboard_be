@@ -2,11 +2,16 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { Activity, CompressedActivity, NewActivity } from "./activity.model";
 import { v4 as uuid } from "uuid";
-import { Participant } from "../participant/participant.model";
 import dayjs from "dayjs";
 import { sortDate } from "../../shared/utils/common.util";
 
+/**
+ * DataAccess for entity Activity
+ */
 export class ActivityDataAccess extends BaseDataAccess {
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.ACTIVITIES);
     }

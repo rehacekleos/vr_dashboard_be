@@ -2,10 +2,15 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { NewParticipant, Participant } from "./participant.model";
 import { v4 as uuid } from "uuid";
-import { Organisation } from "../organisation/organisation.model";
 
+/**
+ * DataAccess for entity Participant
+ */
 export class ParticipantDataAccess extends BaseDataAccess{
 
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.PARTICIPANTS);
     }

@@ -4,12 +4,22 @@ import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { ApplicationService } from "../application/application.service";
 import { ActivityService } from "../activity/activity.service";
-import { NewActivity, SendActivity, VRData } from "../activity/activity.model";
+import { SendActivity, VRData } from "../activity/activity.model";
 import { ParticipantService } from "../participant/participant.service";
 import { ParticipantsMetadataList } from "../participant/participant.model";
 
+/**
+ * Service for public controller
+ */
 export class PublicService extends BaseService{
 
+    /**
+     *
+     * @param organisationService
+     * @param applicationService
+     * @param activityService
+     * @param participantService
+     */
     constructor(private organisationService: OrganisationService,
                 private applicationService: ApplicationService,
                 private activityService: ActivityService,

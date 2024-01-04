@@ -1,10 +1,14 @@
-import { AuthMiddlewareResponse, OrganisationMiddlewareResponse } from "../../models/middlewares.model";
+import { AuthMiddlewareResponse } from "../../models/middlewares.model";
 import express, { NextFunction } from "express";
-import { OrganisationDataAccess } from "../../app/organisation/organisation.dataAccess";
 import { isEmptyAndNull } from "../utils/common.util";
 import { HttpException } from "../exceptions/HttpException";
-import { EmployeeDataAccess } from "../../app/employee/employee.dataAccess";
 
+/**
+ * Middleware that checks if the user is a superAdmin or a developer
+ * @param request HTTP request
+ * @param response HTTP response
+ * @param next Parse data to flow
+ */
 export async function adminMiddleware(request: AuthMiddlewareResponse, response: express.Response, next: NextFunction) {
     const user = request.user;
 

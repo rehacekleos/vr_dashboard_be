@@ -1,6 +1,6 @@
-import {ServerBootstrap} from '../server/server.bootstrap';
+import { ServerBootstrap } from '../server/server.bootstrap';
 import { ServerType } from '../../shared/enums/serverType.enum';
-import { ConfigFactory } from '../../configs/factories/config.factory';
+import { ConfigFactory } from '../../configs/config.factory';
 
 export class ServerFactory {
 

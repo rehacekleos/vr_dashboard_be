@@ -5,16 +5,20 @@ import { NewOrganisation, Organisation } from "./organisation.model";
 import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { EmployeeDataAccess } from "../employee/employee.dataAccess";
-import { ParticipantDataAccess } from "../participant/participant.dataAccess";
-import { ApplicationDataAccess } from "../application/application.dataAccess";
 import { NewEmployee } from "../employee/employee.model";
 import { RoleNames } from "../../models/role.model";
 
+/**
+ * Service for entity Organisation
+ */
 export class OrganisationService extends BaseService {
 
+    /**
+     *
+     * @param orgDa
+     * @param employeeDa
+     */
     constructor(private orgDa: OrganisationDataAccess,
-                private participantDa: ParticipantDataAccess,
-                private applicationDa: ApplicationDataAccess,
                 private employeeDa: EmployeeDataAccess) {
         super();
     }

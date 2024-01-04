@@ -1,5 +1,5 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { ConfigFactory } from '../../configs/factories/config.factory';
+import { ConfigFactory } from '../../configs/config.factory';
 import { MongoDbConnection } from '../../shared/repositories/mongoDb/mongoDb.connection';
 import swaggerUi, { SwaggerOptions } from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -9,7 +9,8 @@ import { swaggerJSDocOptions } from "../../swagger/definitions";
  * Default Controller
  */
 export class DefaultController extends BaseController {
-    path = '/';
+    /** Controller base route */
+    readonly path = '/';
 
     swaggerSpec = swaggerJSDoc(swaggerJSDocOptions);
 
@@ -26,6 +27,9 @@ export class DefaultController extends BaseController {
         }
     }
 
+    /**
+     *
+     */
     constructor() {
         super()
         this.initRouter()

@@ -4,8 +4,13 @@ import { UserDataAccess } from "../../app/user/user.dataAccess";
 import { User } from "../../app/user/user.model";
 import { HttpException } from "../exceptions/HttpException";
 import { AuthMiddlewareResponse } from "../../models/middlewares.model";
-import { includes } from "lodash";
 
+/**
+ * Middleware that checks if the http request contains a jwt token and if this token is valid. It also checks if the user specified in the token exists.
+ * @param request HTTP request
+ * @param response HTTP response
+ * @param next Parse data to flow
+ */
 export async function authMiddleware(request: AuthMiddlewareResponse, response: express.Response, next: NextFunction) {
     const token = request.header('Authorization')
 

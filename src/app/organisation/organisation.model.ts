@@ -1,5 +1,3 @@
-import { User } from "../user/user.model";
-
 export class Organisation {
     id: string;
     code: string;

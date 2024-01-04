@@ -1,12 +1,19 @@
 import { mongoDbIndexes } from '../mongoDb.indexes';
-import { DatabaseIndexType, mongoDbIndex } from './mongoDb.strategy.factory';
+import { DatabaseIndexType, mongoDbIndex, StandardIndex, TTLIndex } from './mongoDb.strategy.factory';
 import { Db, MongoClient } from 'mongodb';
-import { ConfigFactory } from '../../../../configs/factories/config.factory';
+import { ConfigFactory } from '../../../../configs/config.factory';
 
+/**
+ * Support for database setup
+ */
 export class MongoDbStrategy {
     private readonly indexes: mongoDbIndex[] = mongoDbIndexes;
     private readonly config = ConfigFactory.getConfig();
 
+    /**
+     * Creates database collections if they do not exist
+     * @param client MongoDB client
+     */
     public async createCollections(client: MongoClient){
         console.info("Mongo creating collections!");
         const db = client.db(this.config.mongoDbDatabase);
@@ -29,12 +36,16 @@ export class MongoDbStrategy {
         }
     }
 
+    /**
+     * Creates database indexes if they do not exist
+     * @param client MongoDB client
+     */
     public async createIndexing(client: MongoClient) {
         console.info("Mongo creating indexing!");
         const db = client.db(this.config.mongoDbDatabase);
         const promisesArray = []
         for (const index of this.indexes) {
-            if (index.drop) {
+            if (index.type !== DatabaseIndexType.COMPOUND && index.drop) {
                 await this.dropIndex(index, db);
             }
             switch (index.type) {
@@ -53,7 +64,12 @@ export class MongoDbStrategy {
         console.info("Mongo indexes created!");
     }
 
-    public async dropIndex(index: mongoDbIndex, db: Db){
+    /**
+     * Removes indexes from the database
+     * @param index index to remove
+     * @param db instance of db
+     */
+    public async dropIndex(index: StandardIndex | TTLIndex, db: Db){
         const collectionIndexes = await db.collection(index.collection).indexes();
         if (collectionIndexes.findIndex(i => i.name === index.name + '_1') !== -1){
             try {
@@ -64,12 +80,17 @@ export class MongoDbStrategy {
         }
     }
 
+    /**
+     * Creating standard index
+     * @param index index to create
+     * @param db instance of db
+     */
     public async createClassicIndex(index: mongoDbIndex, db: Db) {
         const obj = {}
-        if (index.name) {
+        if (index.type === DatabaseIndexType.STANDARD && index.name) {
             obj[index.name] = 1;
         }
-        if (index.names){
+        if (index.type === DatabaseIndexType.COMPOUND && index.names){
             for (let name of index.names){
                 obj[name] = 1;
             }
@@ -77,7 +98,12 @@ export class MongoDbStrategy {
         return await db.collection(index.collection).createIndex(obj);
     }
 
-    public async createTTLIndex(index: mongoDbIndex, db: Db) {
+    /**
+     * Creating TTL index
+     * @param index index to create
+     * @param db instance of db
+     */
+    public async createTTLIndex(index: TTLIndex, db: Db) {
         const obj = {}
         obj[index.name] = 1;
         return await db.collection(index.collection).createIndex(obj, {expireAfterSeconds: index.value});

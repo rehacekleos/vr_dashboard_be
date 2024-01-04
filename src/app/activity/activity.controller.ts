@@ -7,9 +7,16 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { ActivityService } from "./activity.service";
 import { NewActivity } from "./activity.model";
 
+/**
+ * Controller for entity Activity
+ */
 export class ActivityController extends BaseController{
-    path = '/activity'
+    /** Controller base route */
+    readonly path = '/activity'
 
+    /**
+     * @param activityService
+     */
     constructor(private activityService: ActivityService) {
         super();
         this.initRouter();

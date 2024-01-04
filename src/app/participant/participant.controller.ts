@@ -1,5 +1,4 @@
 import { BaseController } from "../../shared/controllers/base.controller";
-import { ApplicationService } from "../application/application.service";
 import { authMiddleware } from "../../shared/middlewares/auth.middleware";
 import { ParticipantService } from "./participant.service";
 import { AuthMiddlewareResponse, OrganisationMiddlewareResponse } from "../../models/middlewares.model";
@@ -8,9 +7,17 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { NewParticipant, Participant } from "./participant.model";
 import { organisationMiddleware } from "../../shared/middlewares/organisation.middleware";
 
+/**
+ * Controller for entity Participant
+ */
 export class ParticipantController extends BaseController{
-    path = '/participant';
+    /** Controller base route */
+    readonly path = '/participant';
 
+    /**
+     *
+     * @param participantService
+     */
     constructor(private participantService: ParticipantService) {
         super();
         this.initRouter();

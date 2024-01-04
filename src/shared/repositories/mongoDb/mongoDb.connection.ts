@@ -1,9 +1,11 @@
 import { MongoClient } from 'mongodb';
 import cluster from 'cluster';
-import { ConfigFactory } from '../../../configs/factories/config.factory';
+import { ConfigFactory } from '../../../configs/config.factory';
 import { MongoDbStrategyFactory } from './strategies/mongoDb.strategy.factory';
 
-
+/**
+ * Singleton that takes care of connecting to the database and setting it up.
+ */
 export class MongoDbConnection {
     private static instance: MongoDbConnection
     public readonly mongoClient: Promise<MongoClient>

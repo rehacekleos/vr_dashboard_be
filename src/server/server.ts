@@ -1,13 +1,10 @@
 import express from 'express';
 import cors from 'cors'
-import {BaseController} from "../shared/controllers/base.controller";
-import {errorHandlerMiddleware} from "../shared/middlewares/errorHandler.middleware";
-import {serverMiddleware} from "../shared/middlewares/server.middleware";
-import { ConfigFactory } from '../configs/factories/config.factory';
-
-import swaggerUi from "swagger-ui-express";
+import { BaseController } from "../shared/controllers/base.controller";
+import { errorHandlerMiddleware } from "../shared/middlewares/errorHandler.middleware";
+import { serverMiddleware } from "../shared/middlewares/server.middleware";
+import { ConfigFactory } from '../configs/config.factory';
 import bodyParser from "body-parser";
-import helmet from "helmet";
 import path from "path";
 
 export class Server {

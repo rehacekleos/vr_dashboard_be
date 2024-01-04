@@ -2,6 +2,9 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { ApplicationAssignment } from "./application_assignment.model";
 
+/**
+ * DataAccess for entity Application Assignment
+ */
 export class ApplicationAssignmentDataAccess extends BaseDataAccess{
 
     constructor() {

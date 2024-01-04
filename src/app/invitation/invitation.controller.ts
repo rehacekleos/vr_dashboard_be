@@ -7,9 +7,17 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { InvitationService } from "./invitation.service";
 import { AcceptInvitation, NewInvitation } from "./invitation.model";
 
+/**
+ * Controller for entity Invitation
+ */
 export class InvitationController extends BaseController{
-    path = "/invitation";
+    /** Controller base route */
+    readonly path = "/invitation";
 
+    /**
+     *
+     * @param invitationService
+     */
     constructor(private invitationService: InvitationService) {
         super();
         this.initRouter();
@@ -21,7 +29,6 @@ export class InvitationController extends BaseController{
         this.router.post('/accept', [authMiddleware], this.acceptInvitation);
         this.router.patch('/:invitationId', [authMiddleware, organisationMiddleware], this.extendInvitation);
         this.router.delete('/:invitationId', [authMiddleware, organisationMiddleware], this.deleteInvitation);
-
     }
 
     getInvitations = async (req: OrganisationMiddlewareResponse, res: express.Response, next) => {

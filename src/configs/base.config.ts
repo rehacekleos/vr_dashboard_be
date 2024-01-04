@@ -4,6 +4,10 @@ import { MongoDbType } from '../shared/repositories/mongoDb/strategies/mongoDb.s
 import { CollectionName } from "../shared/repositories/mongoDb/collectionName.enum";
 import { getValuesFromEnum } from "../shared/utils/common.util";
 
+/**
+ * Base configuration <br>
+ * Definition of application variables
+ */
 export const baseConfig: BaseConfigModel =  {
     serverName: "vr_dashboard_be",
     version: '1.0.0',
@@ -12,7 +16,6 @@ export const baseConfig: BaseConfigModel =  {
     jwtSecret: "qUKJICRaniWVGGS83bqBOVqGoIz1SBQL47lyMhiZLmzQ8hhvZZWfR8LKXYCSrjSD",
     jwtIssuer: "vr_dashboard",
     serverType: process.env.SERVER_TYPE ? ServerType[process.env.SERVER_TYPE] : ServerType.DEFAULT,
-    frontendURL: process.env.FRONTEND_URL,
     dbUrl: process.env.DB_URL,
     mongoDbType: process.env.MONGO_DB_TYPE ? MongoDbType[process.env.MONGO_DB_TYPE]: MongoDbType.MONGODB,
     mongoDbDatabase: process.env.MONGO_DB_DATABASE,

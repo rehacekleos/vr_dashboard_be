@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { ConfigFactory } from "../../configs/factories/config.factory";
+import { ConfigFactory } from "../../configs/config.factory";
 import { HttpException } from "../exceptions/HttpException";
 
 /**

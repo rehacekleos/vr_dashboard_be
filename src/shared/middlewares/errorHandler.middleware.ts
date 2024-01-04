@@ -1,6 +1,13 @@
-import {HttpException} from "../exceptions/HttpException";
-import express, {NextFunction} from "express";
+import { HttpException } from "../exceptions/HttpException";
+import express, { NextFunction } from "express";
 
+/**
+ * Middleware that enriches the http response in case of an error.
+ * @param error Error
+ * @param request HTTP request
+ * @param response HTTP response
+ * @param next Parse data to flow
+ */
 export function errorHandlerMiddleware(error: any, request: express.Request, response: express.Response, next: NextFunction) {
     const message = error.message || 'Something went wrong';
     if (error instanceof HttpException) {

@@ -2,13 +2,19 @@ import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
 import { v4 as uuid } from "uuid";
 import { Organisation } from "./organisation.model";
-import { User } from "../user/user.model";
-import { generateCode, isEmptyAndNull } from "../../shared/utils/common.util";
+import { generateCode } from "../../shared/utils/common.util";
 
+/**
+ * Singleton DataAccess for entity Organisation
+ */
 export class OrganisationDataAccess extends BaseDataAccess {
 
+    /** Instance */
     private static instance: OrganisationDataAccess;
 
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.ORGANISATIONS);
     }

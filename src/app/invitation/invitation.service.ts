@@ -10,8 +10,17 @@ import { Employee, NewEmployee } from "../employee/employee.model";
 import { User } from "../user/user.model";
 import { UserDataAccess } from "../user/user.dataAccess";
 
+/**
+ * Service for entity Invitation
+ */
 export class InvitationService extends BaseService{
 
+    /**
+     *
+     * @param invDa
+     * @param userDa
+     * @param employeeService
+     */
     constructor(private invDa: InvitationDataAccess,
                 private userDa: UserDataAccess,
                 private employeeService: EmployeeService) {

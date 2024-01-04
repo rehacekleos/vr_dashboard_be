@@ -1,6 +1,7 @@
-import {ServerBaseBootstrap} from './serverBase.bootstrap';
+import { ServerBaseBootstrap } from './serverBase.bootstrap';
 import express from 'express';
 import cluster from "cluster";
+import { IServerInstances } from "../interfaces/IServerInstances";
 
 /**
  * @extends {ServerBaseBootstrap}
@@ -11,7 +12,7 @@ export class ServerBootstrap extends ServerBaseBootstrap{
         super();
     }
 
-    public async start() {
+    public async start(): Promise<IServerInstances> {
 
         let app: express.Application;
 

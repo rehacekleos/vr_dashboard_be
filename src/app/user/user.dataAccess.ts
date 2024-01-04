@@ -1,15 +1,21 @@
 import { BaseDataAccess } from "../../shared/da/Base.dataAccess";
 import { CollectionName } from "../../shared/repositories/mongoDb/collectionName.enum";
-import { AuthController } from "../auth/auth.controller";
 import { User } from "./user.model";
 import { RegisterUser } from "../auth/auth.model";
 import { PasswordUtil } from "../../shared/utils/password.util";
 import { v4 as uuid } from 'uuid';
 
+/**
+ * Singleton DataAccess for entity User
+ */
 export class UserDataAccess extends BaseDataAccess {
 
+    /** Instance */
     private static instance: UserDataAccess;
 
+    /**
+     *
+     */
     constructor() {
         super(CollectionName.USERS);
     }

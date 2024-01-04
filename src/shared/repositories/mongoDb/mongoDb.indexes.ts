@@ -1,11 +1,14 @@
 import { DatabaseIndexType, mongoDbIndex } from './strategies/mongoDb.strategy.factory';
 import { CollectionName } from "./collectionName.enum";
 
+/**
+ * Database index definitions
+ */
 export const mongoDbIndexes: mongoDbIndex[] = [
     {
         name: "id",
         type: DatabaseIndexType.STANDARD,
-        collection: CollectionName.USERS
+        collection: CollectionName.USERS,
     },
     {
         name: "email",

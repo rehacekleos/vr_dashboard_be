@@ -6,5 +6,7 @@
   "excludeNotDocumented": true,
   "excludeExternals": true,
   "includeVersion": true,
-  "plugin": ["typedoc-plugin-merge-modules"]
+  "plugin": ["typedoc-theme-hierarchy", "typedoc-plugin-merge-modules"],
+  "theme": "hierarchy",
+  "name": "VR Dashboard"
 }

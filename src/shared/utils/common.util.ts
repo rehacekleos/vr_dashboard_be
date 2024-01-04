@@ -2,6 +2,7 @@ import { customAlphabet } from 'nanoid'
 import _ from 'lodash';
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
+
 dayjs.extend(utc)
 
 /**
@@ -13,7 +14,7 @@ export function isEmpty(value: any){
 }
 
 /**
- * Generate code.
+ * Generate random code.
  * @param length Standard generate code of length 12 char
  */
 export function generateCode(length = 12): string {

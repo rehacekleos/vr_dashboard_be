@@ -6,10 +6,17 @@ import { HttpException } from "../../shared/exceptions/HttpException";
 import { JwtUtil } from "../../shared/utils/jwt.util";
 import { PasswordUtil } from "../../shared/utils/password.util";
 
+/**
+ * Service for authorization
+ */
 export class AuthService extends BaseService{
-
+    /** JWT utils */
     private jwtUtil = JwtUtil.getInstance();
 
+    /**
+     *
+     * @param userDa
+     */
     constructor(private userDa: UserDataAccess) {
         super();
     }
