@@ -1,6 +1,6 @@
 import { mongoDbIndexes } from '../mongoDb.indexes';
 import { DatabaseIndexType, mongoDbIndex, StandardIndex, TTLIndex } from './mongoDb.strategy.factory';
-import { Db, MongoClient } from 'mongodb';
+import { Db, MongoClient, MongoServerError } from 'mongodb';
 import { ConfigFactory } from '../../../../configs/config.factory';
 
 /**
@@ -23,6 +23,7 @@ export class MongoDbStrategy {
                         try {
                             await db.createCollection(collection);
                             console.info(`Mongo collection ${collection} is created!`);
+                            resolve(null);
                         } catch (e) {
                             reject(e.message);
                         }
@@ -30,7 +31,7 @@ export class MongoDbStrategy {
                 ))
                 }
         try{
-            await Promise.all(promisesArray).catch(() => {});
+            await Promise.all(promisesArray);
             console.info("Mongo collection created or updated!");
         } catch (e) {
         }
