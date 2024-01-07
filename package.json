@@ -1,7 +1,8 @@
 {
   "name": "vr_dashboard_be",
   "version": "1.0.0",
-  "description": "",
+  "author": "Leos Rehacek",
+  "license": "MIT",
   "main": "build/index.js",
   "scripts": {
     "start": "node --max_old_space_size=400 build/index.js",
@@ -9,12 +10,9 @@
     "generate:docs": "typedoc",
     "build": "tsc",
     "copy-aws-platform": "cp -R ./.platform build",
-    "zip:deploy": "tsc && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*",
-    "zip:deploy-aws": "tsc && npm run copy-aws-platform && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
+    "zip:deploy": "tsc && npm run generate:docs && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*",
+    "zip:deploy-aws": "tsc && npm run generate:docs && npm run copy-aws-platform && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
   },
-  "keywords": [],
-  "author": "Leos Rehacek",
-  "license": "MIT",
   "dependencies": {
     "@types/adm-zip": "^0.5.3",
     "@types/express": "^4.17.17",

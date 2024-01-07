@@ -14,6 +14,7 @@ export class AuthController extends BaseController{
     readonly path = '/auth';
 
     /**
+     * @constructor
      * @param authService
      */
     constructor(private authService: AuthService) {

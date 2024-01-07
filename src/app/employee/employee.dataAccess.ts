@@ -12,7 +12,7 @@ export class EmployeeDataAccess extends BaseDataAccess {
     private static instance: EmployeeDataAccess;
 
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.EMPLOYEES);

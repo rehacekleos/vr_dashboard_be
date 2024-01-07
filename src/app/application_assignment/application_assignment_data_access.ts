@@ -7,6 +7,9 @@ import { ApplicationAssignment } from "./application_assignment.model";
  */
 export class ApplicationAssignmentDataAccess extends BaseDataAccess{
 
+    /**
+     * @constructor
+     */
     constructor() {
         super(CollectionName.APPLICATION_ASSIGNMENT);
     }

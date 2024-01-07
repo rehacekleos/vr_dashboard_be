@@ -14,7 +14,7 @@ import { User } from "../user/user.model";
 export class EmployeeService extends BaseService {
 
     /**
-     *
+     * @constructor
      * @param employeeDa
      * @param userDa
      * @param orgDa

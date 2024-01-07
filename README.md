@@ -44,7 +44,8 @@ To run the application on the local machine for the first time, you need to do t
 3. Define the following env in the .env file
    - DB_URL
    - MONGO_DB_DATABASE
-4. Run the application using `npm run dev`
+4. Generate JS documentation by `npm run generate:docs`
+5. Run the application using `npm run dev`
 
 After that, the application should be available at [http://localhost:8000](http://localhost:8000).<br> If you try opening the following address in a browser, you should see the Swagger documentation.
 
@@ -70,7 +71,12 @@ Builds the docs to the `/docs` folder.
 
 ### `npm run zip:deploy`
 
-Builds the app for production and zip it into `deploy-code.zip`.
+Builds the app for production and zip it into `deploy-code.zip`. 
+
+### `npm run zip:deploy-aws`
+
+**This command is for unix system. Or you need to have installed cp command!!**\
+Builds the app for production with setting for AWS ElasticBeanstalk and zip it into `deploy-code.zip`.
 
 ## Swagger
 

@@ -1,5 +1,5 @@
 /**
- * Type of server
+ * Types of server
  */
 export enum ServerType {
     DEFAULT = "DEFAULT"

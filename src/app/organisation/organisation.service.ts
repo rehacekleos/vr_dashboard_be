@@ -14,7 +14,7 @@ import { RoleNames } from "../../models/role.model";
 export class OrganisationService extends BaseService {
 
     /**
-     *
+     * @constructor
      * @param orgDa
      * @param employeeDa
      */

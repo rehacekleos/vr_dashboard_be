@@ -14,7 +14,7 @@ export class OrganisationController extends BaseController {
     readonly path = '/organisation';
 
     /**
-     *
+     * @constructor
      * @param organisationService
      */
     constructor(private organisationService: OrganisationService) {

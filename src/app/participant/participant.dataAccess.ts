@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid";
 export class ParticipantDataAccess extends BaseDataAccess{
 
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.PARTICIPANTS);

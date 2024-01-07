@@ -8,7 +8,7 @@ import { v4 as uuid } from "uuid";
  */
 export class ApplicationDataAccess extends BaseDataAccess {
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.APPLICATIONS);

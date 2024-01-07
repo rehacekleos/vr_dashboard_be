@@ -1,33 +1,60 @@
+/**
+ * Activity
+ */
 export class Activity{
+    /** ID */
     id: string;
+    /** Timestamp*/
     time: string;
+    /** VR data*/
     data: VRData;
+    /** Notes */
     notes: string;
+    /** Is anonymous activity? */
     anonymous: boolean;
 
+    /** Participant ID */
     participantId: string;
+    /** Application ID */
     applicationId: string;
+    /** Organisation ID */
     organisationId: string;
 }
+
 
 export class CompressedActivity extends Activity{
     data: any;
 }
 
+/**
+ * Model of new activity send from client app
+ */
 export class NewActivity{
+    /** VR data */
     data: VRData;
+    /** Is anonymous activity? */
     anonymous: boolean;
+    /** Activity notes */
     notes: string;
 
+    /** Application ID */
     applicationId: string;
+    /** Participant ID */
     participantId?: string;
 }
 
+/**
+ * Model of new activity send from VR dashboard logger
+ */
 export class SendActivity{
+    /** VR data */
     data: VRData;
+    /** Is anonymous activity? */
     anonymous: boolean;
 
+    /** Organisation code */
     organisation_code: string;
+    /** Participant ID */
     participantId?: string
 }
 

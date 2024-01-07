@@ -4,7 +4,7 @@ import { isEmptyAndNull } from "../../shared/utils/common.util";
 import { HttpException, WrongBody } from "../../shared/exceptions/HttpException";
 import { ApplicationService } from "../application/application.service";
 import { ActivityService } from "../activity/activity.service";
-import { SendActivity, VRData } from "../activity/activity.model";
+import { Activity, SendActivity, VRData } from "../activity/activity.model";
 import { ParticipantService } from "../participant/participant.service";
 import { ParticipantsMetadataList } from "../participant/participant.model";
 
@@ -14,7 +14,7 @@ import { ParticipantsMetadataList } from "../participant/participant.model";
 export class PublicService extends BaseService{
 
     /**
-     *
+     * @constructor
      * @param organisationService
      * @param applicationService
      * @param activityService
@@ -27,6 +27,15 @@ export class PublicService extends BaseService{
         super();
     }
 
+    /**
+     * Getting VR Data by Activity ID <br>
+     * If the Environmental ID is specified then the VR data is filtered using it
+     * @param applicationIdentifier Application ID
+     * @param orgCode Organisation code
+     * @param activityId Activity ID
+     * @param environmentId Environmental ID
+     * @returns {Promise<VRData>}
+     */
     async getActivityVrData(applicationIdentifier: string, orgCode: string, activityId: string, environmentId: string): Promise<VRData> {
         const org = await this.organisationService.getOrganisationByCode(orgCode);
         if (isEmptyAndNull(org)){
@@ -57,6 +66,12 @@ export class PublicService extends BaseService{
         return VRData;
     }
 
+    /**
+     * Get Participants metadata for Organisation
+     * @param applicationIdentifier Application ID
+     * @param orgCode Organisation code
+     * @returns {Promise<ParticipantsMetadataList>}
+     */
     async getParticipants(applicationIdentifier: string, orgCode: string): Promise<ParticipantsMetadataList> {
         const org = await this.organisationService.getOrganisationByCode(orgCode);
         if (isEmptyAndNull(org)){
@@ -73,6 +88,11 @@ export class PublicService extends BaseService{
         return await this.participantService.getParticipantsMetadata(org.id);
     }
 
+    /**
+     * Save new Activity
+     * @param applicationIdentifier Application ID
+     * @param activity New Activity
+     */
     async saveNewActivity(applicationIdentifier: string, activity: SendActivity) {
         if (isEmptyAndNull(activity.organisation_code)){
             throw new WrongBody("Activity", "Organisation code is not defined");
@@ -98,7 +118,14 @@ export class PublicService extends BaseService{
 
     }
 
-    async getActivities(applicationIdentifier: string, orgCode: string, participantId: string) {
+    /**
+     * Get Activities for Participant
+     * @param applicationIdentifier Application ID
+     * @param orgCode Organisation Code
+     * @param participantId Participant ID
+     * @returns {Promise<Activity[]>}
+     */
+    async getActivities(applicationIdentifier: string, orgCode: string, participantId: string): Promise<Activity[]> {
         const org = await this.organisationService.getOrganisationByCode(orgCode);
         if (isEmptyAndNull(org)){
             throw new HttpException(400, `Organisation with code: ${orgCode} not found.`);

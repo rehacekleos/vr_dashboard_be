@@ -12,7 +12,7 @@ export class PublicController extends BaseController{
     readonly path = '/public'
 
     /**
-     *
+     * @constructor
      * @param publicService
      */
     constructor(private publicService: PublicService) {

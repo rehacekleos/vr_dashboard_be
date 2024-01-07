@@ -10,7 +10,7 @@ import { sortDate } from "../../shared/utils/common.util";
  */
 export class ActivityDataAccess extends BaseDataAccess {
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.ACTIVITIES);

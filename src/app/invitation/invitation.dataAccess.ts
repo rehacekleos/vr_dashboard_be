@@ -11,7 +11,7 @@ import { CollectionName } from "../../shared/repositories/mongoDb/collectionName
  */
 export class InvitationDataAccess extends BaseDataAccess {
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.INVITATIONS);

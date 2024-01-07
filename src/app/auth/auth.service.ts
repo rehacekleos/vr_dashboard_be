@@ -14,7 +14,7 @@ export class AuthService extends BaseService{
     private jwtUtil = JwtUtil.getInstance();
 
     /**
-     *
+     * @constructor
      * @param userDa
      */
     constructor(private userDa: UserDataAccess) {

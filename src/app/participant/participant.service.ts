@@ -13,7 +13,7 @@ import { Employee } from "../employee/employee.model";
 export class ParticipantService extends BaseService {
 
     /**
-     *
+     * @constructor
      * @param participantDa
      * @param employeeService
      */

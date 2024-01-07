@@ -4,6 +4,9 @@ import cluster from "cluster";
 import { IServerInstances } from "../interfaces/IServerInstances";
 
 /**
+ * Server bootstrap <br>
+ * Setting number of application instances <br>
+ * Use Node.js cluster package
  * @extends {ServerBaseBootstrap}
  */
 export class ServerBootstrap extends ServerBaseBootstrap{

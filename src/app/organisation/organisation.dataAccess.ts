@@ -13,7 +13,7 @@ export class OrganisationDataAccess extends BaseDataAccess {
     private static instance: OrganisationDataAccess;
 
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.ORGANISATIONS);

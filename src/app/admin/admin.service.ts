@@ -2,6 +2,7 @@ import { BaseService } from "../../shared/services/Base.service";
 import { ApplicationDataAccess } from "../application/application.dataAccess";
 import { Application } from "../application/application.model";
 import { OrganisationDataAccess } from "../organisation/organisation.dataAccess";
+import { Organisation } from "../organisation/organisation.model";
 
 /**
  * Service for administrators
@@ -9,7 +10,7 @@ import { OrganisationDataAccess } from "../organisation/organisation.dataAccess"
 export class AdminService extends BaseService{
 
     /**
-     *
+     * @constructor
      * @param applicationDa
      * @param organisationDa
      */
@@ -19,11 +20,19 @@ export class AdminService extends BaseService{
     }
 
 
+    /**
+     * Get all Applications
+     * @returns {Promise<Application[]>}
+     */
     async getAllApplications(): Promise<Application[]> {
         return await this.applicationDa.getAllApplications();
     }
 
-    async getAllOrganisations() {
+    /**
+     * Get all Organisations
+     * @returns {Promise<Organisation[]>}
+     */
+    async getAllOrganisations(): Promise<Organisation[]> {
         return await this.organisationDa.getAllOrganisations();
     }
 }

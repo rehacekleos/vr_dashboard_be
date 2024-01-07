@@ -15,6 +15,7 @@ export class ApplicationController extends BaseController {
     readonly path = '/application';
 
     /**
+     * @constructor
      * @param applicationService
      */
     constructor(private applicationService: ApplicationService) {

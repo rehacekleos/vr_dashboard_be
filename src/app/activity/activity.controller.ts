@@ -15,6 +15,7 @@ export class ActivityController extends BaseController{
     readonly path = '/activity'
 
     /**
+     * @constructor
      * @param activityService
      */
     constructor(private activityService: ActivityService) {

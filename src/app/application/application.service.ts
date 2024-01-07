@@ -14,7 +14,7 @@ import { User } from "../user/user.model";
 export class ApplicationService extends BaseService{
 
     /**
-     *
+     * @constructor
      * @param applicationDa
      * @param applicationAssigmentDa
      */

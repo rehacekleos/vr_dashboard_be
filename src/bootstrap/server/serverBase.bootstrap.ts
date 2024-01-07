@@ -46,6 +46,7 @@ export class ServerBaseBootstrap {
     /**
      * Define DataAccess
      */
+
     private userDa = UserDataAccess.getInstance();
     private orgDa = OrganisationDataAccess.getInstance();
     private employeeDa = EmployeeDataAccess.getInstance();
@@ -58,6 +59,7 @@ export class ServerBaseBootstrap {
     /**
      * Define services
      */
+
     private authService = new AuthService(this.userDa);
     private adminService = new AdminService(this.applicationDa, this.orgDa);
     private organisationService = new OrganisationService(this.orgDa, this.employeeDa);
@@ -95,12 +97,12 @@ export class ServerBaseBootstrap {
      *
      * @returns {Promise<IServerInstances>} Return value is promise due to async character of the method.
      */
-    protected async start(): Promise<IServerInstances> {
+    async start(): Promise<IServerInstances> {
         return;
     }
 
     /**
-     * Base method for server init derivative from old cloud settings.
+     * Base method for server init.
      * @protected
      *
      * @returns {express.Application}

@@ -15,7 +15,7 @@ export class InvitationController extends BaseController{
     readonly path = "/invitation";
 
     /**
-     *
+     * @constructor
      * @param invitationService
      */
     constructor(private invitationService: InvitationService) {

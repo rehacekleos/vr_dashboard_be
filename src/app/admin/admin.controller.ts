@@ -13,6 +13,10 @@ export class AdminController extends BaseController {
     /** Controller base route */
     readonly path = '/admin'
 
+    /**
+     * @constructor
+     * @param adminService
+     */
     constructor(private adminService: AdminService) {
         super();
         this.initRouter();

@@ -15,7 +15,7 @@ export class ParticipantController extends BaseController{
     readonly path = '/participant';
 
     /**
-     *
+     * @constructor
      * @param participantService
      */
     constructor(private participantService: ParticipantService) {

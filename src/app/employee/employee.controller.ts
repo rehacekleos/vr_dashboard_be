@@ -15,7 +15,7 @@ export class EmployeeController extends BaseController{
     readonly path = '/employee';
 
     /**
-     *
+     * @constructor
      * @param employeeService
      */
     constructor(private employeeService: EmployeeService) {

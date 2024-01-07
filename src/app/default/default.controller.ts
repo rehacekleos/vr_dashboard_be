@@ -28,7 +28,7 @@ export class DefaultController extends BaseController {
     }
 
     /**
-     *
+     * @constructor
      */
     constructor() {
         super()

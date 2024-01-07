@@ -14,7 +14,7 @@ export class UserDataAccess extends BaseDataAccess {
     private static instance: UserDataAccess;
 
     /**
-     *
+     * @constructor
      */
     constructor() {
         super(CollectionName.USERS);
@@ -53,12 +53,5 @@ export class UserDataAccess extends BaseDataAccess {
         }
 
         return newUser;
-    }
-
-    public async deleteUser(id: string){
-        const res = await this.db.collection(this.collection).deleteOne({id: id});
-        if (res.acknowledged === false){
-            throw new Error("Cannot delete user from DB.")
-        }
     }
 }

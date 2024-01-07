@@ -1,12 +1,13 @@
 import { IServerInstances } from "./bootstrap/interfaces/IServerInstances";
 import { ServerBootstrap } from "./bootstrap/server/server.bootstrap";
 import { ServerFactory } from "./bootstrap/factories/server.factory";
+import { ServerBaseBootstrap } from "./bootstrap/server/serverBase.bootstrap";
 
 /**
  * Server constant that hold server instance.
- * @type {ServerBootstrap}
+ * @type {ServerBaseBootstrap}
  */
-const server: ServerBootstrap = ServerFactory.getServerInstance();
+const server: ServerBaseBootstrap = ServerFactory.getServerInstance();
 
 const Index = async ()=> {
     try {

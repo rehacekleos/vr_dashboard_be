@@ -16,7 +16,7 @@ import { UserDataAccess } from "../user/user.dataAccess";
 export class InvitationService extends BaseService{
 
     /**
-     *
+     * @constructor
      * @param invDa
      * @param userDa
      * @param employeeService
