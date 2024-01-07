@@ -2,6 +2,7 @@ import { MongoClient } from 'mongodb';
 import cluster from 'cluster';
 import { ConfigFactory } from '../../../configs/config.factory';
 import { MongoDbStrategyFactory } from './strategies/mongoDb.strategy.factory';
+import { isEmptyAndNull } from "../../utils/common.util";
 
 /**
  * Singleton that takes care of connecting to the database and setting it up.
@@ -18,8 +19,11 @@ export class MongoDbConnection {
     constructor(isPrimary?: boolean) {
         const dbURL = ConfigFactory.getConfig().dbUrl;
 
+        if (isEmptyAndNull(dbURL)){
+            throw new Error("Empty DB_URL env var!")
+        }
+
         try {
-            console.log(dbURL)
             const hostName = new URL(dbURL)?.hostname;
             console.info('Mongo hostname', hostName)
         } catch (e) {
