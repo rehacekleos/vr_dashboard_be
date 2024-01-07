@@ -23,6 +23,11 @@ export class ApplicationService extends BaseService{
         super();
     }
 
+    /**
+     * Get Applications for Organisation
+     * @param orgId
+     * @returns {Promise<Application[]>}
+     */
     public async getApplicationsForOrganisation(orgId: string): Promise<Application[]> {
         const assignments = await this.applicationAssigmentDa.getAssignmentsByOrgId(orgId);
         if (assignments.length < 1){
@@ -32,10 +37,22 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.getApplicationsByIds(applicationIds);
     }
 
+    /**
+     * Get Application by ID
+     * @param id
+     * @returns {Promise<Application>}
+     */
     public async getApplication(id: string): Promise<Application> {
         return await this.applicationDa.getApplication(id);
     }
 
+    /**
+     * Create new Application
+     * @param application
+     * @param orgId
+     * @param user
+     * @returns {Promise<Application>}
+     */
     public async createApplication(application: NewApplication, orgId: string, user: User): Promise<Application> {
         if (!user.superAdmin && !user.developer){
             throw new HttpException(400, "You do not have permission");
@@ -49,7 +66,14 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.createApplication(application);
     }
 
-    public async assignApplication(applicationId: string, orgId: string, user: User) {
+    /**
+     * Assign Application to Organisation
+     * @param applicationId
+     * @param orgId
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async assignApplication(applicationId: string, orgId: string, user: User): Promise<void> {
         if (!user.superAdmin && !user.developer){
             throw new HttpException(400, "You do not have permission");
         }
@@ -61,6 +85,13 @@ export class ApplicationService extends BaseService{
         await this.applicationAssigmentDa.createAssignment(applicationId, orgId);
     }
 
+    /**
+     * Update Application settings
+     * @param id
+     * @param setting
+     * @param user
+     * @returns {Promise<Application>}
+     */
     public async updateSetting(id: string, setting: any, user: User): Promise<Application> {
         if (!user.superAdmin && !user.developer){
             throw new HttpException(400, "You do not have permission");
@@ -74,7 +105,13 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.updateSetting(id, setting);
     }
 
-    public async deleteApplication(id: string, user: User) {
+    /**
+     * Delete Application
+     * @param id
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async deleteApplication(id: string, user: User): Promise<void> {
         if (!user.superAdmin && !user.developer){
             throw new HttpException(400, "You do not have permission");
         }
@@ -87,7 +124,14 @@ export class ApplicationService extends BaseService{
         return await this.applicationDa.deleteApplication(id);
     }
 
-    async addModule(applicationId: string, module: AddModule, user: User) {
+    /**
+     * Add Application Module
+     * @param applicationId
+     * @param module
+     * @param user
+     * @returns {Promise<void>}
+     */
+    async addModule(applicationId: string, module: AddModule, user: User): Promise<void> {
         if (!user.superAdmin && !user.developer){
             throw new HttpException(400, "You do not have permission");
         }

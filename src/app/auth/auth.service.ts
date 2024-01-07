@@ -21,6 +21,11 @@ export class AuthService extends BaseService{
         super();
     }
 
+    /**
+     * Login User
+     * @param login
+     * @returns {Promise<AuthResponse>}
+     */
     public async login(login: LoginUser): Promise<AuthResponse> {
         if (isEmpty(login.email) || isEmpty(login.password)){
             throw new HttpException(400, "Wrong login model.")
@@ -41,6 +46,11 @@ export class AuthService extends BaseService{
         };
     }
 
+    /**
+     * Register User
+     * @param register
+     * @returns {Promise<AuthResponse>}
+     */
     public async register(register: RegisterUser): Promise<AuthResponse> {
 
         const user = await this.userDa.getUserByEmail(register.email);

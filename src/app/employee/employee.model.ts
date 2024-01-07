@@ -44,6 +44,10 @@ export class ChangeRoleModel{
      */
     roleName: string
 }
+
+/**
+ * Assign Participants to Employee
+ */
 export class AssignParticipantsModel{
     employeeId: string
     participants: string[]

@@ -23,40 +23,62 @@ export class OrganisationService extends BaseService {
         super();
     }
 
+    /**
+     * Get all Organisations for User
+     * @param user
+     * @returns {Promise<Organisation[]>}
+     */
     public async getOrganisationsForUser(user: User): Promise<Organisation[]> {
         const employees = await this.employeeDa.getEmployeesForUser(user.id);
-        if (employees.length < 1){
+        if (employees.length < 1) {
             return [];
         }
         const orgIds = employees.map(e => e.organisationId);
         return await this.orgDa.getOrganisationsByIds(orgIds);
     }
 
+    /**
+     * Get Organisation by ID for User
+     * @param id
+     * @param user
+     * @returns {Promise<Organisation>}
+     */
     public async getOrganisationByIdForUser(id: string, user: User): Promise<Organisation> {
-        if (user.superAdmin === true){
+        if (user.superAdmin === true) {
             return await this.orgDa.getOrganisationById(id);
         }
 
         const employee = await this.employeeDa.getEmployeeForOrgAndUser(id, user.id);
-        if (isEmptyAndNull(employee)){
+        if (isEmptyAndNull(employee)) {
             return null;
         }
 
         return await this.orgDa.getOrganisationById(employee.organisationId);
     }
 
+    /**
+     * Get Organisation by code
+     * @param code
+     * @returns {Promise<Organisation>}
+     */
     public async getOrganisationByCode(code: string): Promise<Organisation> {
         return await this.orgDa.getOrganisationByCode(code);
     }
 
-    public async createOrganisation(body: NewOrganisation, user: User) {
-        if (isEmptyAndNull(body.name)){
+    /**
+     * Create new Organisation
+     * @param body
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async createOrganisation(body: NewOrganisation, user: User): Promise<Organisation> {
+        if (isEmptyAndNull(body.name)) {
             new WrongBody("New Organisation")
         }
 
-        const newOrg =  await this.orgDa.createOrganisation(body.name);
+        const newOrg = await this.orgDa.createOrganisation(body.name);
 
-        if (!user.superAdmin){
+        if (!user.superAdmin) {
             const emp: NewEmployee = {
                 organisationId: newOrg.id,
                 userId: user.id,
@@ -70,9 +92,15 @@ export class OrganisationService extends BaseService {
         return newOrg;
     }
 
-    public async deleteOrganisation(id: string, user: User){
+    /**
+     * Delete Organisation
+     * @param id
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async deleteOrganisation(id: string, user: User): Promise<void> {
         const org = await this.getOrganisationByIdForUser(id, user);
-        if (isEmptyAndNull(org)){
+        if (isEmptyAndNull(org)) {
             throw new HttpException(400, 'Organisation not found.')
         }
         await this.orgDa.deleteOrganisation(id);

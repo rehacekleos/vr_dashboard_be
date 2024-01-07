@@ -9,7 +9,8 @@ import { EmployeeDataAccess } from "./employee.dataAccess";
 import { User } from "../user/user.model";
 
 /**
- * Service for entity Employee
+ * Service for entity Employee <br>
+ * It is connection between {@link User} and {@link Organisation}.
  */
 export class EmployeeService extends BaseService {
 
@@ -25,6 +26,11 @@ export class EmployeeService extends BaseService {
         super();
     }
 
+    /**
+     * Get all Employees for User
+     * @param userId
+     * @returns {Promise<Employee[]>}
+     */
     public async getEmployeesForUser(userId: string): Promise<Employee[]> {
         const user = await this.userDa.getUserById(userId);
         if (isEmptyAndNull(user)) {
@@ -39,6 +45,11 @@ export class EmployeeService extends BaseService {
         })
     }
 
+    /**
+     * Get all Employees for Organisation
+     * @param orgId
+     * @returns {Promise<Employee[]>}
+     */
     public async getEmployeesForOrg(orgId: string): Promise<Employee[]> {
         const users = await this.userDa.getAllUsers();
         const userMap = new Map(users.map(u => [u.id, u]));
@@ -52,6 +63,12 @@ export class EmployeeService extends BaseService {
         })
     }
 
+    /**
+     * Get Employee for User and Organisation
+     * @param orgId
+     * @param userId
+     * @returns {Promise<Employee>}
+     */
     public async getEmployeeForOrgAndUser(orgId: string, userId: string): Promise<Employee> {
         const user = await this.userDa.getUserById(userId);
         if (isEmptyAndNull(user)) {
@@ -64,6 +81,11 @@ export class EmployeeService extends BaseService {
         return  await this.employeeDa.getEmployeeForOrgAndUser(orgId, userId);
     }
 
+    /**
+     * Create new Employee
+     * @param newEmpl
+     * @returns {Promise<Employee>}
+     */
     public async createEmployee(newEmpl: NewEmployee): Promise<Employee> {
         const user = await this.userDa.getUserById(newEmpl.userId);
         if (isEmptyAndNull(user)) {
@@ -83,11 +105,27 @@ export class EmployeeService extends BaseService {
         return await this.employeeDa.createEmployee(newEmpl);
     }
 
-    public async addParticipant(id: string, participantId: string){
+    /**
+     * Add Participant to Employee<br>
+     * It means add Participant to User in specific Organisation
+     * @param id
+     * @param participantId
+     * @returns {Promise<void>}
+     */
+    public async addParticipant(id: string, participantId: string): Promise<void>{
         return await this.employeeDa.addParticipant(id, participantId);
     }
 
-    async assignParticipants(assign: AssignParticipantsModel, orgId: string, user: User, emp: Employee) {
+    /**
+     * Add Participants to Employee<br>
+     * It means add Participants to User in specific Organisation
+     * @param assign
+     * @param orgId
+     * @param user
+     * @param emp
+     * @returns {Promise<void>}
+     */
+    async assignParticipants(assign: AssignParticipantsModel, orgId: string, user: User, emp: Employee): Promise<void> {
         if (!user.superAdmin){
             if (emp.role.name !== RoleNames.ADMIN){
                 throw new HttpException(400, "You are not admin of this organisation.");
@@ -103,8 +141,16 @@ export class EmployeeService extends BaseService {
         await this.employeeDa.assignParticipants(assign.employeeId, assign.participants);
     }
 
-
-    async changeEmployeeRole(changeRole: ChangeRoleModel, orgId: string, user: User, emp: Employee) {
+    /**
+     * Change Employee role <br>
+     * It means change User role in specific Organisation
+     * @param changeRole
+     * @param orgId
+     * @param user
+     * @param emp
+     * @returns {Promise<void>}
+     */
+    async changeEmployeeRole(changeRole: ChangeRoleModel, orgId: string, user: User, emp: Employee): Promise<void> {
         if (!user.superAdmin){
             if (emp.role.name !== RoleNames.ADMIN){
                 throw new HttpException(400, "You are not admin of this organisation.");
@@ -120,7 +166,15 @@ export class EmployeeService extends BaseService {
         await this.employeeDa.changeEmployeeRole(changeRole.employeeId, changeRole.roleName);
     }
 
-    async deleteEmployee(empId: string, orgId: string, user: User, emp: Employee) {
+    /**
+     * Delete Employee
+     * @param empId
+     * @param orgId
+     * @param user
+     * @param emp
+     * @returns {Promise<void>}
+     */
+    async deleteEmployee(empId: string, orgId: string, user: User, emp: Employee): Promise<void> {
         if (!user.superAdmin){
             if (emp.role.name !== RoleNames.ADMIN){
                 throw new HttpException(400, "You are not admin of this organisation.");

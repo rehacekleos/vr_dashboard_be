@@ -27,11 +27,22 @@ export class InvitationService extends BaseService{
         super();
     }
 
+    /**
+     * Get all Invitations for Organisation
+     * @param orgId
+     * @returns {Promise<Invitation[]>}
+     */
     public async getInvitationsForOrg(orgId: string): Promise<Invitation[]> {
         return await this.invDa.getInvitationsForOrg(orgId);
     }
 
-    public async acceptInvitation(inv: AcceptInvitation, user: User) {
+    /**
+     * Accept Invitation
+     * @param inv
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async acceptInvitation(inv: AcceptInvitation, user: User): Promise<void> {
         if (isEmptyAndNull(inv.code)){
             throw new WrongBody('Invitation')
         }
@@ -55,6 +66,14 @@ export class InvitationService extends BaseService{
         await this.invDa.deleteInvitation(existingInvitation.id);
     }
 
+    /**
+     * Create new Invitation
+     * @param newInv
+     * @param orgId
+     * @param user
+     * @param emp
+     * @returns {Promise<Invitation>}
+     */
     public async createInvitation(newInv: NewInvitation, orgId: string, user: User, emp: Employee): Promise<Invitation> {
         if (isEmptyAndNull(newInv.email) || isEmptyAndNull(newInv.role)){
             throw new WrongBody('Invitation')
@@ -82,6 +101,13 @@ export class InvitationService extends BaseService{
         return await this.invDa.createInvitation(newInv, orgId);
     }
 
+    /**
+     * Extend validity of the Invitation
+     * @param id
+     * @param user
+     * @param emp
+     * @returns {Promise<Invitation>}
+     */
     public async extendInvitation(id: string, user: User, emp: Employee): Promise<Invitation>{
         if (!user.superAdmin){
             if (emp?.role.name !== RoleNames.ADMIN){
@@ -96,7 +122,14 @@ export class InvitationService extends BaseService{
         return await this.invDa.extendInvitation(id);
     }
 
-    public async deleteInvitation(id: string, user: User, emp: Employee) {
+    /**
+     * Delete invitation
+     * @param id
+     * @param user
+     * @param emp
+     * @returns {Promise<void>}
+     */
+    public async deleteInvitation(id: string, user: User, emp: Employee): Promise<void> {
         if (!user.superAdmin){
             if (emp?.role.name !== RoleNames.ADMIN){
                 throw new HttpException(400, "You are not admin of this organisation.");
@@ -111,7 +144,7 @@ export class InvitationService extends BaseService{
 
 
     /**
-     * Return true if invitation is older than 15 minutes
+     * Return true if invitation is older than 30 minutes
      * @param invitation
      * @private
      */

@@ -7,6 +7,7 @@ import { Organisation } from "../app/organisation/organisation.model";
  * Model of Auth middleware response
  */
 export interface AuthMiddlewareResponse extends express.Request {
+    /** User */
     user: User
 }
 
@@ -14,6 +15,8 @@ export interface AuthMiddlewareResponse extends express.Request {
  * Model of Organisation middleware response
  */
 export interface OrganisationMiddlewareResponse extends AuthMiddlewareResponse {
+    /** Employee */
     employee: Employee;
+    /** Organisation */
     organisation: Organisation
 }

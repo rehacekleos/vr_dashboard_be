@@ -135,9 +135,9 @@ export class ActivityService extends BaseService{
      * Update Activity note
      * @param activityId
      * @param newNote
-     * @returns void
+     * @returns {Promise<void>}
      */
-    async updateActivityNote(activityId: string, newNote: string){
+    async updateActivityNote(activityId: string, newNote: string): Promise<void>{
         const activity = await this.getActivity(activityId);
         if (isEmptyAndNull(activity)){
             throw new HttpException(400, "Activity not found");
@@ -149,9 +149,9 @@ export class ActivityService extends BaseService{
     /**
      * Delete Activity
      * @param activityId
-     * @returns void
+     * @returns {Promise<void>}
      */
-    async deleteActivity(activityId: string) {
+    async deleteActivity(activityId: string): Promise<void> {
         const activity = await this.getActivity(activityId);
         if (isEmptyAndNull(activity)){
             throw new HttpException(400, "Activity not found");

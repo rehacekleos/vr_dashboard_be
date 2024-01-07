@@ -8,5 +8,5 @@
   "includeVersion": true,
   "plugin": ["typedoc-theme-hierarchy", "typedoc-plugin-merge-modules"],
   "theme": "hierarchy",
-  "name": "VR Dashboard"
+  "name": "VR Dashboard Server"
 }

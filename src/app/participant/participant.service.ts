@@ -22,10 +22,22 @@ export class ParticipantService extends BaseService {
         super();
     }
 
+    /**
+     * Get all Participants for Organisation
+     * @param orgId
+     * @returns {Promise<Participant[]>}
+     */
     public async getParticipantsForOrganisation(orgId: string): Promise<Participant[]> {
         return await this.participantDa.getParticipantsForOrganisation(orgId);
     }
 
+    /**
+     * Get all Participants for superAdmin or for Employee
+     * @param orgId
+     * @param user
+     * @param emp
+     * @returns {Promise<Participant[]>}
+     */
     public async getParticipants(orgId: string, user: User, emp: Employee): Promise<Participant[]> {
         if (user.superAdmin) {
             return await this.participantDa.getParticipantsForOrganisation(orgId);
@@ -33,7 +45,12 @@ export class ParticipantService extends BaseService {
         return this.getParticipantsEmployee(emp);
     }
 
-    public async getParticipantsEmployee(employee: Employee) {
+    /**
+     * Get all Participants for Employee
+     * @param employee
+     * @returns {Promise<Participant[]>}
+     */
+    public async getParticipantsEmployee(employee: Employee): Promise<Participant[]> {
         if (isEmptyAndNull(employee) || employee.participantIds.length < 1) {
             return [];
         }
@@ -41,7 +58,12 @@ export class ParticipantService extends BaseService {
         return await this.participantDa.getParticipantsByIds(employee.participantIds);
     }
 
-    public async getParticipantForUser(userId: string) {
+    /**
+     * Get all Participants for User
+     * @param userId
+     * @returns {Promise<Participant[]>}
+     */
+    public async getParticipantForUser(userId: string): Promise<Participant[]> {
         const employees = await this.employeeService.getEmployeesForUser(userId);
         if (isEmptyAndNull(employees) || employees.length < 1) {
             throw new HttpException(400, 'Employees not found.')
@@ -64,10 +86,21 @@ export class ParticipantService extends BaseService {
         return await this.participantDa.getParticipantsByIds(participantIds);
     }
 
+    /**
+     * Get Participant by ID
+     * @param id
+     * @returns {Promise<Participant>}
+     */
     public async getParticipantById(id: string): Promise<Participant> {
         return await this.participantDa.getParticipantById(id);
     }
 
+    /**
+     * Create new Participant and add him to Employee
+     * @param newParticipant
+     * @param employee
+     * @returns {Promise<Participant>}
+     */
     public async createParticipant(newParticipant: NewParticipant, employee: Employee): Promise<Participant> {
         if (isEmptyAndNull(employee)) {
             throw new HttpException(400, "User is not an employee.");
@@ -78,7 +111,13 @@ export class ParticipantService extends BaseService {
         return participant;
     }
 
-    public async updateParticipant(participant: Participant, user: User) {
+    /**
+     * Update Participant
+     * @param participant
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async updateParticipant(participant: Participant, user: User): Promise<void> {
         const par = await this.getParticipantById(participant.id);
         if (isEmptyAndNull(par)) {
             throw new HttpException(400, "Participant not found.");
@@ -93,7 +132,13 @@ export class ParticipantService extends BaseService {
         return await this.participantDa.updateParticipant(participant);
     }
 
-    public async deleteParticipant(id: string, user: User) {
+    /**
+     * Delete Participant
+     * @param id
+     * @param user
+     * @returns {Promise<void>}
+     */
+    public async deleteParticipant(id: string, user: User): Promise<void> {
         const participant = await this.getParticipantById(id);
         if (isEmptyAndNull(participant)) {
             throw new HttpException(400, "Participant not found.");
@@ -107,6 +152,11 @@ export class ParticipantService extends BaseService {
         await this.participantDa.deleteParticipant(id);
     }
 
+    /**
+     * Get Participant metadata list for Organisation
+     * @param orgCode
+     * @returns {Promise<ParticipantsMetadataList>}
+     */
     async getParticipantsMetadata(orgCode: string): Promise<ParticipantsMetadataList> {
         const participants = await this.participantDa.getParticipantsForOrganisation(orgCode);
         const metadata: ParticipantMetadata[] = participants.map(p => {
