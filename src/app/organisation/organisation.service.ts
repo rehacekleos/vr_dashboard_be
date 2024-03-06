@@ -99,6 +99,10 @@ export class OrganisationService extends BaseService {
      * @returns {Promise<void>}
      */
     public async deleteOrganisation(id: string, user: User): Promise<void> {
+        if (!user.superAdmin) {
+            throw new HttpException(400, "You are not superAdmin.");
+        }
+
         const org = await this.getOrganisationByIdForUser(id, user);
         if (isEmptyAndNull(org)) {
             throw new HttpException(400, 'Organisation not found.')
