@@ -9,6 +9,8 @@
     "dev": "nodemon -r dotenv/config -x ts-node src/index.ts",
     "generate:docs": "typedoc",
     "build": "tsc",
+    "build:docker": "tsc && npm run generate:docs",
+    "build:docker-image": "node Prompts/docker-build-prompt.js",
     "copy-aws-platform": "cp -R ./.platform build",
     "zip:deploy": "tsc && npm run generate:docs && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*",
     "zip:deploy-aws": "tsc && npm run generate:docs && npm run copy-aws-platform && zip -r deploy-code.zip . -x src/\\* node_modules/\\* Prompts/\\* nodemon.json Dockerfile README.md tsconfig.json tsconfig.docker.json test/\\* bitbucket-pipelines.yml .git/\\*"
@@ -43,6 +45,7 @@
     "ts-node": "10.9.1",
     "tslint": "6.1.3",
     "typedoc": "^0.24.8",
+    "inquirer": "^8.2.4",
     "typedoc-plugin-merge-modules": "^5.0.1",
     "typedoc-theme-hierarchy": "^4.1.2",
     "typescript": "5.1.3"
