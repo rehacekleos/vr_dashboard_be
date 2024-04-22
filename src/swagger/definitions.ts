@@ -3,27 +3,24 @@ import { OAS3Options } from "swagger-jsdoc";
 /**
  * Basic definition of Swagger
  */
-export const swaggerJSDocOptions: OAS3Options = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'VR Dashboard',
-            description: 'VR Dashboard is used to record and retrieve Vr data from various Virtual Reality applications.',
-            version: '1.0.0',
+export const swaggerJSDocOptions = (swaggerTarget: string): OAS3Options => {
+    return {
+        swaggerDefinition: {
+            openapi: '3.0.0',
+                info: {
+                title: 'VR Dashboard',
+                    description: 'VR Dashboard is used to record and retrieve Vr data from various Virtual Reality applications.',
+                    version: '1.0.0',
+            },
+            servers: [
+                {
+                    url: swaggerTarget,
+                }
+            ]
         },
-        servers: [
-            {
-                url: 'https://api.vr-dashboard.leosrehacek.com',
-                description: 'Production',
-            },
-            {
-                url: 'http://localhost:8080',
-                description: 'Localhost',
-            },
-        ]
-    },
 
-    apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/server/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js', './**/server/**/*.js'],
+        apis: ['./**/app/**/*.ts', './**/shared/**/*.ts', './**/swagger/**/*.ts', './**/server/**/*.ts', './**/app/**/*.js', './**/shared/**/*.js', './**/swagger/**/*.js', './**/server/**/*.js'],
+    }
 };
 
 

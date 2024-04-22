@@ -12,7 +12,7 @@ export class DefaultController extends BaseController {
     /** Controller base route */
     readonly path = '/';
 
-    swaggerSpec = swaggerJSDoc(swaggerJSDocOptions);
+    swaggerSpec = swaggerJSDoc(swaggerJSDocOptions(ConfigFactory.getConfig().swaggerApiTarget));
 
     swaggerOptions: SwaggerOptions = {
         operationsSorter: (a: any, b: any) => {

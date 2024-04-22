@@ -34,5 +34,6 @@ export class BaseConfigModel{
  * Model of environmental configuration
  */
 export class ConfigModel{
-
+    /** Custom production target for swagger */
+    swaggerApiTarget: string
 }

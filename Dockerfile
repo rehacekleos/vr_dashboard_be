@@ -6,6 +6,7 @@ COPY package.json ./
 COPY package-lock.json ./
 
 COPY tsconfig.json ./
+COPY typedoc.json ./
 
 COPY src ./src
 
@@ -31,7 +32,7 @@ ENV APP_MODE=PRODUCTION
 
 EXPOSE 8080
 
-WORKDIR /vr-dashboard/app
+WORKDIR /vr-dashboard/app/src
 
 
-CMD ["node", "./src/index.js"]
+CMD ["node", "./index.js"]
